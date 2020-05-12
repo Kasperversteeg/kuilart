@@ -1,0 +1,16 @@
+// This file contains all the navigation custom css
+
+.navbar {
+	background-color: $navColor;
+}
+.navbar li {
+	color: $white;
+}
+
+.navbar .logout {
+	color: $red;
+}
+
+#nav-spacer {
+	padding: 0 .7rem;
+}
