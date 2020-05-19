@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Reservation;
 
 class HomeController extends Controller
 {
@@ -17,7 +18,7 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
     }
-
+    
     /**
      * Show the application dashboard.
      *
@@ -35,11 +36,18 @@ class HomeController extends Controller
         $device = $agent->getUserAgent();
         $now = Carbon::now()->isoFormat('dddd D MMMM');
 
+
+
+        $reservations = Reservation::all();
+
+
+
+
         if($agent->getUserAgent() == 'mobile'){
             return view('mobile/home')->with('device', $agent->getUserAgent());
         } elseif ($agent->getUserAgent() == 'desktop'){
             // return view('home')->with('device', $agent->getUserAgent());
-            return view('home')->with(compact('device', 'now'));
+            return view('desktop/home')->with(compact('device', 'now', 'reservations'))->with('succes', ('test'));
         }
 
         // Uncomment when going live
