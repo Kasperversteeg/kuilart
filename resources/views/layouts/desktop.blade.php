@@ -23,18 +23,22 @@
     <div id="app">
         <nav class="navbar navbar-expand-md">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Kuilart') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+
+                {{-- eventueel menu toggler --}}
+                {{-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
-                </button>
+                </button> --}}
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li>Menu hier</li>
                     </ul>
+
+
+                    <a class="navbar-brand" href="{{ url('/home') }}">
+                        {{ config('app.name', 'Kuilart') }}
+                    </a>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -65,7 +69,29 @@
         </nav>
 
         <main class="content">
+
+            <div class="container pt-2">
+               <div class="row justify-content-center"> 
+                   <ul style="list-style: none;">
+                       <li style="display: inline-block;"><a class="btn btn-primary" href="/reservations/show/day">Day</a></li>
+                       <li style="display: inline-block;"><a class="btn btn-primary" href="/reservations/show/week">Week</a></li>
+                       <li style="display: inline-block;" ><a class="btn btn-primary" href="/reservations/show/month">Month</a></li>
+                       <li style="display: inline-block;"><a class="btn btn-primary" href="/reservations/show/all">All</a></li>
+                   </ul>
+                </div>
+           
+         {{-- make modal view with vue --}}
+          {{--   <div id="modal">
+                <card-modal :showing="modalShowing" @close="modalShowing = false" >
+                    <h2>Example modal</h2>
+                    <p>This is example text passed through to the modal via a slot.</p>
+                </card-modal>
+            </div> --}}
+
             @yield('content')
+
+            </div>
+
         </main>
     </div>
 </body>

@@ -19,6 +19,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@deviceCheck')->name('home');
+Route::get('/home/desktop', 'ResController@index')->name('desktop');
+Route::get('/reservations/show/{period}', 'ResController@showReservationsFor');
 
 Route::resource('reservations' , 'ResController');

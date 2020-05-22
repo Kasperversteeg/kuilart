@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
-use App\Reservation;
 
 class HomeController extends Controller
 {
@@ -24,7 +22,9 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+
+
+    public function deviceCheck()
     {
         $agent = new Agent();
 
@@ -34,20 +34,15 @@ class HomeController extends Controller
         $agent->setUserAgent($dd);
 
         $device = $agent->getUserAgent();
-        $now = Carbon::now()->isoFormat('dddd D MMMM');
-
-
-
-        $reservations = Reservation::all();
-
-
+        
 
 
         if($agent->getUserAgent() == 'mobile'){
             return view('mobile/home')->with('device', $agent->getUserAgent());
         } elseif ($agent->getUserAgent() == 'desktop'){
             // return view('home')->with('device', $agent->getUserAgent());
-            return view('desktop/home')->with(compact('device', 'now', 'reservations'))->with('succes', ('test'));
+            return redirect()->action('ResController@index');
+
         }
 
         // Uncomment when going live

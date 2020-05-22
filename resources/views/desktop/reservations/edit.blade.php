@@ -1,4 +1,4 @@
-@extends('layouts.desktop')
+]@extends('layouts.desktop')
 
 @section('content')
 	<div class="container pt-2">
@@ -23,15 +23,26 @@
 		          @method('PATCH')
 		          @csrf
 		          <div class="form-group">    
-		              <label for="name">Name</label>
+		              <label for="name">Naam</label>
 		              <input type="text" class="form-control" name="name" value="{{$reservation->name}}"/>
 		          </div>
 
+				<div class="form-group">    
+			            <label for="description">Datum</label>
+			            <input type="text" class="form-control" name="date" value="{{$reservation->date}}"/>
+			    </div>
+
 		          <div class="form-group">    
-		              <label for="description">Name</label>
+		              <label for="description">Omschrijving</label>
 		              <input type="text" class="form-control" name="description" value="{{$reservation->description}}"/>
-		          </div>             
+		          </div>  
+
 		          <button type="submit" class="btn btn-primary">Edit reservation</button>
+		      </form>
+		      <form method="post" action="{{ route('reservations.destroy', $reservation->id) }}">
+		          @method('DELETE')
+		          @csrf
+			      <button type="submit" class="btn btn-primary">Delete reservation</button>
 		      </form>
 		  </div>
 		 </div>

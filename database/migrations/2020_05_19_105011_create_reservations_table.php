@@ -17,6 +17,7 @@ class CreateReservationsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
+            $table->date('date');
             $table->text('description'); 
         });
     }
