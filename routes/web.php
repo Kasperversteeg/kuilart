@@ -26,9 +26,9 @@ Route::get('/home', 'HomeController@deviceCheck')->name('home')->middleware('aut
 Route::get('/home/desktop', 'ReservationController@index')->name('desktop')->middleware('auth');
 
 
-Route::get('/change', 'ReservationController@change')->name('change');
-Route::get('/reservations/group', 'ReservationController@showGroups')->name('showGroups');
-Route::get('/reservations/restaurant', 'ReservationController@showRestaurant')->name('showRestaurant');
+Route::get('/change', 'ReservationController@change')->name('change')->middleware('auth');;
+Route::get('/reservations/group', 'ReservationController@showGroups')->name('showGroups')->middleware('auth');;
+Route::get('/reservations/restaurant', 'ReservationController@showRestaurant')->name('showRestaurant')->middleware('auth');;
 
 
 

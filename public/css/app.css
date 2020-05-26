@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
 .navbar {
-  background-color: #000;
+  position: relative;
 }
 
 .navbar li {
@@ -14,6 +14,10 @@
 
 #nav-spacer {
   padding: 0 0.7rem;
+}
+
+.nav-item a img {
+  width: 35px;
 }
 
 .vh-minusMenu {

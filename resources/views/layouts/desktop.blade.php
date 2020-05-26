@@ -11,6 +11,9 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- for tests --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -21,7 +24,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="bg-dark navbar navbar-expand-md">
+        <nav class="bg-light navbar navbar-expand-md border-bottom">
             <div class="container">
 
                 {{-- eventueel menu toggler --}}
@@ -32,20 +35,20 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Voeg toe
+                        <li class="nav-item dropdown has-dropdown" id='jquery'>
+                          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="{{URL::asset('/img/menu-plus.png')}}">
                           </a>
-                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown" id='jquery2'>
                             <a class="dropdown-item" href="/reservations/create">Reservering</a>
                             <a class="dropdown-item" href="#">Bowlingbaan</a>
                           </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('showGroups', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">Groepen</a>
+                        <li class="nav-item border-right border-left">
+                            <a class="nav-link" href="{{ route('showGroups', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}"><img style="margin-top:2px" src="{{URL::asset('/img/menu-overzicht.png')}}"></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('showRestaurant', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">Restaurant</a>
+                            <a class="nav-link" href="{{ route('showRestaurant', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}"><img src="{{URL::asset('/img/menu-restaurant.png')}}"></a>
                         </li>
                      </ul>
 
@@ -104,4 +107,5 @@
         @stack('scripts')
     </div>
 </body>
+
 </html>
