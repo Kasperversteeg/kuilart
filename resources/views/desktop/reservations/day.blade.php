@@ -17,7 +17,8 @@
 	<div id="reservation" class="pt-4">
 		@forelse($reservationsForDay->reservations as $reservation)
 			<div class="row reservation-full mb-2 p-2 border">
-				<div class="pt-2 col-md-9"> 
+				<div class="col-md-2">{{ $reservation->startTime }}</div>
+				<div class="pt-2 col-md-7"> 
 					<h4><a href="{{ route('reservations.edit',$reservation->id)}} ">{{ $reservation->name }}</a></h4>
 				</div>
 				<div class="pt-2 col-md-3">

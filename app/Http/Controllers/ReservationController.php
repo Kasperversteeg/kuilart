@@ -40,7 +40,8 @@ class ReservationController extends Controller
         // sort the collection to return the type only
         $reservationsForType = $reservations->where('type', $type);
         // add it to a object attribute
-        $dayObj->reservations = $reservationsForType;
+        $sorted = $reservationsForType->sortBy('startTime');
+        $dayObj->reservations = $sorted;
 
         return $dayObj;
     }
