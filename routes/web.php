@@ -31,9 +31,9 @@ Route::get('/reservations/group', 'ReservationController@showGroups')->name('sho
 Route::get('/reservations/restaurant', 'ReservationController@showRestaurant')->name('showRestaurant');
 
 
+
+
 Route::resource('/reservations', 'ReservationController')->middleware('auth');
-
-
 
 
 // Route::get('/reservations/restaurant/show/{period}', 'ReservationController@showRestaurant')->name('showRestaurant')->middleware('auth');

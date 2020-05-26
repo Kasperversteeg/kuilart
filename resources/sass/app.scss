@@ -6,6 +6,20 @@
 
 // navbar custom css
 @import 'nav';
+// login css
+@import 'login';
+
+// overview (group/restaurant) css
+@import 'overview_all.scss';
+
+// overview (group/restaurant) css
+@import 'overview_day.scss';
+
+// overview (group/restaurant) css
+@import 'overview_week.scss';
+
+// overview (group/restaurant) css
+@import 'overview_month.scss';
 
 // form custom css
 @import 'form';
@@ -15,13 +29,3 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
-
-// for login screen centered
-.vh-minusMenu {
-	height: calc(100vh - 55px); 
-}
-// login container styling
-.login-container {
-	padding: 1rem;
-	color: #fff;
-}

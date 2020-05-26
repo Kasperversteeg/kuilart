@@ -17,6 +17,7 @@ class CreateReservationsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('type');
+            $table->integer('tableNr')->nullable();
             $table->time('startTime');
             $table->integer('size');
             $table->string('name');

@@ -23,12 +23,12 @@
 	   		@endif
 	   		<div class="col-10 d-flex justify-content-center">
 		       <ul style="list-style: none;">
-		           <li style="display: inline-block;"><a class="btn btn-primary" href="{{ route($route, 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">Day</a></li>
+		           <li style="display: inline-block;"><a class="btn btn-primary" href="{{ route($route, 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">Dag</a></li>
 		           <li style="display: inline-block;"><a class="btn btn-primary" href="{{ route($route, 'w='.\Carbon\Carbon::now()->weekOfYear) }}">Week</a></li>
 					@if($isGroup)
-			           <li style="display: inline-block;" ><a class="btn btn-primary" href="{{ route('showGroups', 'm='.\Carbon\Carbon::now()->month) }}">Month</a></li>
+			           <li style="display: inline-block;" ><a class="btn btn-primary" href="{{ route('showGroups', 'm='.\Carbon\Carbon::now()->month) }}">Maand</a></li>
 					@endif
-		           <li style="display: inline-block;"><a class="btn btn-primary" href="{{ route($route, 's='.'all') }}">All</a></li>
+		           <li style="display: inline-block;"><a class="btn btn-primary" href="{{ route($route, 's='.'all') }}">Alle</a></li>
 		       </ul>
 	       </div>
 	       @if ($select != 's')

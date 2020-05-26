@@ -5,7 +5,7 @@
 	{{-- add reservation --}}
 		<div class="row border justify-content-center reservations-container p-2">
 			<div class="col-sm-12 p-2">
-				<h1>Add a reservation</h1>
+				<h1 class="display-4">Voeg resevering toe</h1>
 			  	<div>
 			    	@if ($errors->any())
 			      	<div class="alert alert-danger">
@@ -16,13 +16,13 @@
 				        </ul>
 				      </div><br />
 			    	@endif
-			      <form method="post" action="{{ route('reservations.store') }}">
+			      <form method="post" action="{{ route('reservations.store', ['prev' => $prevUrl]) }}">
 			          @csrf
 			          {{-- type input --}}
 			          <div class="form-group">    
 			              <label for="type">Type</label>
 			              <select name="type" id="reservationType">
-			              	<option value="GRP">Groep</option>
+			              	<option value="GRP" selected="selected">Groep</option>
 			              	<option value="RES">Restaurant</option>
 			              </select>
 			          </div>

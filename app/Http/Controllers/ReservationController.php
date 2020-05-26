@@ -19,10 +19,6 @@ class ReservationController extends Controller
      */
     
     // for now a workaround to return to the pages you've created or altered a reservation from
-    protected $prevUrl = '';
-    protected function setPrevious(){
-        $prevUrl = url()->previous();
-    }
 
     // day object
     public function createDayObj($date, $type){
@@ -80,7 +76,22 @@ class ReservationController extends Controller
         return $weekObj;
 
     }
-    
+    public function createDateObj($date, $reservations){
+        // create the object in laravel
+        $app = app();
+        $dateObj = $app->make('stdClass');
+        
+        $dateObj->date = $date;
+       
+        $date = new Carbon($date);
+        $dateObj->dayName = $date->dayName;
+
+        $dateObj->reservations = $reservations;
+
+
+        return $dateObj;
+
+    }
  
     public function change(Request $request){
        
@@ -153,12 +164,17 @@ class ReservationController extends Controller
     
     public function index($isGroup)
     {
-
-        $today = Carbon::now()->isoFormat('dddd D MMMM');
-
+        
         if($isGroup === true){
+             $type = 'GRP';
+
+        } else {
             //get all reservations for type
-            $reservations = Reservation::where('type', 'GRP')->get();
+            $type = 'RES';
+        }
+        // check if type is one of the preset types
+        if($type === 'RES' || $type === 'GRP'){
+            $reservations = Reservation::where('type', $type)->get();
             // get all unique dates from the collection
             $grouped = $reservations->pluck('date')->unique();
             // make new collection
@@ -166,98 +182,20 @@ class ReservationController extends Controller
             // loop through plucked collection and get reservations for date
             foreach($grouped as $date) {
                $r = $reservations->where('date', $date);
-               $collection->put($date, $r);
+               $obj = self::createDateObj($date, $r);
+               $collection->put($date, $obj);
             }
             $sortedReservations = $collection->sortKeys();
-
             return view('desktop.reservations.all', [
                 'reservations' => $sortedReservations,
-                'today' => $today,
                 'isGroup' => $isGroup
             ]);
-
-        } elseif ($isGroup === false){
-            //get all reservations for type
-            $reservations = Reservation::where('type', 'RES')->get();
-            // get all unique dates from the collection
-            $grouped = $reservations->pluck('date')->unique();
-            // make new collection
-            $collection = new Collection();;
-            // loop through plucked collection and get reservations for date
-            foreach($grouped as $date) {
-               $r = $reservations->where('date', $date);
-                $collection->put($date, $r);
-            }
-            $sortedReservations = $collection->sortKeys();
-
-            return view('desktop.reservations.all', [
-                'reservations' => $sortedReservations,
-                'today' => $today,
-                'isGroup' => $isGroup
-            ]);
-
-
         } else {
             abort(404);
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {   
-        self::setPrevious();
-        $date = Carbon::now()->isoFormat('Y-MM-DD');
-        return view('desktop.reservations.create', [
-            'date' => $date
-        ]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        if ($request->type === 'GRP'){
-            $request = self::validateGroup($request);
-            $reservation = new Reservation([
-                'type' => $request->get('type'),
-                'name' => $request->get('name'),
-                'size' => $request->get('size'),  
-                'date'  => $request->get('date'),
-                'startTime'  => $request->get('startTime'),
-                'notes' => $request->get('notes')
-            ]);
-        
-            $reservation->save();
-
-            return redirect(self::$prevUrl)->with('success', 'Reservering toegevoegd');
-        } elseif ($request->type === 'RES'){
-            $request = self::validateGroup($request);
-            $reservation = new Reservation([
-                'name' => $request->get('name'),
-                'size' => $request->get('size'),  
-                'date'  => $request->get('date'),
-                'startTime'  => $request->get('startTime'),
-                'notes' => $request->get('notes')
-            ]);
-        
-            $reservation->save();
-
-            return redirect(self::$prevUrl)->with('success', 'Reservering toegevoegd');
-        } else {
-           abort(404); 
-        }
-
-
-
-    }
+   
 
     /**
      * Display the specified resource.
@@ -403,6 +341,88 @@ class ReservationController extends Controller
     
     }
 
+     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {   
+
+        $date = Carbon::now()->isoFormat('Y-MM-DD');
+        return view('desktop.reservations.create', [
+            'date' => $date,
+            'prevUrl' => url()->previous()
+        ]);
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+
+        if ($request->type === 'GRP'){
+            $request = self::validateGroup($request);
+            $reservation = new Reservation([
+                'type' => $request->get('type'),
+                'name' => $request->get('name'),
+                'size' => $request->get('size'),  
+                'date'  => $request->get('date'),
+                'startTime'  => $request->get('startTime'),
+                'notes' => $request->get('notes')
+            ]);
+
+            $reservation->save();
+            $isGroup = true;
+
+            if($request->prev != null){
+                $url = explode('%2F', $request->prev);
+                $end = explode('/', $url[count($url)-1]);
+                if($end[count($end)-1] != 'create'){
+                    return redirect($request->prev)->with('success', 'Reservering toegevoegd');
+                } else {
+                    return redirect()->route('showGroups', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
+                }   
+
+            } else {
+                    return redirect()->route('showGroups', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
+            }
+            
+
+        } elseif ($request->type === 'RES'){
+           $request = self::validateGroup($request);
+            $reservation = new Reservation([
+                'type' => $request->get('type'),
+                'name' => $request->get('name'),
+                'size' => $request->get('size'),  
+                'date'  => $request->get('date'),
+                'startTime'  => $request->get('startTime'),
+                'notes' => $request->get('notes')
+            ]);
+
+            $reservation->save();
+            $isGroup = false;
+
+            if($request->prev != null){
+                $url = explode('%2F', $request->prev);
+                $end = explode('/', $url[count($url)-1]);
+                if($end[count($end)-1] != 'create'){
+                    return redirect($request->prev)->with('success', 'Reservering toegevoegd');
+                } else {
+                    return redirect()->route('showRestaurant', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
+                }   
+
+            } else {
+                    return redirect()->route('showRestaurant', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
+            }
+        }
+
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -427,14 +447,25 @@ class ReservationController extends Controller
     {
         $validateRequest = self::validateGroup($request);
         $reservation = Reservation::find($id);
+        $reservation->type = $request->get('type');
         $reservation->name = $request->get('name');
         $reservation->size = $request->get('size');
         $reservation->date = $request->get('date');
-        $reservation->time = $request->get('time');
+        $reservation->startTime = $request->get('startTime');
         $reservation->notes = $request->get('notes');
         $reservation->save();
 
-        return redirect(route('showReservations', 'all'))->with('success', 'Reservering gewijzigd');
+        $isGroup = $request->get('type');
+
+        if($isGroup === "GRP"){
+            $succesMsg = 'Groep gewijzigd';
+            $route = 'showGroups';
+        } else {
+            $succesMsg = 'Reservering gewijzigd';
+            $route = 'showRestaurant';
+        }
+
+        return redirect()->route($route, ['s' => 'all'])->with('success', $succesMsg);
     }
 
     /**
@@ -444,11 +475,20 @@ class ReservationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    {  
         $reservation = Reservation::find($id);
+        $isGroup = $reservation->type;
         $reservation->delete();
+    
+        if($isGroup === "GRP"){
+            $succesMsg = 'Groep verwijderd';
+            $route = 'showGroups';
+        } else {
+            $succesMsg = 'Reservering verwijderd';
+            $route = 'showRestaurant';
+        }
 
-        return redirect(route('showReservations', 'all'))->with('success', 'Reservering verwijderd');
+        return redirect()->route($route, ['s' => 'all'])->with('success', $succesMsg);
 
     }
 
@@ -460,12 +500,24 @@ class ReservationController extends Controller
             'name' => 'required',
             'size' => ['required','int'],
             'date' => 'required',
-            'startTime' => ['required', 'date_format:H:i']
+            'startTime' => 'required'
         ]);
 
         return $request;
     }
 
+    public function validateRes($request){
 
+        // update reservation
+        $request->validate([
+            'type' => 'required',
+            'name' => 'required',
+            'size' => ['required','int'],
+            'date' => 'required',
+            'startTime' => 'required'
+        ]);
+
+        return $request;
+    }
 }
 

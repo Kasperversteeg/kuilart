@@ -12,9 +12,9 @@
 	    </div>
 	@endif
 
-	<h1 class="pt-4">{{ $isGroup === true ? 'Groeps' : 'Restaurant'}} reserveringen voor: {{ ucfirst($monthName) }}</h2>
-
-	<a class='btn btn-primary' href="reservations/create">Create reservation</a>
+	<h1 class="pt-4 display-4">{{ $isGroup === true ? 'Groepen' : 'Restaurant'}}</h2>
+	<h1 class="pt-4">{{ ucfirst($monthName) }}</h1>
+	
 
 	{{-- show reservations --}}
 	<div id="reservations-month" class="pt-4 reservations">

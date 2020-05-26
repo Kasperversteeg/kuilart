@@ -16,6 +16,23 @@
   padding: 0 0.7rem;
 }
 
+.vh-minusMenu {
+  height: calc(100vh - 55px);
+}
+
+.login-container {
+  padding: 1rem;
+  color: #fff;
+}
+
+.bg-gray {
+  background-color: #e2effa;
+}
+
+#reservations-container h3 {
+  color: #3490dc;
+}
+
 .form-control,
 .btn {
   border-radius: 0 !important;
@@ -10905,14 +10922,5 @@ a.text-dark:focus {
     color: inherit;
     border-color: #dee2e6;
   }
-}
-
-.vh-minusMenu {
-  height: calc(100vh - 55px);
-}
-
-.login-container {
-  padding: 1rem;
-  color: #fff;
 }
 

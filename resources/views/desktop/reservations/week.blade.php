@@ -4,16 +4,15 @@
 
 	@include('layouts.submenu')
 	
-	<h2 class="pt-4">{{ $isGroup === true ? 'Groeps' : 'Restaurant'}} reservering voor Week: {{__($week->weekNumber) }}</h2>
-	<h3> Van {{ __($week->start) }} t/m {{ $week->end }}</h3>
+	<h1 class="pt-4 display-4">{{ $isGroup ? 'Groepen' : 'Restaurant' }}</h1>
+
+	<h3 class="pt-4">Week:{{__($week->weekNumber) }} Van {{ __($week->start) }} t/m {{ $week->end }}</h3>
 	
 	@if(session()->get('success'))
 	    <div class="alert alert-success">
 	      {{ session()->get('success') }}  
 	    </div>
 	@endif
-
-	<a class="btn btn-primary" href="reservations/create">Create reservation</a>
 
 	{{-- show reservations --}}
 	<div id="week-reservations" class="pt-4">
