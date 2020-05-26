@@ -19,8 +19,14 @@ use Illuminate\Support\Str;
 
 $factory->define(Reservation::class, function (Faker $faker) {
     return [
+        'type' => $faker->randomElement($arrayName = array('RES', 'GRP')),
+        'date' => $faker->dateTimeBetween($startdate = '-1 months', $endDate = '+1 months'),
         'name' => $faker->name,
-        'date' => $faker->dateTimeBetween($startdate = 'now', $endDate = '+1 months'),
-        'description' => $faker ->paragraph
+        'startTime' => $faker->time($format = 'H:i'),
+        'size' => $faker->numberBetween($min = '1', $max = '90'),
+        'notes' => $faker ->paragraph
     ];
+
+
+
 });

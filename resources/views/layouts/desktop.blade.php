@@ -21,7 +21,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md">
+        <nav class="bg-dark navbar navbar-expand-md">
             <div class="container">
 
                 {{-- eventueel menu toggler --}}
@@ -32,11 +32,25 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li>Menu hier</li>
-                    </ul>
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Voeg toe
+                          </a>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/reservations/create">Reservering</a>
+                            <a class="dropdown-item" href="#">Bowlingbaan</a>
+                          </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('showGroups', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">Groepen</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('showRestaurant', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">Restaurant</a>
+                        </li>
+                     </ul>
 
 
-                    <a class="navbar-brand" href="{{ url('/home') }}">
+                    <a class="navbar-brand" href="{{ route('home') }}">
                         {{ config('app.name', 'Kuilart') }}
                     </a>
 
@@ -71,14 +85,6 @@
         <main class="content">
 
             <div class="container pt-2">
-               <div class="row justify-content-center"> 
-                   <ul style="list-style: none;">
-                       <li style="display: inline-block;"><a class="btn btn-primary" href="/reservations/show/day">Day</a></li>
-                       <li style="display: inline-block;"><a class="btn btn-primary" href="/reservations/show/week">Week</a></li>
-                       <li style="display: inline-block;" ><a class="btn btn-primary" href="/reservations/show/month">Month</a></li>
-                       <li style="display: inline-block;"><a class="btn btn-primary" href="/reservations/show/all">All</a></li>
-                   </ul>
-                </div>
            
          {{-- make modal view with vue --}}
           {{--   <div id="modal">
@@ -87,12 +93,15 @@
                     <p>This is example text passed through to the modal via a slot.</p>
                 </card-modal>
             </div> --}}
-
+            @yield('submenu')
             @yield('content')
 
             </div>
 
         </main>
+
+
+        @stack('scripts')
     </div>
 </body>
 </html>

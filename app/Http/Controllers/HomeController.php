@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 
 class HomeController extends Controller
 {
@@ -41,7 +43,10 @@ class HomeController extends Controller
             return view('mobile/home')->with('device', $agent->getUserAgent());
         } elseif ($agent->getUserAgent() == 'desktop'){
             // return view('home')->with('device', $agent->getUserAgent());
-            return redirect()->action('ResController@index');
+            return view('desktop/home', [
+                'device' => $device, 
+                'now' => Carbon::now()
+            ]);
 
         }
 

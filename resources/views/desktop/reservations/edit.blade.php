@@ -5,8 +5,8 @@
 
 	{{-- edit reservation --}}
 
-		<div class="row">
-		 <div class="col-sm-8">
+	<div class="row justify-content-center">
+		<div class="col-sm-11 p-2">
 		    <h1 class="display-3">Edit reservation</h1>
 		  <div>
 		    @if ($errors->any())

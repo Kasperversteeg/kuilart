@@ -13,14 +13,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', 'HomeController@deviceCheck')->middleware('auth');
+
+Route::get('/login', function () {
     return view('auth.login');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@deviceCheck')->name('home');
-Route::get('/home/desktop', 'ResController@index')->name('desktop');
-Route::get('/reservations/show/{period}', 'ResController@showReservationsFor');
+// Route::get('/reservations/create', 'ReservationController@create');
+Route::get('/home', 'HomeController@deviceCheck')->name('home')->middleware('auth');
+Route::get('/home/desktop', 'ReservationController@index')->name('desktop')->middleware('auth');
 
-Route::resource('reservations' , 'ResController');
+
+Route::get('/change', 'ReservationController@change')->name('change');
+Route::get('/reservations/group', 'ReservationController@showGroups')->name('showGroups');
+Route::get('/reservations/restaurant', 'ReservationController@showRestaurant')->name('showRestaurant');
+
+
+Route::resource('/reservations', 'ReservationController')->middleware('auth');
+
+
+
+
+// Route::get('/reservations/restaurant/show/{period}', 'ReservationController@showRestaurant')->name('showRestaurant')->middleware('auth');
+// Route::get('/reservations/group/show/{period}', 'ReservationController@showGroups')->name('showGroups')->middleware('auth');
+
+
