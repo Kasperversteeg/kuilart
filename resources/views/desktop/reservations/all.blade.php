@@ -29,7 +29,7 @@
 						$rowClass = '';
 					} else {
 						$bool = false;
-						$rowClass = '';
+						$rowClass = 'bg-gray';
 					}
 				@endphp
 
@@ -39,7 +39,10 @@
 						<hr />
 						@foreach($object->reservations as $reservation)
 							<div class="row reservation-full pb-2">
-								<div class="col-md-9"> 
+								@if(!$isGroup)
+									<div class="col-md-2"><p>{{ date('H:i', strtotime($reservation->startTime)) }}</p></div>
+								@endif
+								<div class="{{ $isGroup ? 'col-md-9' : 'col-md-7'}}"> 
 									<a href="{{ route('reservations.edit',$reservation->id)}} ">{{ $reservation->name }}</a>
 								</div>
 								<div class="col-md-3">
@@ -56,7 +59,7 @@
 								
 								@if($isGroup)
 									<div class="col-md-12">
-										<p>Activiteit 1</p>
+										<p>Activiteit 1 -> start : eind</p>
 									</div>
 								@endif
 

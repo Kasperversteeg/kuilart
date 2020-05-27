@@ -46,7 +46,7 @@
 			          	<div class="col-md-6">
 					        <div class="form-group">    
 					            <label for="date">Datum</label>
-					            <input type="text" class="form-control" name="date" value="{{ old('date') ? old('date') : $date}}" />
+					            <input type="text" class="form-control" name="date" value="{{ old('date') ? old('date') : date('d-m-yy', strtotime($date))}}" />
 					        </div>
 					    </div>
 			          	<div class="col-md-6">

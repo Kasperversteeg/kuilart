@@ -20,17 +20,17 @@
 	<div id="reservations-month" class="pt-4 reservations">
 		<div class="row">
 			<div class="col"></div>
-			<div class="col">Maandag</div>
-			<div class="col">Dinsdag</div>
-			<div class="col">Woensdag</div>
-			<div class="col">Donderdag</div>
-			<div class="col">Vrijdag</div>
-			<div class="col">Zaterdag</div>
-			<div class="col">Zondag</div>
+			<div class="col d-flex justify-content-center"><h4>Maandag</h4></div>
+			<div class="col d-flex justify-content-center"><h4>Dinsdag</h4></div>
+			<div class="col d-flex justify-content-center"><h4>Woensdag</h4></div>
+			<div class="col d-flex justify-content-center"><h4>Donderdag</h4></div>
+			<div class="col d-flex justify-content-center"><h4>Vrijdag</h4></div>
+			<div class="col d-flex justify-content-center"><h4>Zaterdag</h4></div>
+			<div class="col d-flex justify-content-center"><h4>Zondag</h4></div>
 		</div>
 		@foreach($month as $week)
 			<div class="row "> 
-				<div class="col border">
+				<div class="col border d-flex align-items-center">
 					<p>Week {{ $week->weekNumber }}</p>
 				</div>
 				@foreach( $week->days as $day)

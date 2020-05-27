@@ -10,6 +10,5 @@
 	</div>
 	
 
-	<a class="btn-primary btn" href="/reservations/restaurant?p={{ $now->isoFormat('Y-MM-DD') }}">show query</a>
 
 @endsection

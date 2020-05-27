@@ -19,10 +19,10 @@
 		<div class="row"  id="week-view">
 			@foreach($week->days as $date)
 				<div class="col-md border day-column">
-					<div class="row border-bottom p-2 justify-content-center day-column-header">
-						
-						<h4>{{ ucfirst($date->day) }}</h4> 
-						<p>{{ $date->date }}</p>
+					<div class="row border-bottom p-2 -center day-column-header">
+						<div class="col-12 justify-content-center d-flex"><h4>{{ ucfirst($date->day) }}</h4> </div>
+						<div class="col-12 justify-content-center d-flex"><p>{{ date('d-m-y', strtotime($date->date)) }}</p>
+					</div>
 					</div>
 					
 					@forelse ($date->reservations as $reservation)
@@ -38,7 +38,7 @@
 							</div>
 							<div class="row">
 								<div class="col">
-									<p>{{ $reservation->startTime }}</p>
+									<p>{{ date('H:i', strtotime($reservation->startTime)) }}</p>
 								</div>
 							</div>
 						</div>
