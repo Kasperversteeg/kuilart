@@ -3,7 +3,15 @@
 
 
 	@include('layouts.submenu')
-	
+	@php
+		$route = '';
+		if($isGroup){
+			$route = 'showGroups';
+		} else {
+			$route = 'showRestaurant';
+		}
+	@endphp
+
 	<h1 class="pt-4 display-4">{{ $isGroup ? 'Groepen' : 'Restaurant' }}</h1>
 
 	<h3 class="pt-4">Week:{{__($week->weekNumber) }} Van {{ __($week->start) }} t/m {{ $week->end }}</h3>
@@ -15,12 +23,12 @@
 	@endif
 
 	{{-- show reservations --}}
-	<div id="week-reservations" class="pt-4">
-		<div class="row"  id="week-view">
+	<div id="reservations-week" class="pt-4 reservations-container">
+		<div class="row"  id="reservations-week-view">
 			@foreach($week->days as $date)
 				<div class="col-md border day-column">
 					<div class="row border-bottom p-2 -center day-column-header">
-						<div class="col-12 justify-content-center d-flex"><h4>{{ ucfirst($date->day) }}</h4> </div>
+						<div class="col-12 justify-content-center d-flex"><h4><a href="{{ route($route, 'd='.$date->date)}}">{{ ucfirst($date->day) }}</a></h4> </div>
 						<div class="col-12 justify-content-center d-flex"><p>{{ date('d-m-y', strtotime($date->date)) }}</p>
 					</div>
 					</div>

@@ -14,7 +14,7 @@
 	@endif
 
 	{{-- show reservations --}}
-	<div id="reservation" class="pt-4">
+	<div id="reservations-day" class="pt-4 reservations-container">
 		@forelse($reservationsForDay->reservations as $reservation)
 			<div class="row reservation-full mb-2 p-2 border">
 				@if(!$isGroup)

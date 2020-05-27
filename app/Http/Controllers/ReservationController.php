@@ -18,150 +18,6 @@ class ReservationController extends Controller
      * @return \Illuminate\Http\Response
      */
     
-    // for now a workaround to return to the pages you've created or altered a reservation from
-
-    // day object
-    public function createDayObj($date, $type){
-        $dateObj = new Carbon($date);
-        // create the object in laravel
-        $app = app();
-        $dayObj = $app->make('stdClass');
-        
-        // set date for day in a certain format
-        $dayObj->date = $date;
-
-        $dayObj->weekNumber = $dateObj->weekOfMonth;
-       
-        // get the dayname from the carbon object
-        $dayObj->day = $dateObj->dayName;
-        
-        // get the reservations for that day from the model
-        $reservations = Reservation::where('date', $date)->get();
-        // sort the collection to return the type only
-        $reservationsForType = $reservations->where('type', $type);
-        // add it to a object attribute
-        $sorted = $reservationsForType->sortBy('startTime');
-        $dayObj->reservations = $sorted;
-
-        return $dayObj;
-    }
-
-    public function createWeekObj($year, $weekNumber, $type){
-        // create the object in laravel
-        $app = app();
-        $weekObj = $app->make('stdClass');
-        
-        $weekObj->weekNumber = $weekNumber;
-
-        // set date for weeknr and year
-        $date = new Carbon();
-        $date->setISODate($year, $weekNumber);
-
-        // get the first and last day
-        $weekObj->start = $date->startOfWeek()->format('Y-m-d');
-        $weekObj->end = $date->endOfWeek()->format('Y-m-d');
-        // make carbon period for week
-        $dateRange = CarbonPeriod::create($weekObj->start, $weekObj->end);
-
-        $days = [];
-        foreach($dateRange as $date) {
-                // make dayObj object
-                $dayObj = self::createDayObj ($date->format('Y-m-d'), $type);
-            
-                // add them to the array
-                $days[] = $dayObj;
-            }
-
-        $weekObj->days = $days;
-
-        return $weekObj;
-
-    }
-    public function createDateObj($date, $reservations){
-        // create the object in laravel
-        $app = app();
-        $dateObj = $app->make('stdClass');
-        
-        $dateObj->date = $date;
-       
-        $date = new Carbon($date);
-        $dateObj->dayName = $date->dayName;
-
-        $dateObj->reservations = $reservations;
-
-
-        return $dateObj;
-
-    }
- 
-    public function change(Request $request){
-       
-        if ($request){
-             $group = $request->get('group');
-
-            if($group){
-                $route = 'showGroups';
-            } else {
-                $route = 'showRestaurant';
-            }
-            $year = '2020';
-            $select = $request->get('select');
-            $int = $request->get('int');
-            $direction = $request->get('go');
- 
-            if($select === 'd'){
-                // make carbon date from day int
-                $date = Carbon::createFromFormat('Y-m-d', $int);
-                if($direction === 'prev'){
-                    // substract a day from the date
-                    $date->subDay();
-                } elseif($direction === 'next'){
-                    $date->addDay();
-                }else{
-                    abort(404);
-                }
-                // convert to usable format
-                $dateToString = $date->isoFormat('Y-MM-DD');
-                // make variable url from variables
-                $url = $select.'='.$dateToString;
-            } 
-            if ($select === 'w') {
-                $date = new Carbon();
-                $date->setISODate($year, $int);
-                if($direction === 'prev'){
-                    // substract a day from the date
-                    $date->subWeek();
-                } elseif($direction === 'next'){
-                    $date->addWeek();
-                } else{
-                    abort(404);
-                }
-                // make variable url from variables
-                $url = $select.'='.$date->weekOfYear;
-            } 
-
-            if ($select === 'm') {
-                $date = Carbon::createFromDate($year,$int,'01');
-                if($direction === 'prev'){
-                    // substract a day from the date
-                    $date->subMonth();
-                } elseif($direction === 'next'){
-                    $date->addMonth();
-                }else{
-                    abort(404);
-                }
-                // make variable url from variables
-                $url = $select.'='.$date->month;
-            }
-            if (isset($url)){
-                return redirect()->route($route, $url);
-            }
-
-            abort(404);
-        }
-        abort(404);
-    }
-    
     
     public function index($isGroup)
     {
@@ -208,7 +64,6 @@ class ReservationController extends Controller
     public function showGroups()
     {   
         $today = Carbon::now();
-        $year = $today->year;
         // show here
         $query = request()->query();
         $isGroup = true;
@@ -223,7 +78,7 @@ class ReservationController extends Controller
         // week
         if(Arr::exists($query, 'w')){
 
-            $weekObj = self::createWeekObj($year, $query['w'], 'GRP');
+            $weekObj = self::createWeekObj($query['y'], $query['w'], 'GRP');
 
             return view('desktop.reservations.week',[
                 'week' => $weekObj,
@@ -235,7 +90,7 @@ class ReservationController extends Controller
         // month
         if(Arr::exists($query, 'm')){
 
-            $date = Carbon::createFromDate($year,$query['m'],'01');
+            $date = Carbon::createFromDate($query['y'],$query['m'],'01');
             $monthName = $date->monthName; 
 
             // create month array
@@ -246,18 +101,21 @@ class ReservationController extends Controller
             //end of month
             $endWeekNumber = $date->lastOfMonth()->weekOfYear;
 
+            if($startWeekNumber == 52){
+                $startWeekNumber = 1; 
+            }
             // loop from start of week to end of the week
             for ($startWeekNumber; $startWeekNumber <= $endWeekNumber; $startWeekNumber++) { 
                 // create weekobj with reservations within for weeknumber
-                $weekObj = self::createWeekObj($year, $startWeekNumber, 'GRP');
+                $weekObj = self::createWeekObj($query['y'], $startWeekNumber, 'GRP');
                 // add it to an array
                 $monthArray[] = $weekObj;
             }
-
             return view('desktop.reservations.month', [
                 'month' => $monthArray, 
                 'monthName' => $monthName, 
-                'isGroup' => $isGroup
+                'isGroup' => $isGroup,
+                'year' => $today->year
                 ]);
 
         }
@@ -280,65 +138,39 @@ class ReservationController extends Controller
         // show here
         $query = request()->query();
         $isGroup = false;
+        
 
         if(Arr::exists($query, 'd')){
             $reservationsForDay = self::createDayObj($query['d'], 'RES');
-            return view('desktop.reservations.day', [
-                'reservationsForDay' => $reservationsForDay, 
+            $url = 'day';
+            $array = [
+                'reservationsForDay' => $reservationsForDay,
                 'isGroup' => $isGroup
-                ]);
+                ];
         } 
         // week
         if(Arr::exists($query, 'w')){
-
+            dd($query);
             $weekObj = self::createWeekObj($year, $query['w'], 'RES');
 
-            return view('desktop.reservations.week',[
+            $url = 'week';
+            $array = [
                 'week' => $weekObj,
                 'isGroup' => $isGroup
-            ]);
-
-
+                ];
         }
-        // month
-        if(Arr::exists($query, 'm')){
-
-            $date = Carbon::createFromDate($year,$query['m'],'01');
-           
-            $monthName = $date->monthName; 
-
-            // create month array
-            $monthArray = [];
-
-            //start of month
-            $startWeekNumber = $today->firstOfMonth()->weekOfYear;
-            //end of month
-            $endWeekNumber = $today->lastOfMonth()->weekOfYear;
-
-            // loop from start of week to end of the week
-            for ($startWeekNumber; $startWeekNumber <= $endWeekNumber; $startWeekNumber++) { 
-                // create weekobj with reservations within for weeknumber
-                $weekObj = self::createWeekObj($year, $startWeekNumber, 'RES');
-                // add it to an array
-                $monthArray[] = $weekObj;
-            }
-
-            return view('desktop.reservations.month', [
-                'month' => $monthArray, 
-                'monthName' => $monthName, 
-                'isGroup' => $isGroup
-                ]);
-
-        }
-
+        
         // all
         if(Arr::exists($query, 's')){
             return self::index($isGroup);
 
         }
         // if no query key exists, show 404
-        abort(404);
+        if (isset($url)) {
+            return view('desktop.reservations.'.$url, $array);
+        }
 
+        abort(404);
     
     }
 
@@ -373,7 +205,7 @@ class ReservationController extends Controller
                 'type' => $request->get('type'),
                 'name' => $request->get('name'),
                 'size' => $request->get('size'),  
-                'date'  => $request->get('date'),
+                'date'  => $this->dateForDB($request->get('date')),
                 'startTime'  => $request->get('startTime'),
                 'notes' => $request->get('notes')
             ]);
@@ -381,18 +213,8 @@ class ReservationController extends Controller
             $reservation->save();
             $isGroup = true;
 
-            if($request->prev != null){
-                $url = explode('%2F', $request->prev);
-                $end = explode('/', $url[count($url)-1]);
-                if($end[count($end)-1] != 'create'){
-                    return redirect($request->prev)->with('success', 'Reservering toegevoegd');
-                } else {
-                    return redirect()->route('showGroups', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
-                }   
-
-            } else {
-                    return redirect()->route('showGroups', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
-            }
+            
+        return redirect()->route('showGroups', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
             
 
         } elseif ($request->type === 'RES'){
@@ -409,21 +231,17 @@ class ReservationController extends Controller
             $reservation->save();
             $isGroup = false;
 
-            if($request->prev != null){
-                $url = explode('%2F', $request->prev);
-                $end = explode('/', $url[count($url)-1]);
-                if($end[count($end)-1] != 'create'){
-                    return redirect($request->prev)->with('success', 'Reservering toegevoegd');
-                } else {
-                    return redirect()->route('showRestaurant', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
-                }   
-
-            } else {
-                    return redirect()->route('showRestaurant', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
-            }
+            return redirect()->route('showRestaurant', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
+            
         }
-
     }
+    public function getType($isGroup){
+        if($isGroup){
+            return 'GRP';
+        }
+        return 'RES';
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -433,9 +251,26 @@ class ReservationController extends Controller
     public function edit($id)
     {
         // redirect to update view
-        $reservation = Reservation::find($id);
+        $reservation = $this->createResObj($id);
         return view('desktop.reservations.edit', compact('reservation'));
     }
+
+    public function createResObj($id){
+        $app = app();
+        $resObj = $app->make('stdClass');
+
+        $reservation = Reservation::find($id);
+        $resObj->type = $reservation->type;
+        $resObj->id = $reservation->id;
+        $resObj->name = $reservation->name;
+        $resObj->size = $reservation->size;
+        $resObj->date = $this->formatDate($reservation->date);
+        $resObj->startTime = $this->formatTime($reservation->startTime);
+        $resObj->notes = $reservation->notes;
+
+        return $resObj;
+    }
+
 
     /**
      * Update the specified resource in storage.
@@ -448,10 +283,12 @@ class ReservationController extends Controller
     {
         $validateRequest = self::validateGroup($request);
         $reservation = Reservation::find($id);
+
+
         $reservation->type = $request->get('type');
         $reservation->name = $request->get('name');
         $reservation->size = $request->get('size');
-        $reservation->date = $request->get('date');
+        $reservation->date = $this->dateForDB($request->get('date'));
         $reservation->startTime = $request->get('startTime');
         $reservation->notes = $request->get('notes');
         $reservation->save();
@@ -520,5 +357,192 @@ class ReservationController extends Controller
 
         return $request;
     }
-}
 
+
+    // day object
+    public function createDayObj($date, $type){
+        $dateObj = new Carbon($date);
+        // create the object in laravel
+        $app = app();
+        $dayObj = $app->make('stdClass');
+        
+        // set date for day in a certain format
+        $dayObj->date = $date;
+
+        $dayObj->formattedDate = $this->formatDate($date);
+
+        $dayObj->weekNumber = $dateObj->weekOfMonth;
+       
+        // get the dayname from the carbon object
+        $dayObj->day = $dateObj->dayName;
+        
+        // get the reservations for that day from the model
+        $reservations = Reservation::where('date', $date)->get();
+        if($type != 'ALL'){
+            // sort the collection to return the type only
+            $reservationsForType = $reservations->where('type', $type);
+        }
+        // add it to a object attribute
+        $sorted = $reservationsForType->sortBy('startTime');
+        $dayObj->reservations = $sorted;
+
+        return $dayObj;
+    }
+
+    // returns a string
+    public function formatDate($date){
+        $formatted = date('d-m-Y', strtotime($date));
+        return $formatted;
+    }
+
+    // returns a string
+    public function formatTime($time){
+        $formatted = date('H:i', strtotime($time));
+        return $formatted;
+    }
+
+    public function dateForDB($date){
+        $formatted = date('Y-m-d', strtotime($date));
+        return $formatted;
+    }
+
+    public function createWeekObj($year, $weekNumber, $type){
+        // create the object in laravel
+        $app = app();
+        $weekObj = $app->make('stdClass');
+        
+        $weekObj->weekNumber = $weekNumber;
+        $weekObj->year = $year;
+
+        // set date for weeknr and year
+        $date = new Carbon();
+        $date->setISODate($year, $weekNumber);
+
+        // get the first and last day
+        $weekObj->start = $date->startOfWeek()->format('Y-m-d');
+        $weekObj->end = $date->endOfWeek()->format('Y-m-d');
+        // make carbon period for week
+        $dateRange = CarbonPeriod::create($weekObj->start, $weekObj->end);
+
+        $days = [];
+        foreach($dateRange as $date) {
+                // make dayObj object
+                $dayObj = self::createDayObj ($date->format('Y-m-d'), $type);
+            
+                // add them to the array
+                $days[] = $dayObj;
+            }
+
+        $weekObj->days = $days;
+
+        return $weekObj;
+
+    }
+    public function createDateObj($date, $reservations){
+        // create the object in laravel
+        $app = app();
+        $dateObj = $app->make('stdClass');
+        
+        $dateObj->date = $this->formatDate($date);
+       
+        $date = new Carbon($date);
+        $dateObj->dayName = $date->dayName;
+
+        $dateObj->reservations = $reservations;
+
+
+        return $dateObj;
+
+    } 
+ 
+    public function change(Request $request){
+       
+        if ($request){
+             $group = $request->get('group');
+
+            if($group){
+                $route = 'showGroups';
+            } else {
+                $route = 'showRestaurant';
+            }
+            $year = $request->get('y');
+            $select = $request->get('select');
+            $int = $request->get('int');
+            $direction = $request->get('go');
+ 
+            if($select === 'd'){
+                // make carbon date from day int
+                $date = Carbon::createFromFormat('Y-m-d', $int);
+                if($direction === 'prev'){
+                    // substract a day from the date
+                    $date->subDay();
+                }elseif($direction === 'next'){
+                    $date->addDay();
+                }else{
+                    abort(404);
+                }
+                // convert to usable format
+                $dateToString = $date->isoFormat('Y-MM-DD');
+                // make variable url from variables
+                $url = $select.'='.$dateToString;
+            } 
+            if ($select === 'w') {
+                $date = new Carbon();
+                $date->setISODate($year, $int);
+                if($direction === 'prev'){
+                    if( $int <= 1){
+                        $year--;
+                        $date->setISODate($year, '52');
+                    } else{
+                    // substract a week from the date
+                    $date->subWeek();
+                }
+                    
+                } elseif($direction === 'next'){
+                    if( $int >=  52){
+                        $year++;
+                        $date->setISODate($year, '1');
+                    } else {
+                        $date->addWeek();
+                    }
+                } else{
+                    abort(404);
+                }
+                // make variable url from variables
+                $url = $select.'='.$date->weekOfYear.'&y='.$year;
+            } 
+
+            if ($select === 'm') {
+                $date = Carbon::createFromDate($year,$int,'01');
+                if($direction === 'prev'){
+                    if( $int <= 1){
+                        $year--;
+                        $date->month = 12;
+                    } else {
+                        // substract a day from the date
+                        $date->subMonth();
+                    }
+
+                } elseif($direction === 'next'){
+                    if( $int >= 12){
+                        $year++;
+                        $date = Carbon::createFromDate($year,'01','01');
+
+                    } else {
+                        $date->addMonth();
+                    }
+                }else{
+                    abort(404);
+                }
+                // make variable url from variables
+                $url = $select.'='.$date->month.'&y='.$year;
+            }
+            if (isset($url)){
+                return redirect()->route($route, $url);
+            }
+
+            abort(404);
+        }
+        abort(404);
+    }
+}

@@ -9,32 +9,43 @@
 			$route = 'showRestaurant';
 		}
 
-		foreach (Request::query() as $key => $value) {
-			$select = $key;
-			$int = $value;
+		$request = Request::query();
+
+		$select = array_key_first($request);
+		$int = $request[$select];
+		$year = '';
+		if (array_key_exists('y', $request)){
+			$year = $request['y'];
 		}
+
+		$now = \Carbon\Carbon::now();
+		// set ulrs for submenu
+		$dayUrl = route($route, 'd='.$now->isoFormat('Y-MM-DD'));
+		$weekUrl = route($route, ['w' => $now->weekOfYear,'y'=>$now->year]);
+		$monthUrl = route('showGroups', ['m'=>$now->month,'y'=>$now->year]);
+		$allurl = route($route, 's='.'all');
 
 	@endphp
 	   <div class="row nav-sub-menu justify-content-center"> 
 	   		@if ($select != 's')
 	   		<div class="col-1">
-	   			<a href="{{ route('change', ['group' => $isGroup, 'select' => $select, 'int'=> $int, 'go' => 'prev']) }}" class="btn btn-primary">Vorige</a>
+	   			<a href="{{ route('change', ['group' => $isGroup, 'select' => $select, 'int'=> $int, 'go' => 'prev', 'y' => $year]) }}" class="btn btn-primary">Vorige</a>
 	   		</div>
 	   		@endif
 	   		<div class="col-10 d-flex justify-content-center">
 		       <ul style="list-style: none;">
-		           <li style="display: inline-block;"><a class="btn btn-primary" href="{{ route($route, 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">Dag</a></li>
-		           <li style="display: inline-block;"><a class="btn btn-primary" href="{{ route($route, 'w='.\Carbon\Carbon::now()->weekOfYear) }}">Week</a></li>
+		           <li style="display: inline-block;"><a class="btn btn-primary" href="{{ $dayUrl }}">Dag</a></li>
+		           <li style="display: inline-block;"><a class="btn btn-primary" href="{{ $weekUrl }}">Week</a></li>
 					@if($isGroup)
-			           <li style="display: inline-block;" ><a class="btn btn-primary" href="{{ route('showGroups', 'm='.\Carbon\Carbon::now()->month) }}">Maand</a></li>
+			           <li style="display: inline-block;" ><a class="btn btn-primary" href="{{ $monthUrl }}">Maand</a></li>
 					@endif
-		           <li style="display: inline-block;"><a class="btn btn-primary" href="{{ route($route, 's='.'all') }}">Alle</a></li>
+		           <li style="display: inline-block;"><a class="btn btn-primary" href="{{ $allurl }}">Alle</a></li>
 		       </ul>
 	       </div>
 	       @if ($select != 's')
 
 	       <div class="col-1">
-	   			<a href="{{ route('change', ['group' => $isGroup, 'select' => $select, 'int'=> $int, 'go' => 'next']) }}" class="btn btn-primary float-left">Volgende</a>
+	   			<a href="{{ route('change', ['group' => $isGroup, 'select' => $select, 'int'=> $int, 'go' => 'next', 'y' => $year]) }}" class="btn btn-primary float-left">Volgende</a>
 	       </div>
 	       @endif
 
