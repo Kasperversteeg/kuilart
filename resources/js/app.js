@@ -1,5 +1,24 @@
 require('./bootstrap');
+import Modal from './components/Modal';
 
+// window.Vue = require('vue');
+
+// Vue.component('modal', Modal);
+
+
+
+
+
+// new Vue({
+// 	el: '#app',
+// });
+
+
+
+
+
+
+// vanillaJS for test version of menu
 window.onload = function() {
 	var element = document.getElementById("jquery");
 	var element2 = document.getElementById("jquery2");

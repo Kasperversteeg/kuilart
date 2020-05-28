@@ -24,6 +24,8 @@
 </head>
 <body>
     <div id="app">
+
+        {{-- //////////////////////////////////   Start Menu   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ --}}
         <nav class="bg-light navbar navbar-expand-md border-bottom">
             <div class="container">
 
@@ -84,26 +86,27 @@
                 </div>
             </div>
         </nav>
+        {{-- //////////////////////////////////  End Menu   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ --}}
 
+
+        {{-- //////////////////////////////////  Start Content   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ --}}
         <main class="content">
-
             <div class="container pt-2">
-           
-         {{-- make modal view with vue --}}
-          {{--   <div id="modal">
-                <card-modal :showing="modalShowing" @close="modalShowing = false" >
-                    <h2>Example modal</h2>
-                    <p>This is example text passed through to the modal via a slot.</p>
-                </card-modal>
-            </div> --}}
+
+            {{-- submenu for overview --}}
             @yield('submenu')
+
+            {{-- any content for desktop --}}
             @yield('content')
 
             </div>
 
         </main>
 
+        {{-- //////////////////////////////////  End Content   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ --}}
+        
 
+        {{-- //////////////////////////////////  Scripts   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ --}}
         @stack('scripts')
     </div>
 </body>

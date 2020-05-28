@@ -11,4 +11,13 @@
 	
 
 
+{{-- 	<div class="test">
+		<h1>Test</h1>
+		<a href="#modal">Open modal</a>
+	</div>
+	
+	<modal name="modal">
+		<h1>modal view</h1>
+	</modal>
+ --}}
 @endsection
