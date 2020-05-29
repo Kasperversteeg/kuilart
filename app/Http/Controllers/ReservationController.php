@@ -17,22 +17,11 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
-    
-    public function index($isGroup)
+    public function index()
     {
+        $reservations = Reservation::all();
         
-        if($isGroup === true){
-             $type = 'GRP';
-
-        } else {
-            //get all reservations for type
-            $type = 'RES';
-        }
-        // check if type is one of the preset types
-        if($type === 'RES' || $type === 'GRP'){
-            $reservations = Reservation::where('type', $type)->get();
-            // get all unique dates from the collection
+        if($reservations){// get all unique dates from the collection
             $grouped = $reservations->pluck('date')->unique();
             // make new collection
             $collection = new Collection();;
@@ -43,23 +32,107 @@ class ReservationController extends Controller
                $collection->put($date, $obj);
             }
             $sortedReservations = $collection->sortKeys();
-            return view('desktop.reservations.all', [
-                'reservations' => $sortedReservations,
-                'isGroup' => $isGroup
+
+
+            return view('desktop.reservations.combined.all', [
+                'reservations' => $sortedReservations
             ]);
-        } else {
-            abort(404);
         }
+    }
+    
+    public function indexForType($isGroup)
+    {
+        
+        // check if type is one of the preset types
+        if($type = $this->getType($isGroup)){
+            $reservations = Reservation::where('type', $type)->get();
+            
+            if($reservations){// get all unique dates from the collection
+                $grouped = $reservations->pluck('date')->unique();
+                // make new collection
+                $collection = new Collection();;
+                // loop through plucked collection and get reservations for date
+                foreach($grouped as $date) {
+                   $r = $reservations->where('date', $date);
+                   $obj = self::createDateObj($date, $r);
+                   $collection->put($date, $obj);
+                }
+                $sortedReservations = $collection->sortKeys();
+                return view('desktop.reservations.all', [
+                    'reservations' => $sortedReservations,
+                    'isGroup' => $isGroup
+                ]);
+            }
+        }
+
+        abort(404);
     }
 
    
+   public function showAll()
+    {   
+        $today = Carbon::now();
+        // show here
+        $query = request()->query();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+        if(Arr::exists($query, 'd')){
+            $reservationsForDay = self::createDayObj($query['d'], 'ALL');
+            return view('desktop.reservations.combined.day', [
+                'reservationsForDay' => $reservationsForDay
+                ]);
+        } 
+        // week
+        if(Arr::exists($query, 'w')){
+
+            $weekObj = self::createWeekObj($query['y'], $query['w'], 'ALL');
+
+            return view('desktop.reservations.combined.week',[
+                'week' => $weekObj
+            ]);
+
+
+        }
+        // month
+        if(Arr::exists($query, 'm')){
+
+            $date = Carbon::createFromDate($query['y'],$query['m'],'01');
+            $monthName = $date->monthName; 
+
+            // create month array
+            $monthArray = [];
+
+            //start of month
+            $startWeekNumber = $date->firstOfMonth()->weekOfYear;
+            //end of month
+            $endWeekNumber = $date->lastOfMonth()->weekOfYear;
+
+            if($startWeekNumber == 52){
+                $startWeekNumber = 1; 
+            }
+            // loop from start of week to end of the week
+            for ($startWeekNumber; $startWeekNumber <= $endWeekNumber; $startWeekNumber++) { 
+                // create weekobj with reservations within for weeknumber
+                $weekObj = self::createWeekObj($query['y'], $startWeekNumber, 'ALL');
+                // add it to an array
+                $monthArray[] = $weekObj;
+            }
+            return view('desktop.reservations.combined.month', [
+                'month' => $monthArray, 
+                'monthName' => $monthName, 
+                'year' => $today->year
+                ]);
+
+        }
+
+        // all
+        if(Arr::exists($query, 's')){
+            return self::index();
+        }
+
+        // if no query key exists, show 404
+        abort(404);
+
+    }
 
     public function showGroups()
     {   
@@ -122,7 +195,7 @@ class ReservationController extends Controller
 
         // all
         if(Arr::exists($query, 's')){
-            return self::index($isGroup);
+            return self::indexForType($isGroup);
 
         }
         // if no query key exists, show 404
@@ -150,7 +223,6 @@ class ReservationController extends Controller
         } 
         // week
         if(Arr::exists($query, 'w')){
-            dd($query);
             $weekObj = self::createWeekObj($year, $query['w'], 'RES');
 
             $url = 'week';
@@ -162,7 +234,7 @@ class ReservationController extends Controller
         
         // all
         if(Arr::exists($query, 's')){
-            return self::index($isGroup);
+            return self::indexForType($isGroup);
 
         }
         // if no query key exists, show 404
@@ -223,7 +295,7 @@ class ReservationController extends Controller
                 'type' => $request->get('type'),
                 'name' => $request->get('name'),
                 'size' => $request->get('size'),  
-                'date'  => $request->get('date'),
+                'date'  => $this->dateForDB($request->get('date')),
                 'startTime'  => $request->get('startTime'),
                 'notes' => $request->get('notes')
             ]);
@@ -378,7 +450,9 @@ class ReservationController extends Controller
         
         // get the reservations for that day from the model
         $reservations = Reservation::where('date', $date)->get();
-        if($type != 'ALL'){
+        if($type === 'ALL'){
+            $reservationsForType = $reservations;
+        } else {
             // sort the collection to return the type only
             $reservationsForType = $reservations->where('type', $type);
         }
@@ -448,8 +522,11 @@ class ReservationController extends Controller
         $date = new Carbon($date);
         $dateObj->dayName = $date->dayName;
 
-        $dateObj->reservations = $reservations;
-
+        $dateObj->reservations = $reservations; 
+        $groups = $reservations->where('type', 'GRP');
+        $dateObj->groups = $groups;
+        $res = $reservations->where('type', 'RES');
+        $dateObj->res = $res;
 
         return $dateObj;
 

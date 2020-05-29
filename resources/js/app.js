@@ -1,20 +1,26 @@
 require('./bootstrap');
+
 import Modal from './components/Modal';
 
-// window.Vue = require('vue');
+window.Vue = require('vue');
 
-// Vue.component('modal', Modal);
+Vue.component('modal', Modal);
+// Vue.component('modalContent', ModalContent);
 
-
-
-
-
-// new Vue({
-// 	el: '#app',
-// });
-
-
-
+new Vue({
+	el: '#app',
+	data: {
+        isModalVisible: false
+    },
+    methods: {
+      showModal() {
+        this.isModalVisible = true;
+      },
+      closeModal() {
+        this.isModalVisible = false;
+      }
+    }
+});
 
 
 

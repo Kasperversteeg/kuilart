@@ -2,9 +2,7 @@
 
 @section('content')
 
-		@include('layouts.submenu')
-
-	
+		@include('layouts.submenu')	
 
 		@if(session()->get('success'))
 		    <div class="alert alert-success">
@@ -12,10 +10,7 @@
 		    </div>
 		@endif
 
-		<h1 class="pt-4 display-4">{{ $isGroup ? 'Groeps' : 'Restaurant'}} reserveringen</h1>
-
-		<a class='btn btn-primary' href="/reservations/create">Create reservation</a>
-		
+		<h1 class="pt-4 display-4">{{ $isGroup ? 'Groeps' : 'Restaurant'}} reserveringen</h1>		
 		@php
 			$bool = false;
 			$rowClass = 'bg-gray';

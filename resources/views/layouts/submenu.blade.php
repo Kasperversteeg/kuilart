@@ -3,17 +3,27 @@
 
 	@php
 		$route = '';
-		if($isGroup){
+
+		if(isset($isGroup)){
+			if($isGroup){
 			$route = 'showGroups';
+			} else {
+				$route = 'showRestaurant';
+			}
 		} else {
-			$route = 'showRestaurant';
+			$route = 'all';
+			$isGroup = 'all';
 		}
 
 		$request = Request::query();
 
 		$select = array_key_first($request);
-		$int = $request[$select];
+		if(array_key_exists($select, $request)){
+			$int = $request[$select];
+		}
+
 		$year = '';
+
 		if (array_key_exists('y', $request)){
 			$year = $request['y'];
 		}
@@ -22,14 +32,14 @@
 		// set ulrs for submenu
 		$dayUrl = route($route, 'd='.$now->isoFormat('Y-MM-DD'));
 		$weekUrl = route($route, ['w' => $now->weekOfYear,'y'=>$now->year]);
-		$monthUrl = route('showGroups', ['m'=>$now->month,'y'=>$now->year]);
+		$monthUrl = route($route, ['m'=>$now->month,'y'=>$now->year]);
 		$allurl = route($route, 's='.'all');
 
 	@endphp
 	   <div class="row nav-sub-menu justify-content-center"> 
 	   		@if ($select != 's')
 	   		<div class="col-1">
-	   			<a href="{{ route('change', ['group' => $isGroup, 'select' => $select, 'int'=> $int, 'go' => 'prev', 'y' => $year]) }}" class="btn btn-primary">Vorige</a>
+	   			{{-- <a href="{{ route('change', ['group' => $isGroup, 'select' => $select, 'int'=> $int, 'go' => 'prev', 'y' => $year]) }}" class="btn btn-primary">Vorige</a> --}}
 	   		</div>
 	   		@endif
 	   		<div class="col-10 d-flex justify-content-center">
@@ -45,7 +55,7 @@
 	       @if ($select != 's')
 
 	       <div class="col-1">
-	   			<a href="{{ route('change', ['group' => $isGroup, 'select' => $select, 'int'=> $int, 'go' => 'next', 'y' => $year]) }}" class="btn btn-primary float-left">Volgende</a>
+	   			{{-- <a href="{{ route('change', ['group' => $isGroup, 'select' => $select, 'int'=> $int, 'go' => 'next', 'y' => $year]) }}" class="btn btn-primary float-left">Volgende</a> --}}
 	       </div>
 	       @endif
 

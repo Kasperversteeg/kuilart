@@ -1908,25 +1908,30 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['name']
+  name: 'modal',
+  data: function data() {
+    return {
+      isGroup: true
+    };
+  },
+  methods: {
+    setGrp: function setGrp() {
+      if (!this.isGroup) {
+        this.isGroup = true;
+        console.log('changed to ' + this.isGroup);
+      }
+    },
+    setRes: function setRes() {
+      if (this.isGroup) {
+        this.isGroup = false;
+        console.log('changed to ' + this.isGroup);
+      }
+    },
+    close: function close() {
+      this.$emit('close');
+    }
+  }
 });
 
 /***/ }),
@@ -6474,7 +6479,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.overlay {\n  visibility: hidden;\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(0, 0, 0, .4);\n  transition: opacity .3s;\n  opacity: 0;\n}\n.overlay:target {\n  visibility: visible;\n  opacity: 1;\n}\n.modal {\n  position: relative;\n  width: 500px;\n  max-width: 80%;\n  background: white;\n  border-radius: 4px;\n  padding: 2.5em;\n  box-shadow: 0 5px 11px rgba(36, 37, 38, 0.08);\n}\n.modal .close {\n  position: absolute;\n  top: 15px;\n  right: 15px;\n  color: grey;\n  text-decoration: none;\n}\n.overlay .cancel {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n}\n", ""]);
+exports.push([module.i, "\n.modal-backdrop {\n  background-color: rgba(0, 0, 0, 0.3);\n}\n.modal {\n\tmargin-top: 5%;\n  background: #FFFFFF;\n}\n.btn-close {\n  border: 1px solid #ced4da;\n  font-size: 30px;\n  padding:0 10px;\n  cursor: pointer;\n  font-weight: bold;\n  background: transparent;\n}\n.fade-enter-active, .fade-leave-active {\n  transition: opacity .3s;\n}\n\n  /*\n  you set the css property before transition starts\n  */\n.fade-enter, .fade-leave-to {\n  opacity: 0;\n}\n\n  /*\n  you set the css property it will be when transition ends\n  */\n.fade-enter-to, .fade-leave {\n  opacity: 1;\n}\n\n", ""]);
 
 // exports
 
@@ -38220,26 +38225,88 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "overlay text-left", attrs: { id: _vm.name } },
-    [
-      _c("a", { staticClass: "cancel", attrs: { href: "#" } }),
-      _vm._v(" "),
+  return _c("transition", { attrs: { name: "fade" } }, [
+    _c("div", { staticClass: "modal-backdrop" }, [
       _c(
         "div",
-        { staticClass: "modal" },
+        {
+          staticClass: "modal container",
+          attrs: {
+            role: "modal",
+            "aria-labelledby": "modalTitle",
+            "aria-describedby": "modalDescription"
+          }
+        },
         [
-          _vm._t("default"),
+          _c(
+            "div",
+            { staticClass: "modal-header row", attrs: { id: "modalTitle" } },
+            [
+              _c(
+                "div",
+                { staticClass: "col-11" },
+                [
+                  _vm._t("header-title", [_vm._v("This is the default title!")])
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-1 d-flex justify-content-end" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn-close",
+                    attrs: { type: "button", "aria-label": "Close modal" },
+                    on: { click: _vm.close }
+                  },
+                  [_vm._v("\n\t\t            ×\n\t\t         ")]
+                )
+              ])
+            ]
+          ),
           _vm._v(" "),
-          _c("footer", { staticClass: "flex mt-8" }, [_vm._t("footer")], 2),
+          _c(
+            "div",
+            { staticClass: "modal-selector row", attrs: { id: "modalTitle" } },
+            [
+              _c(
+                "div",
+                { staticClass: "col-12" },
+                [
+                  _vm._t("selector-buttons", [
+                    _c("p", [_vm._v(" Default buttons:")])
+                  ])
+                ],
+                2
+              )
+            ]
+          ),
           _vm._v(" "),
-          _c("a", { staticClass: "close", attrs: { href: "#" } }, [_vm._v("×")])
-        ],
-        2
+          _c(
+            "div",
+            {
+              staticClass: "modal-content row",
+              attrs: { id: "modalDescription" }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "col-12" },
+                [
+                  _vm._t("body", [
+                    _vm._v(
+                      "\n\t\t            I'm the default body!\n\t          "
+                    )
+                  ])
+                ],
+                2
+              )
+            ]
+          )
+        ]
       )
-    ]
-  )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -50422,12 +50489,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Modal */ "./resources/js/components/Modal.vue");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
- // window.Vue = require('vue');
-// Vue.component('modal', Modal);
-// new Vue({
-// 	el: '#app',
-// });
-// vanillaJS for test version of menu
+
+window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+Vue.component('modal', _components_Modal__WEBPACK_IMPORTED_MODULE_0__["default"]); // Vue.component('modalContent', ModalContent);
+
+new Vue({
+  el: '#app',
+  data: {
+    isModalVisible: false
+  },
+  methods: {
+    showModal: function showModal() {
+      this.isModalVisible = true;
+    },
+    closeModal: function closeModal() {
+      this.isModalVisible = false;
+    }
+  }
+}); // vanillaJS for test version of menu
 
 window.onload = function () {
   var element = document.getElementById("jquery");

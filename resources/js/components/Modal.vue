@@ -1,65 +1,114 @@
-<template>
-		<div :id="name" class="overlay text-left">
-        <a href="#" class="cancel"></a>
-
-        <div class="modal">
-            <slot></slot>
-
-            <footer class="flex mt-8">
-                <slot name="footer"></slot>
-            </footer>
-
-            <a href="#" class="close">&times;</a>
-        </div>
-    	</div>
-
-</template>
-
 <script>
-	export default {
-		props: ['name']
+  export default {
+    name: 'modal',
+    data: function(){
+    		return{
+          isGroup : true
+        }      
+    },
+    methods: {
+      setGrp() {
+        if(!this.isGroup){
+          this.isGroup = true;
 
-	}
+          console.log('changed to ' + this.isGroup)
+        }
+      },
+      setRes(){
+        if(this.isGroup){
+          this.isGroup = false;
+        console.log('changed to ' + this.isGroup)
+        }
+      },
+      close() {
+        this.$emit('close');
+      },
+    },
+  };
 </script>
+<template>
+   <transition name="fade">
+    <div class="modal-backdrop">
+      <div class="modal container" role="modal"
+        aria-labelledby="modalTitle"
+        aria-describedby="modalDescription"
+      >
 
+			<div class="modal-header row" id="modalTitle">			
+          	<div class="col-11">
+
+	          	<slot name="header-title">This is the default title!</slot>
+
+          	</div>			
+          	<div class="col-1 d-flex justify-content-end">
+	          		<button type="button" class="btn-close" @click="close" aria-label="Close modal" >
+		            &times;
+		         </button>
+          	</div>        
+
+			</div>
+			<div class="modal-selector row" id="modalTitle">			
+          	<div class="col-12">
+
+	          	<slot name="selector-buttons">
+    						<p> Default buttons:</p>
+	          	</slot>
+
+          	</div>	       
+
+			</div>
+			<div class="modal-content row" id="modalDescription">
+				<div class="col-12">	
+					<slot name="body">
+		            I'm the default body!
+	          </slot>
+				</div>
+			</div>
+
+
+      </div>
+    </div>
+
+    </transition>
+</template>
 <style>
- .overlay {
-  visibility: hidden;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, .4);
-  transition: opacity .3s;
-  opacity: 0;
-}
-.overlay:target {
-  visibility: visible;
-  opacity: 1;
-}
-.modal {
-  position: relative;
-  width: 500px;
-  max-width: 80%;
-  background: white;
-  border-radius: 4px;
-  padding: 2.5em;
-  box-shadow: 0 5px 11px rgba(36, 37, 38, 0.08);
-}
-.modal .close {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  color: grey;
-  text-decoration: none;
-}
-.overlay .cancel {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
+
+  .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .modal {
+  	margin-top: 5%;
+    background: #FFFFFF;
+  }
+
+  .btn-close {
+    border: 1px solid #ced4da;
+    font-size: 30px;
+    padding:0 10px;
+    cursor: pointer;
+    font-weight: bold;
+    background: transparent;
+  }
+
+
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .3s;
+    }
+
+    /*
+    you set the css property before transition starts
+    */
+    .fade-enter, .fade-leave-to {
+    opacity: 0;
+    }
+
+    /*
+    you set the css property it will be when transition ends
+    */
+    .fade-enter-to, .fade-leave {
+    opacity: 1;
+    }
+
 </style>

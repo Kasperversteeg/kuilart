@@ -47,10 +47,13 @@
                           </div>
                         </li>
                         <li class="nav-item border-right border-left">
-                            <a class="nav-link" href="{{ route('showGroups', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}"><img style="margin-top:2px" src="{{URL::asset('/img/menu-overzicht.png')}}"></a>
+                            <a class="nav-link" href="{{ route('all',  'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}"><img style="margin-top:2px" src="{{URL::asset('/img/menu-overzicht.png')}}"></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('showRestaurant', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}"><img src="{{URL::asset('/img/menu-restaurant.png')}}"></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('showGroups', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">Groepen</a>
                         </li>
                      </ul>
 
@@ -103,12 +106,17 @@
 
         </main>
 
+    @component('desktop.reservations.modalCreate')
+
+    @endcomponent
+
         {{-- //////////////////////////////////  End Content   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ --}}
         
 
         {{-- //////////////////////////////////  Scripts   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ --}}
         @stack('scripts')
     </div>
+
 </body>
 
 </html>
