@@ -1,6 +1,6 @@
 <modal v-show="isModalVisible" @close="closeModal">
 	<template v-slot:header-title>
-		<h1 class="display-4">Voeg resevering toe</h1>
+		<h1 class="display-4">Voeg reseverings toe</h1>
 	</template>
 	<template v-slot:selector-buttons>
 		<button class="btn" >GRP</button>

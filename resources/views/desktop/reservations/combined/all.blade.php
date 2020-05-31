@@ -46,19 +46,7 @@
 								<a href="{{ route('reservations.edit',$group->id)}} ">{{ $group->name }}</a>
 							</div>
 							<div class="col-md-12">
-								<th>
-									<tr>
-										<td>
-											<p>time</p>
-										</td>
-										<td>
-											<p>activity</p>
-										</td>
-										<td>
-											<p>size</p>
-										</td>
-									</tr>
-								</th>
+								
 							</div>
 						</div>
 						@endforeach

@@ -6,22 +6,54 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Reservation;
+use App\Activity;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 
 
 class ReservationController extends Controller
 {
+    private $grp, $res, $all;
+    public function __construct()
+    {
+        $this->grp = config('constants.types.group');
+        $this->res = config('constants.types.restaurant');
+        $this->all = config('constants.types.all');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+    public function index($isGroup)
     {
-        $reservations = Reservation::all();
-        
-        if($reservations){// get all unique dates from the collection
+        if($this->isAll($isGroup)){           
+            $reservations = Reservation::all();
+            $sortedReservations = $this->sortReservationsByDate($reservations);
+        }
+
+        // check if type is one of the preset types
+        if($type = $this->getType($isGroup)){
+            $reservations = Reservation::where('type', $type)->get();     
+            $sortedReservations = $this->sortReservationsByDate($reservations);        
+        }
+
+        if(isset($sortedReservations)){
+            return view('desktop.reservations.all', [
+                'reservations' => $sortedReservations,
+                'isGroup' => $isGroup
+            ]);
+        }
+
+        abort(404);
+    }
+
+    public function sortReservationsByDate($reservations)
+    {
+        if($reservations){
+        // get all unique dates from the collection
             $grouped = $reservations->pluck('date')->unique();
             // make new collection
             $collection = new Collection();;
@@ -32,220 +64,166 @@ class ReservationController extends Controller
                $collection->put($date, $obj);
             }
             $sortedReservations = $collection->sortKeys();
-
-
-            return view('desktop.reservations.combined.all', [
-                'reservations' => $sortedReservations
-            ]);
+            return $sortedReservations;
         }
+        abort(404);
+    }
+
+
+    public function isAll($isGroup)
+    {
+        if($isGroup === $this->all){
+            return true;
+        }
+        return false;
+    }
+    public function getType($isGroup)
+    {
+        if($isGroup === $this->grp){
+            return $this->grp;
+        }
+        return $this->res;
+    }
+
+    // going to be the one show function
+    public function show(Reservation $reservation)
+    {
+        //
     }
     
-    public function indexForType($isGroup)
-    {
-        
-        // check if type is one of the preset types
-        if($type = $this->getType($isGroup)){
-            $reservations = Reservation::where('type', $type)->get();
-            
-            if($reservations){// get all unique dates from the collection
-                $grouped = $reservations->pluck('date')->unique();
-                // make new collection
-                $collection = new Collection();;
-                // loop through plucked collection and get reservations for date
-                foreach($grouped as $date) {
-                   $r = $reservations->where('date', $date);
-                   $obj = self::createDateObj($date, $r);
-                   $collection->put($date, $obj);
-                }
-                $sortedReservations = $collection->sortKeys();
-                return view('desktop.reservations.all', [
-                    'reservations' => $sortedReservations,
-                    'isGroup' => $isGroup
-                ]);
-            }
-        }
-
-        abort(404);
-    }
-
    
    public function showAll()
-    {   
-        $today = Carbon::now();
-        // show here
+    {  
+        // get array with requests
         $query = request()->query();
 
-        if(Arr::exists($query, 'd')){
-            $reservationsForDay = self::createDayObj($query['d'], 'ALL');
-            return view('desktop.reservations.combined.day', [
-                'reservationsForDay' => $reservationsForDay
-                ]);
-        } 
-        // week
-        if(Arr::exists($query, 'w')){
-
-            $weekObj = self::createWeekObj($query['y'], $query['w'], 'ALL');
-
-            return view('desktop.reservations.combined.week',[
-                'week' => $weekObj
-            ]);
-
-
-        }
-        // month
-        if(Arr::exists($query, 'm')){
-
-            $date = Carbon::createFromDate($query['y'],$query['m'],'01');
-            $monthName = $date->monthName; 
-
-            // create month array
-            $monthArray = [];
-
-            //start of month
-            $startWeekNumber = $date->firstOfMonth()->weekOfYear;
-            //end of month
-            $endWeekNumber = $date->lastOfMonth()->weekOfYear;
-
-            if($startWeekNumber == 52){
-                $startWeekNumber = 1; 
-            }
-            // loop from start of week to end of the week
-            for ($startWeekNumber; $startWeekNumber <= $endWeekNumber; $startWeekNumber++) { 
-                // create weekobj with reservations within for weeknumber
-                $weekObj = self::createWeekObj($query['y'], $startWeekNumber, 'ALL');
-                // add it to an array
-                $monthArray[] = $weekObj;
-            }
-            return view('desktop.reservations.combined.month', [
-                'month' => $monthArray, 
-                'monthName' => $monthName, 
-                'year' => $today->year
-                ]);
-
-        }
-
-        // all
+       // all
         if(Arr::exists($query, 's')){
-            return self::index();
-        }
+            return $this->index($this->all);
+        } else {
+            $groupObj = $this->getReservationsForType($query, $this->all);
 
+            if (isset($groupObj)) {
+                $groupObj->array['isGroup'] =  $this->all;
+                return view('desktop.reservations.'.$groupObj->url, $groupObj->array);
+            }
+        }
         // if no query key exists, show 404
         abort(404);
-
     }
-
+    
     public function showGroups()
     {   
-        $today = Carbon::now();
-        // show here
+        // get array with requests
         $query = request()->query();
-        $isGroup = true;
 
-        if(Arr::exists($query, 'd')){
-            $reservationsForDay = self::createDayObj($query['d'], 'GRP');
-            return view('desktop.reservations.day', [
-                'reservationsForDay' => $reservationsForDay, 
-                'isGroup' => $isGroup
-                ]);
-        } 
-        // week
-        if(Arr::exists($query, 'w')){
-
-            $weekObj = self::createWeekObj($query['y'], $query['w'], 'GRP');
-
-            return view('desktop.reservations.week',[
-                'week' => $weekObj,
-                'isGroup' => $isGroup
-            ]);
-
-
-        }
-        // month
-        if(Arr::exists($query, 'm')){
-
-            $date = Carbon::createFromDate($query['y'],$query['m'],'01');
-            $monthName = $date->monthName; 
-
-            // create month array
-            $monthArray = [];
-
-            //start of month
-            $startWeekNumber = $date->firstOfMonth()->weekOfYear;
-            //end of month
-            $endWeekNumber = $date->lastOfMonth()->weekOfYear;
-
-            if($startWeekNumber == 52){
-                $startWeekNumber = 1; 
-            }
-            // loop from start of week to end of the week
-            for ($startWeekNumber; $startWeekNumber <= $endWeekNumber; $startWeekNumber++) { 
-                // create weekobj with reservations within for weeknumber
-                $weekObj = self::createWeekObj($query['y'], $startWeekNumber, 'GRP');
-                // add it to an array
-                $monthArray[] = $weekObj;
-            }
-            return view('desktop.reservations.month', [
-                'month' => $monthArray, 
-                'monthName' => $monthName, 
-                'isGroup' => $isGroup,
-                'year' => $today->year
-                ]);
-
-        }
-
-        // all
+       // all
         if(Arr::exists($query, 's')){
-            return self::indexForType($isGroup);
+            return $this->index($this->grp);
+        } else {
+            $groupObj = $this->getReservationsForType($query, $this->grp);
 
+            if (isset($groupObj)) {
+                $groupObj->array['isGroup'] =  $this->grp;
+                return view('desktop.reservations.'.$groupObj->url, $groupObj->array);
+            }
         }
         // if no query key exists, show 404
         abort(404);
-
     }
 
     public function showRestaurant()
     {
-   
-        $today = Carbon::now();
-        $year = $today->year;
-        // show here
+        // get array with requests
         $query = request()->query();
-        $isGroup = false;
-        
 
-        if(Arr::exists($query, 'd')){
-            $reservationsForDay = self::createDayObj($query['d'], 'RES');
-            $url = 'day';
-            $array = [
-                'reservationsForDay' => $reservationsForDay,
-                'isGroup' => $isGroup
-                ];
-        } 
-        // week
-        if(Arr::exists($query, 'w')){
-            $weekObj = self::createWeekObj($year, $query['w'], 'RES');
-
-            $url = 'week';
-            $array = [
-                'week' => $weekObj,
-                'isGroup' => $isGroup
-                ];
-        }
-        
-        // all
+       // all
         if(Arr::exists($query, 's')){
-            return self::indexForType($isGroup);
+            return $this->index($this->res);
+        } else {
+            $groupObj = $this->getReservationsForType($query, $this->res);
 
+            if (isset($groupObj)) {
+                $groupObj->array['isGroup'] =  $this->res;
+                return view('desktop.reservations.'.$groupObj->url, $groupObj->array);
+            }
         }
+
         // if no query key exists, show 404
-        if (isset($url)) {
-            return view('desktop.reservations.'.$url, $array);
-        }
-
         abort(404);
-    
     }
 
+    
+    public function getReservationsForType($query, $type){
+        $app = app();
+        $object = $app->make('stdClass');
+        $object->type = $type;
+        if($query){
+            // check for D in array, if yes retun day view
+            if(Arr::exists($query, 'd')){
+                $dayObj = $this->createDayObj($query['d'], $this->grp);
+
+                $object->url = 'day';
+                $object->array = [
+                    'day' => $dayObj
+                    ];
+            }
+
+            // check for w in array, if yes retun week view
+            if(Arr::exists($query, 'w')){
+
+                $weekObj = $this->createWeekObj($query['y'], $query['w'], $this->grp);
+                $object->url = 'week';
+                $object->array = [
+                    'week' => $weekObj
+                ];
+
+            }
+            // check for m in array, if yes retun month view
+            if(Arr::exists($query, 'm')){
+              
+                $obj = $this->getObjForMonth($query);
+                $object->url = $obj->url;
+                $object->array = $obj->array;      
+            }
+
+            return $object;
+        }
+        abort(404);
+    }
+    public function getObjForMonth($query){
+        $app = app();
+        $object = $app->make('stdClass');
+
+        $date = Carbon::createFromDate($query['y'],$query['m'],'01');
+        $monthName = $date->monthName; 
+
+        // create month array
+        $monthArray = [];
+
+        //start of month
+        $startWeekNumber = $date->firstOfMonth()->weekOfYear;
+        //end of month
+        $endWeekNumber = $date->lastOfMonth()->weekOfYear;
+
+        if($startWeekNumber == 52){
+            $startWeekNumber = 1; 
+        }
+        // loop from start of week to end of the week
+        for ($startWeekNumber; $startWeekNumber <= $endWeekNumber; $startWeekNumber++) { 
+            // create weekobj with reservations within for weeknumber
+            $weekObj = self::createWeekObj($query['y'], $startWeekNumber, 'ALL');
+            // add it to an array
+            $monthArray[] = $weekObj;
+        }
+        $object->url = 'month';
+        $object->array = [
+            'month' => $monthArray, 
+            'monthName' => $monthName,
+            'year' => $query['y']
+        ];
+        return $object;
+   }
      /**
      * Show the form for creating a new resource.
      *
@@ -256,11 +234,16 @@ class ReservationController extends Controller
 
         $date = Carbon::now()->isoFormat('Y-MM-DD');
         return view('desktop.reservations.create', [
-            'date' => $date,
-            'prevUrl' => url()->previous()
+            'date' => $date
         ]);
     }
-
+    public function createGroup()
+    {   
+        $date = Carbon::now()->isoFormat('Y-MM-DD');
+        return view('desktop.reservations.createGroup', [
+            'date' => $date
+        ]);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -268,13 +251,13 @@ class ReservationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+
     public function store(Request $request)
     {
-
-        if ($request->type === 'GRP'){
-            $request = self::validateGroup($request);
+            $request = $this->validateRes($request);
             $reservation = new Reservation([
-                'type' => $request->get('type'),
+                'type' => $this->res,
                 'name' => $request->get('name'),
                 'size' => $request->get('size'),  
                 'date'  => $this->dateForDB($request->get('date')),
@@ -283,36 +266,37 @@ class ReservationController extends Controller
             ]);
 
             $reservation->save();
-            $isGroup = true;
-
-            
-        return redirect()->route('showGroups', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
-            
-
-        } elseif ($request->type === 'RES'){
-           $request = self::validateGroup($request);
-            $reservation = new Reservation([
-                'type' => $request->get('type'),
-                'name' => $request->get('name'),
-                'size' => $request->get('size'),  
-                'date'  => $this->dateForDB($request->get('date')),
-                'startTime'  => $request->get('startTime'),
-                'notes' => $request->get('notes')
-            ]);
-
-            $reservation->save();
-            $isGroup = false;
 
             return redirect()->route('showRestaurant', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
-            
-        }
     }
-    public function getType($isGroup){
-        if($isGroup){
-            return 'GRP';
+    public function storeGroup(Request $request)
+        {
+                //Validate input
+                $request = $this->validateGroup($request);
+                $request = $this->validateActivity($request);
+                $reservation = new Reservation([
+                    'type' => $this->grp,
+                    'name' => $request->get('name'),
+                    'size' => $request->get('size'),  
+                    'date'  => $this->dateForDB($request->get('date')),
+                    'startTime'  => $request->get('startTime'),
+                    'notes' => $request->get('notes')
+                ]);
+
+                $reservation->save();
+
+                $activity = new Activity([
+                    'startTime' => $request->get('act-startTime'), 
+                    'endTime' => $request->get('act-startTime'), 
+                    'description' => $request->get('act-description'), 
+                    'reservation_id' => $reservation->id
+                ]); 
+
+                $activity->save();
+      
+            return redirect()->route('showGroups', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
         }
-        return 'RES';
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -367,7 +351,7 @@ class ReservationController extends Controller
 
         $isGroup = $request->get('type');
 
-        if($isGroup === "GRP"){
+        if($isGroup === $this->grp){
             $succesMsg = 'Groep gewijzigd';
             $route = 'showGroups';
         } else {
@@ -390,7 +374,7 @@ class ReservationController extends Controller
         $isGroup = $reservation->type;
         $reservation->delete();
     
-        if($isGroup === "GRP"){
+        if($isGroup === $this->grp){
             $succesMsg = 'Groep verwijderd';
             $route = 'showGroups';
         } else {
@@ -402,11 +386,22 @@ class ReservationController extends Controller
 
     }
 
-    public function validateGroup($request){
+   public function validateActivity($request)
+    {
+        // check activity input
+         $request->validate([
+            'act-startTime' => 'required',
+            'act-endTime' => 'required',
+            'act-description' => 'required'
+        ]);
 
-        // update reservation
+        return $request;
+    }
+
+    public function validateGroup($request)
+    {
+        // check group input
         $request->validate([
-            'type' => 'required',
             'name' => 'required',
             'size' => ['required','int'],
             'date' => 'required',
@@ -416,11 +411,10 @@ class ReservationController extends Controller
         return $request;
     }
 
-    public function validateRes($request){
-
-        // update reservation
+    public function validateRes($request)
+    {
+        // check reservation input
         $request->validate([
-            'type' => 'required',
             'name' => 'required',
             'size' => ['required','int'],
             'date' => 'required',
@@ -450,7 +444,7 @@ class ReservationController extends Controller
         
         // get the reservations for that day from the model
         $reservations = Reservation::where('date', $date)->get();
-        if($type === 'ALL'){
+        if($this->isAll($type)){
             $reservationsForType = $reservations;
         } else {
             // sort the collection to return the type only
@@ -523,25 +517,27 @@ class ReservationController extends Controller
         $dateObj->dayName = $date->dayName;
 
         $dateObj->reservations = $reservations; 
-        $groups = $reservations->where('type', 'GRP');
-        $dateObj->groups = $groups;
-        $res = $reservations->where('type', 'RES');
-        $dateObj->res = $res;
+        $dateObj->groups = $reservations->where('type', $this->grp);
+        $dateObj->res = $reservations->where('type', $this->res);
 
         return $dateObj;
 
     } 
- 
+
     public function change(Request $request){
-       
         if ($request){
              $group = $request->get('group');
 
-            if($group){
-                $route = 'showGroups';
+
+            if($this->isAll($group)){
+                $route = 'showAll';
             } else {
+                if($group = $this->grp){
+                    $route = 'showGroups';
+                }
                 $route = 'showRestaurant';
             }
+
             $year = $request->get('y');
             $select = $request->get('select');
             $int = $request->get('int');

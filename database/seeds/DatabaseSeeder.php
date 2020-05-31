@@ -19,5 +19,7 @@ class DatabaseSeeder extends Seeder
 		]);
         
         factory(App\Reservation::class, 50)->create();
+
+        factory(App\Activity::class, 100)->create();
     }
 }

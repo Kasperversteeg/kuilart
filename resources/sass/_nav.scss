@@ -1,11 +1,7 @@
 // This file contains all the navigation custom css
 
-.navbar {
-	// max-height:75px;
-	position: relative;
-}
-.navbar li {
-	color: $white;
+.navbar-nav{
+	max-height: 50px;
 }
 
 .navbar .logout {
@@ -15,7 +11,20 @@
 #nav-spacer {
 	padding: 0 .7rem;
 }
+.nav-svg{
+	width:60px;
+	height:100%;
+}
+.icon {
+	margin-left: 4px;
+	height:100%;
+	transition: ease 0.4s;
+}
 
-.nav-item a img{
-	width: 35px;
+.nav-svg:hover .icon{
+	fill:$primary;
+}
+
+.icon-active{
+	fill:$primary;
 }

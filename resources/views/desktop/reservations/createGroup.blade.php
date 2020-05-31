@@ -5,7 +5,7 @@
 	{{-- add reservation --}}
 		<div class="row border justify-content-center reservations-container p-2">
 			<div class="col-sm-12 p-2">
-				<h1 class="display-4">Voeg resevering toe</h1>
+				<h1 class="display-4">Voeg groep toe</h1>
 			  	<div>
 			    	@if ($errors->any())
 			      	<div class="alert alert-danger">
@@ -16,11 +16,11 @@
 				        </ul>
 				      </div><br />
 			    	@endif
-			      <form method="post" action="{{ route('reservations.store') }}">
+			      <form method="post" action="/createGroup/store">
 			          @csrf
 
 			          {{-- type input --}}
-			         {{--  <div class="form-group">    
+			          {{-- <div class="form-group">    
 			              <label for="type">Type</label>
 			              <select name="type" id="reservationType">
 			              	<option value="GRP" selected="selected">Groep</option>
@@ -58,7 +58,42 @@
 				              <input type="text" class="form-control" name="startTime" value='{{ old('startTime')}}'/>
 				          </div>
 					    </div>
-			          </div>				
+			          </div>
+
+					
+			          {{-- ACTIVITY --}}				
+					<hr />
+
+					<h5>Activiteiten</h5>
+			          <div class="row activity-row">
+			          	<div class="col-md-6">
+					        <div class="form-group">    
+					            <label for="description">Name</label>
+					            <input type="text" class="form-control" name="act-description" value='{{ old('act-description')}}'/>
+					        </div>
+					    </div>
+			          	{{-- start- and endTime--}}
+			          	<div class="col-md-3">
+				          <div class="form-group">    
+				              <label for="act-startTime">Start</label>
+				              <input type="text" class="form-control" name="act-startTime" value='{{ old('act-startTime')}}'/>
+				          </div>
+					    </div>
+			          	<div class="col-md-3">
+				          <div class="form-group">    
+				              <label for="endTime">Einde</label>
+				              <input type="text" class="form-control" name="act-endTime" value='{{ old('act-endTime')}}'/>
+				          </div>
+					    </div>
+			          </div>
+			          
+
+			          <formline v-for="item in fields" :key='item.id' v-bind:id="item.name">
+
+			          </formline>
+
+						<button type="button" v-on:click="addActivity('test')">Add</button>
+						<hr />
 						
 						{{-- description input --}}
 			          <div class="form-group">    

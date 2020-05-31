@@ -10,7 +10,6 @@
       setGrp() {
         if(!this.isGroup){
           this.isGroup = true;
-
           console.log('changed to ' + this.isGroup)
         }
       },

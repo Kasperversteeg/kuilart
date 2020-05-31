@@ -1,11 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
-.navbar {
-  position: relative;
-}
-
-.navbar li {
-  color: #ffffff;
+.navbar-nav {
+  max-height: 50px;
 }
 
 .navbar .logout {
@@ -16,17 +12,31 @@
   padding: 0 0.7rem;
 }
 
-.nav-item a img {
-  width: 35px;
+.nav-svg {
+  width: 60px;
+  height: 100%;
+}
+
+.icon {
+  margin-left: 4px;
+  height: 100%;
+  transition: ease 0.4s;
+}
+
+.nav-svg:hover .icon {
+  fill: #3490dc;
+}
+
+.icon-active {
+  fill: #3490dc;
 }
 
 .vh-minusMenu {
-  height: calc(100vh - 55px);
+  height: calc(100vh - 77px);
 }
 
 .login-container {
   padding: 1rem;
-  color: #fff;
 }
 
 .bg-gray {

@@ -1,18 +1,27 @@
 require('./bootstrap');
 
 import Modal from './components/Modal';
+import FormLine from './components/FormLine';
 
 window.Vue = require('vue');
 
 Vue.component('modal', Modal);
-// Vue.component('modalContent', ModalContent);
+Vue.component('formline', FormLine);
 
 new Vue({
 	el: '#app',
 	data: {
-        isModalVisible: false
+        isModalVisible: false,
+        count: 0,
+        fields: [] 
     },
     methods: {
+    	addActivity(id){
+    		this.fields.push({
+    			name: id,
+    			id:'act-'+this.count++
+    		});
+    	},
       showModal() {
         this.isModalVisible = true;
       },
@@ -26,32 +35,32 @@ new Vue({
 
 // vanillaJS for test version of menu
 window.onload = function() {
-	var element = document.getElementById("jquery");
-	var element2 = document.getElementById("jquery2");
-	var dropdown = document.getElementById("navbarDropdown");
+	var button = document.getElementById("nav-add");
+	var dropdown = document.getElementById("nav-dropdown");
+	var dropdownAria = document.getElementById("navbarDropdown");
 	var nameOfClass = "show";
 
 	
 	// declare function for "onMouseOver" event:
-	element.onmouseover = function() {
-		
+	button.onmouseover = function() {
 		// Some browsers do not support "classList". So, it's necessary to write a condition to see if the current browser supports it.
-		if (element.classList) {
-			element.classList.add(nameOfClass);
-			element2.classList.add(nameOfClass);
-			dropdown.setAttribute("aria-expanded", "true");
+		if (button.classList) {
+			button.classList.add(nameOfClass);
+			dropdown.classList.add(nameOfClass);
+			dropdownAria.setAttribute("aria-expanded", "true");
 		}
  	}
  
 	// declare function for "onMouseOut" event:
-	element2.onmouseout = function () {
+	dropdown.onmouseout = function () {
 	
-		if (element.classList) {
-			element.classList.remove(nameOfClass);
-			element2.classList.remove(nameOfClass);
-			dropdown.setAttribute("aria-expanded", "false");
+		if (button.classList) {
+			button.classList.remove(nameOfClass);
+			dropdown.classList.remove(nameOfClass);
+			dropdownAria.setAttribute("aria-expanded", "false");
 		}
 	}
+
 }
 
 

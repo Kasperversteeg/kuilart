@@ -18,10 +18,10 @@ class CreateReservationsTable extends Migration
             $table->timestamps();
             $table->string('type');
             $table->integer('tableNr')->nullable();
-            $table->time('startTime');
-            $table->integer('size');
+            $table->time('startTime')->nullable();
+            $table->integer('size')->nullable();
             $table->string('name');
-            $table->date('date');
+            $table->date('date')->nullable();
             $table->text('notes')->nullable(); 
         });
     }

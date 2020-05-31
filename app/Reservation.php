@@ -6,7 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reservation extends Model
 {
-     protected $fillable = [
-        'name', 'notes', 'date',  'size', 'startTime', 'type'
+    protected $fillable = [
+        'name', 
+        'notes', 
+        'date',  
+        'size', 
+        'startTime', 
+        'type'
     ];
+
+	public function activities()
+	{
+		return $this->hasMany('App\Activity');
+	}
+
 }

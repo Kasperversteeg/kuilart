@@ -31,11 +31,11 @@
 		@foreach($month as $week)
 			<div class="row "> 
 				<div class="col d-flex align-items-center">
-					<a href="{{ route('all', ['w'=>$week->weekNumber, 'y' => $year])}}">Week {{ $week->weekNumber }}</a>
+					<a href="{{ route('showAll', ['w'=>$week->weekNumber, 'y' => $year])}}">Week {{ $week->weekNumber }}</a>
 				</div>
 				@foreach( $week->days as $day)
 					<div class="col border-bottom border-left">
-						<a href="{{ route('all', 'd='.$day->date)}}">{{date('D d', strtotime($day->date))}}</a>
+						<a href="{{ route('showAll', 'd='.$day->date)}}">{{date('D d', strtotime($day->date))}}</a>
 						@forelse( $day->reservations as $reservation)
 							<a href="{{ route('reservations.edit',$reservation->id)}} ">{{ $reservation->name }}</a>
 						@empty

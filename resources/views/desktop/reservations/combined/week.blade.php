@@ -20,7 +20,7 @@
 			@foreach($week->days as $date)
 				<div class="col-md border day-column">
 					<div class="row border-bottom p-2 -center day-column-header">
-						<div class="col-12 justify-content-center d-flex"><h4><a href="{{ route('all', 'd='.$date->date)}}">{{ ucfirst($date->day) }}</a></h4> </div>
+						<div class="col-12 justify-content-center d-flex"><h4><a href="{{ route('showAll', 'd='.$date->date)}}">{{ ucfirst($date->day) }}</a></h4> </div>
 						<div class="col-12 justify-content-center d-flex"><p>{{ date('d-m-y', strtotime($date->date)) }}</p>
 					</div>
 					</div>

@@ -37,23 +37,30 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item dropdown has-dropdown" id='jquery'>
-                          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="{{URL::asset('/img/menu-plus.png')}}">
+                        <li class="nav-item dropdown has-dropdown" id='nav-add'>
+                          <a class="nav-link p-1 nav-svg" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           {{ svg_icon('plusje', 'icon icon-adjusted') }}
                           </a>
-                          <div class="dropdown-menu" aria-labelledby="navbarDropdown" id='jquery2'>
-                            <a class="dropdown-item" href="/reservations/create">Reservering</a>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown" id='nav-dropdown'>
+                            <a class="dropdown-item" href="/createGroup">Groep</a>                            
+                            <a class="dropdown-item" href="/reservations/create">Restaurant</a>
                             <a class="dropdown-item" href="#">Bowlingbaan</a>
                           </div>
                         </li>
-                        <li class="nav-item border-right border-left">
-                            <a class="nav-link" href="{{ route('all',  'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}"><img style="margin-top:2px" src="{{URL::asset('/img/menu-overzicht.png')}}"></a>
+                        <li class="nav-item border-left">
+                            <a class="nav-link nav-svg" href="{{ route('showAll',  'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
+                                {{ svg_icon('overzicht', 'icon icon-norm') }}
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('showRestaurant', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}"><img src="{{URL::asset('/img/menu-restaurant.png')}}"></a>
+                        <li class="nav-item border-left">
+                            <a class="nav-link nav-svg" href="{{ route('showRestaurant', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
+                                {{ svg_icon('restaurant', 'icon icon-adjusted ml-1') }}
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('showGroups', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">Groepen</a>
+                        <li class="nav-item border-left">
+                            <a class="nav-link nav-svg" href="{{ route('showGroups', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
+                                {{ svg_icon('groep', 'icon icon-adjusted') }}
+                            </a>
                         </li>
                      </ul>
 
