@@ -39,7 +39,7 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item dropdown has-dropdown" id='nav-add'>
                           <a class="nav-link p-1 pr-2 pt-2" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                           {{ svg_icon('plusje', 'icon icon-adjusted') }}
+                            <x-icon icon="plusje" height='34px' width="34px" />
                           </a>
                           <div class="dropdown-menu" aria-labelledby="navbarDropdown" id='nav-dropdown'>
                             <a class="dropdown-item" href="/createGroup">Groep</a>                            
@@ -49,22 +49,22 @@
                         </li>
                         <li class="nav-item border-left">
                             <a class="nav-link" href="{{ route('showAll',  'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
-                                {{ svg_icon('overzicht', 'icon') }}
+                                <x-icon icon="overzicht" height='34px' width="34px" />
                             </a>
                         </li>
                         <li class="nav-item border-left">
                             <a class="nav-link" href="{{ route('showGroups', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
-                                {{ svg_icon('groep', 'icon icon-l') }}
+                                <x-icon icon="groep" height='34px' width="34px" />
                             </a>
                         </li>
                         <li class="nav-item border-left">
                             <a class="nav-link" href="{{ route('showRestaurant', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
-                                {{ svg_icon('restaurant', 'icon ') }}
+                                <x-icon icon="restaurant" height='34px' width="34px" />
                             </a>
                         </li>
                         <li class="nav-item border-left">
                             <a class="nav-link" href="#">
-                                {{ svg_icon('bowling', 'icon ') }}
+                                <x-icon icon="bowling" height='34px' width="34px" />
                             </a>
                         </li>
                      </ul>
