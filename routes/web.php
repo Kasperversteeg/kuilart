@@ -48,5 +48,4 @@ Route::get('/reservations/activities/create', 'ActivityController@create')->name
 
 
 
-
 Route::resource('/reservations', 'ReservationController')->middleware('auth');

@@ -17,15 +17,15 @@
 	@php
 		switch($isGroup){
 			case('RES'):
-				$route = 'desktop.components.res-list-view';
+				$route = 'desktop.components.day.res-list-view';
 				var_dump('RES');
 				break;
 			case('GRP'):
-				$route = 'desktop.components.grp-list-view';
+				$route = 'desktop.components.day.grp-list-view';
 				var_dump('GRP');
 				break;
 			default:
-				$route = 'desktop.components.all-list-view';
+				$route = 'desktop.components.day.all-list-view';
 				var_dump('ALL');
 				break;
 		}

@@ -47,6 +47,11 @@
   color: #3490dc;
 }
 
+.res-container p,
+.group-container p {
+  margin-bottom: 0px;
+}
+
 .form-control,
 .btn {
   border-radius: 0 !important;

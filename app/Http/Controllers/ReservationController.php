@@ -32,14 +32,15 @@ class ReservationController extends Controller
         if($this->isAll($isGroup)){           
             $reservations = Reservation::all();
             $sortedReservations = $this->sortReservationsByDate($reservations);
-        }
-
-        // check if type is one of the preset types
+        } else {
+              // check if type is one of the preset types
         if($type = $this->getType($isGroup)){
             $reservations = Reservation::where('type', $type)->get();     
             $sortedReservations = $this->sortReservationsByDate($reservations);        
+            }
         }
 
+      
         if(isset($sortedReservations)){
             return view('desktop.reservations.all', [
                 'reservations' => $sortedReservations,
@@ -60,7 +61,7 @@ class ReservationController extends Controller
             // loop through plucked collection and get reservations for date
             foreach($grouped as $date) {
                $r = $reservations->where('date', $date);
-               $obj = self::createDateObj($date, $r);
+               $obj = $this->createDateObj($date, $r);
                $collection->put($date, $obj);
             }
             $sortedReservations = $collection->sortKeys();
@@ -153,7 +154,7 @@ class ReservationController extends Controller
         abort(404);
     }
 
-    
+
     public function getReservationsForType($query, $type){
         $app = app();
         $object = $app->make('stdClass');

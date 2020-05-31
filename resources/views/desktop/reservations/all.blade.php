@@ -2,70 +2,49 @@
 
 @section('content')
 
-		@include('layouts.submenu')	
+	@include('layouts.submenu')	
 
-		@if(session()->get('success'))
-		    <div class="alert alert-success">
-		      {{ session()->get('success') }}  
-		    </div>
-		@endif
+	@if(session()->get('success'))
+	    <div class="alert alert-success">
+	      {{ session()->get('success') }}  
+	    </div>
+	@endif
 
-		<h1 class="pt-4 display-4">{{ $isGroup ? 'Groeps' : 'Restaurant'}} reserveringen</h1>		
-		@php
-			$bool = false;
-			$rowClass = 'bg-gray';
-		@endphp
-		{{-- show reservations --}}
-		<div id="reservations-container" class="pt-4">
-			@foreach($reservations as $date => $object)
-				@php
-					if($bool === false){
-						$bool = true;
-						$rowClass = '';
-					} else {
-						$bool = false;
-						$rowClass = 'bg-gray';
-					}
-				@endphp
+	<h1 class="pt-4 display-4">{{ $isGroup }} reserveringen</h1>		
+	@php
+		$bool = false;
+		$rowClass = 'bg-gray';
 
-				<div class="row justify-content-center">
-					<div class="col-sm-12 p-2 {{ $rowClass }} border mb-4">	 
-						<h3>{{ ucfirst($object->dayName) . ' ' .  $object->date }}</h3>
-						<hr />
-						@foreach($object->reservations as $reservation)
-							<div class="row reservation-full pb-2">
-								@if(!$isGroup)
-									<div class="col-md-2"><p>{{ date('H:i', strtotime($reservation->startTime)) }}</p></div>
-								@endif
-								<div class="{{ $isGroup ? 'col-md-9' : 'col-md-7'}}"> 
-									<a href="{{ route('reservations.edit',$reservation->id)}} ">{{ $reservation->name }}</a>
-								</div>
-								<div class="col-md-3">
-									<div class="row">
-										<div class="col-sm-8 d-flex justify-content-end">
-											<p>Aantal personen:</p>
-										</div>
-										<div class="col-sm-4">
-											<p>{{ $reservation->size }}</p>
-										</div>
-									</div>
-									
-								</div>
-								
-								@if($isGroup)
-									<div class="col-md-12">
-										<p>Activiteit 1 -> start : eind</p>
-									</div>
-								@endif
+	switch($isGroup){
+		case('RES'):
+			$route = 'desktop.components.all.res-list-view';
+			break;
+		case('GRP'):
+			$route = 'desktop.components.all.grp-list-view';
+			break;
+		default:
+			$route = 'desktop.components.all.all-list-view';
+			break;
+	}
 
-								
-								<hr />
-							</div>
-						@endforeach
-					</div>
-				</div>
-			@endforeach
-		</div>
+	@endphp
+	{{-- show reservations --}}
+	<div id="reservations-container" class="pt-4">
+		@foreach($reservations as $date => $object)
+			@if($isGroup === 'ALL')
+			<div class="col-sm-12 p-2 border mb-4">	 
+				<h3>{{ ucfirst($object->dayName) . ' ' .  $object->date }}</h3>
+				<hr />
+				@component($route, [
+					'groups' => $object->groups, 
+					'res' => $object->res
+					])
+
+				@endcomponent
+			</div>
+			@endif
+		@endforeach
+	</div>
 	
 
 

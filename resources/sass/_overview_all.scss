@@ -5,3 +5,9 @@
 #reservations-container h3{
 	color: $primary;
 }
+
+.res-container, .group-container{
+	p {
+		margin-bottom: 0px;
+	}
+}
