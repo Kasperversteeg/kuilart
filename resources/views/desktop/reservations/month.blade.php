@@ -48,11 +48,12 @@
 					<a href="{{ route($link, ['w'=>$week->weekNumber, 'y' => $year])}}">Week {{ $week->weekNumber }}</a>
 				</div>
 				@foreach($week->days as $day)
-					<div class="col border-bottom border-left">
+					<div class="col border-bottom border-left px-1">
 						<div class="container">
 							<div class="row justify-content-end month-daynumber">
 								<a href="{{ route($link, 'd='.$day->date)}}">{{date('d', strtotime($day->date))}}</a>
 							</div>
+
 							@forelse( $day->reservations as $reservation)
 								@php		
 									if($bool){
@@ -60,14 +61,14 @@
 									} else {
 										$bool = true;
 									}
-
 								@endphp
 								<div class="row {{ $bool ? '' : 'bg-gray' }}">
-									@component($route, ['reservation' => $reservation])
-
+									@component('desktop.components.month.grp-view', ['reservation' => $reservation])
+									
 									@endcomponent
 								</div>
-								@empty
+
+							@empty
 								@php $bool = false @endphp
 							@endforelse
 						</div>

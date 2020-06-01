@@ -52,15 +52,26 @@
 					<p>{{ date('d-m-y', strtotime($date->date)) }}</p>
 				</div>
 			</div>
-			@forelse ($date->reservations as $reservation)
 
-				@component($route, ['reservation' => $reservation])
+			@forelse($date->reservations as $reservation)
+				@if($reservation->type === 'GRP')
+					@component('desktop.components.week.grp-view', ['reservation' => $reservation])
+					
+					@endcomponent
+				@endif
 
-				@endcomponent
+				@if($reservation->type === 'RES')
+					@component('desktop.components.week.res-view', ['reservation' => $reservation])
+					
+					@endcomponent
+				@endif
 
-			@empty
-				<p>Nieks</p>
+				@empty
+					<p>Nieks</p>
 			@endforelse
+
+
+
 		</div>
 		@endforeach		
 	</div>

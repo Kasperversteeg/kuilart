@@ -28,37 +28,39 @@
 	{{-- show reservations --}}
 	<div id="reservations-container" class="pt-4">
 		@foreach($reservations as $date => $object)
+			{{-- Check for all, if so split the reservations --}}
 			@if($isGroup === 'ALL')
-			<div class="col-sm-12 p-2 border mb-4">	 
-				<h3>{{ ucfirst($object->dayName) . ' ' .  $object->date }}</h3>
-				<hr />
-				@component($route, [
-					'groups' => $object->groups, 
-					'res' => $object->res
-					])
+				<div class="col-sm-12 p-2 border mb-4">	
+					<h3>{{ ucfirst($object->dayName) . ' ' .  $object->date }}</h3>
+					<hr />
+					<div class="container">
+						@component($route, [
+							'groups' => $object->groups, 
+							'res' => $object->res
+							])
 
-				@endcomponent
-			</div>
+						@endcomponent
+					</div>
+				</div>
 			@endif
+			{{-- if not all, get other component --}}
 			@if($isGroup === 'RES' || $isGroup === 'GRP')
-			<div class="col-sm-12 p-2 {{ $isGroup === 'RES' ? 'border-res' : 'border-grp' }} mb-4">	 
-				<h3>{{ ucfirst($object->dayName) . ' ' .  $object->date }}</h3>
-				<hr />
-				@foreach($object->reservations as $reservation)
-					@component($route, [
-						'reservation' => $reservation
-						])
+				<div class="col-sm-12 p-2 {{ $isGroup === 'RES' ? 'border-res' : 'border-grp' }} mb-4">	 
+					<h3>{{ ucfirst($object->dayName) . ' ' .  $object->date }}</h3>
+					<hr />
+					<div class="container">
+						@foreach($object->reservations as $reservation)
+							@component($route, [
+								'reservation' => $reservation
+								])
 
-					@endcomponent
-				@endforeach
-			</div>
+							@endcomponent
+						@endforeach
+					</div>
+				</div>
 			@endif
 		@endforeach
 	</div>
-	
-
-
-
 
 
 @endsection

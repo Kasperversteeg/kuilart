@@ -40,9 +40,16 @@
 	@endphp
 
 		@forelse($day->reservations as $reservation)
-			@component($route, ['reservation' => $reservation])
-			
-			@endcomponent
+			@if($reservation->type === 'GRP')
+				@component('desktop.components.day.grp-list-view', ['reservation' => $reservation])
+				
+				@endcomponent
+			@endif
+			@if($reservation->type === 'RES')
+				@component('desktop.components.day.res-list-view', ['reservation' => $reservation])
+				
+				@endcomponent
+			@endif
 
 		@empty
 			<p>Geen reserveringen voor vandaag</p>

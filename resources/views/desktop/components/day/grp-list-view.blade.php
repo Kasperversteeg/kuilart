@@ -3,9 +3,7 @@
 	$bool = false;
 @endphp
 <div class="row mb-2 p-2 border">
-	
 	{{-- title left and persons right --}}
-
 	<div class="col-sm-8">
 		<div class="container group-day-list">
 			<div class="row pt-2">
@@ -43,7 +41,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-4 bg-gray">
+	<div class="col-sm-4 bg-gray p-2">
 		{{ $reservation->notes }}
 	</div>
 	
