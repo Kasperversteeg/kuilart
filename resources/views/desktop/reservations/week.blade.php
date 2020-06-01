@@ -3,18 +3,12 @@
 
 
 	@include('layouts.submenu')
-	@php
-		$route = '';
-		if($isGroup){
-			$route = 'showGroups';
-		} else {
-			$route = 'showRestaurant';
-		}
-	@endphp
-
-	<h1 class="pt-4 display-4">{{ $isGroup ? 'Groepen' : 'Restaurant' }}</h1>
-
-	<h3 class="pt-4">Week:{{__($week->weekNumber) }} Van {{ __($week->start) }} t/m {{ $week->end }}</h3>
+	<div class="row mb-0">
+		<h1 class="pt-4 display-4">{{ $isGroup }}  <small>Week:{{__($week->weekNumber) }}</small></h1>
+	</div>
+	<div class="row">
+		<h4>{{ __($week->start) }} t/m {{ $week->end }}</h4>
+	</div>
 	
 	@if(session()->get('success'))
 	    <div class="alert alert-success">
@@ -22,42 +16,53 @@
 	    </div>
 	@endif
 
+	@if ($errors->any())
+      	<div class="alert alert-danger">
+	        <ul>
+	            @foreach ($errors->all() as $error)
+	              <li>{{ $error }}</li>
+	            @endforeach
+	        </ul>
+	      </div><br />
+    @endif
+
+	@php
+		switch($isGroup){
+			case('RES'):
+				$route = 'desktop.components.week.res-view';
+				break;
+			case('GRP'):
+				$route = 'desktop.components.week.grp-view';
+				break;
+			default:
+				$route = 'desktop.components.week.all-view';
+				break;
+		}
+	@endphp
+
 	{{-- show reservations --}}
-	<div id="reservations-week" class="pt-4 reservations-container">
-		<div class="row"  id="reservations-week-view">
-			@foreach($week->days as $date)
-				<div class="col-md border day-column">
-					<div class="row border-bottom p-2 -center day-column-header">
-						<div class="col-12 justify-content-center d-flex"><h4><a href="{{ route($route, 'd='.$date->date)}}">{{ ucfirst($date->day) }}</a></h4> </div>
-						<div class="col-12 justify-content-center d-flex"><p>{{ date('d-m-y', strtotime($date->date)) }}</p>
-					</div>
-					</div>
-					
-					@forelse ($date->reservations as $reservation)
-
-						<div class="pt-2 reservation-wrapper"> 
-							<div class="row">
-								<div class="col-sm-7">
-									<a href="{{ route('reservations.edit',$reservation->id)}} ">{{$reservation->name}}</a>
-								</div>
-								<div class="col-sm">
-									<p>{{$reservation->size}}P</p>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col">
-									<p>{{ date('H:i', strtotime($reservation->startTime)) }}</p>
-								</div>
-							</div>
-						</div>
-
-					
-					@empty
-						<p>Geen reserveringen</p>
-					@endforelse
+	<div id="reservations-week-view" class="pt-4 reservations-container row">
+		@foreach($week->days as $date)
+		<div class="col-md border weekview-day-column p-1">
+			<div class="row border-bottom p-2 weekview-day-column-header mb-4">
+				<div class="col-12 justify-content-center d-flex">
+					<h4><a href="{{ route('showRestaurant', ['d'=> $date->date]) }}">{{ ucfirst($date->day) }}</a></h4> 
 				</div>
-			@endforeach		
+				<div class="col-12 justify-content-center d-flex">
+					<p>{{ date('d-m-y', strtotime($date->date)) }}</p>
+				</div>
+			</div>
+			@forelse ($date->reservations as $reservation)
+
+				@component($route, ['reservation' => $reservation])
+
+				@endcomponent
+
+			@empty
+				<p>Nieks</p>
+			@endforelse
 		</div>
+		@endforeach		
 	</div>
 
 

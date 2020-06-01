@@ -10,6 +10,7 @@ $factory->define(Activity::class, function (Faker $faker) {
         'startTime' => $faker->time($format = 'H:i'),
         'endTime' => $faker->time($format = 'H:i'),
         'description' => $faker->sentence($nbWords = 6), 
-        'reservation_id' => $faker->numberBetween($min = 0, $max = 50)
+        'reservation_id' => $faker->numberBetween($min = 0, $max = 50),
+        'size' => $faker->numberBetween($min = 0, $max = 500)
     ];
 });

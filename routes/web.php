@@ -28,7 +28,6 @@ Route::get('/login', function () {
 
 Auth::routes();
 
-
 Route::get('/change/', 'ReservationController@change')->name('change')->middleware('auth');
 Route::get('/createGroup', 'ReservationController@createGroup')->middleware('auth');
 Route::post('/createGroup/store', 'ReservationController@storeGroup')->middleware('auth');
@@ -45,6 +44,7 @@ Route::get('/reservations/activities/create', 'ActivityController@create')->name
 
 
 
+Route::post('/reservations/updateTable/{id}', 'ReservationController@updateTableNr')->name('updateTableNr');
 
 
 

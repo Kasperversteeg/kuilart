@@ -1,6 +1,6 @@
 {{-- show reservations for restaurant component--}}
 
-<div class="row reservation-day-list mb-2 p-2 border-res">
+<div class="row reservation-day-list mb-2 p-2">
 	<div class="col-md-2 border-right d-flex align-items-center justify-content-center">
 		<p>{{ date('H:i', strtotime($reservation->startTime)) }}</p>
 	</div>
@@ -26,13 +26,7 @@
 		<p>Personen</p>
 	</div>	
 	<div class="col-md-1 d-flex">
-		<form method="post" action="{{ route('updateTableNr', $reservation->id) }}">
-          @csrf
-			<div class="form-group">  
-				<label class="w-100 text-center" for="tableNr"><small>Tafel</small></label>
-	            <input type="text" onchange="this.form.submit()" class="form-control input-text-align-center {{  $errors->has('tableNr') ? 'form-input-invalid' : ''}} " name="tableNr" placeholder="nr" value='{{ $reservation->tableNr}}'/>
-	        </div>
-	    </form>
+		
 	</div>
 	<hr />
 </div>

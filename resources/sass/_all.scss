@@ -1,0 +1,25 @@
+.border-res{
+	border: 1px solid $res-color;
+}
+
+.border-grp{
+	border: 1px solid $grp-color;
+} 
+
+@media (min-width: 1200px) {
+  .custom-container{
+    width: 1000px;
+  }
+}
+
+@media (min-width: 992px) {
+  .custom-container{
+    width: 800px;
+  }
+}
+
+@media (min-width: 768px) {
+  .custom-container{
+    width: 650px;
+  }
+}

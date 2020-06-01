@@ -10,7 +10,8 @@ class Activity extends Model
     	'reservation_id',
         'startTime', 
         'endTime',
-        'description'
+        'description',
+        'size'
     ];
     public function reservation()
     {

@@ -3,3 +3,13 @@
 .form-control, .btn{
 	border-radius: 0!important;
 }
+
+.form-input-invalid{
+ 	border-color: #e3342f!important;
+}
+.form-input-valid{
+	border-color: #38c172!important;
+}
+.input-text-align-center{
+	text-align: center;
+}

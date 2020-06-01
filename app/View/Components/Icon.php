@@ -22,12 +22,14 @@ class Icon extends Component
     public function __construct( $icon = null,
         $width = 34,
         $height = 34,
-        $viewBox = '24 24'
+        $viewBox = '24 24',
+        $class = 'icon'
     )
     {
         $this->icon = $icon;
         $this->width = $width;
         $this->height = $height;
+        $this->class = $icon;
     }
 
     /**

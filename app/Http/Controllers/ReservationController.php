@@ -21,6 +21,15 @@ class ReservationController extends Controller
         $this->all = config('constants.types.all');
     }
 
+    public function updateTableNr(Request $request, $id){
+
+        $reservation = Reservation::find($id);
+        $validated = $request->validate([ 'tableNr' => ['required', 'int']]);
+        $reservation->updateTableNr($validated['tableNr']);
+
+        return back();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -70,21 +79,6 @@ class ReservationController extends Controller
         abort(404);
     }
 
-
-    public function isAll($isGroup)
-    {
-        if($isGroup === $this->all){
-            return true;
-        }
-        return false;
-    }
-    public function getType($isGroup)
-    {
-        if($isGroup === $this->grp){
-            return $this->grp;
-        }
-        return $this->res;
-    }
 
     // going to be the one show function
     public function show(Reservation $reservation)
@@ -162,7 +156,7 @@ class ReservationController extends Controller
         if($query){
             // check for D in array, if yes retun day view
             if(Arr::exists($query, 'd')){
-                $dayObj = $this->createDayObj($query['d'], $this->grp);
+                $dayObj = $this->createDayObj($query['d'], $type);
 
                 $object->url = 'day';
                 $object->array = [
@@ -173,7 +167,7 @@ class ReservationController extends Controller
             // check for w in array, if yes retun week view
             if(Arr::exists($query, 'w')){
 
-                $weekObj = $this->createWeekObj($query['y'], $query['w'], $this->grp);
+                $weekObj = $this->createWeekObj($query['y'], $query['w'], $type);
                 $object->url = 'week';
                 $object->array = [
                     'week' => $weekObj
@@ -183,7 +177,7 @@ class ReservationController extends Controller
             // check for m in array, if yes retun month view
             if(Arr::exists($query, 'm')){
               
-                $obj = $this->getObjForMonth($query);
+                $obj = $this->getObjForMonth($query, $type);
                 $object->url = $obj->url;
                 $object->array = $obj->array;      
             }
@@ -192,7 +186,7 @@ class ReservationController extends Controller
         }
         abort(404);
     }
-    public function getObjForMonth($query){
+    public function getObjForMonth($query, $type){
         $app = app();
         $object = $app->make('stdClass');
 
@@ -213,7 +207,7 @@ class ReservationController extends Controller
         // loop from start of week to end of the week
         for ($startWeekNumber; $startWeekNumber <= $endWeekNumber; $startWeekNumber++) { 
             // create weekobj with reservations within for weeknumber
-            $weekObj = self::createWeekObj($query['y'], $startWeekNumber, 'ALL');
+            $weekObj = $this->createWeekObj($query['y'], $startWeekNumber, $type);
             // add it to an array
             $monthArray[] = $weekObj;
         }
@@ -288,11 +282,11 @@ class ReservationController extends Controller
 
                 $activity = new Activity([
                     'startTime' => $request->get('act-startTime'), 
-                    'endTime' => $request->get('act-startTime'), 
+                    'endTime' => $request->get('act-endTime'), 
                     'description' => $request->get('act-description'), 
-                    'reservation_id' => $reservation->id
+                    'reservation_id' => $reservation->id, 
+                    'size' => $request->get('act-size')
                 ]); 
-
                 $activity->save();
       
             return redirect()->route('showGroups', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
@@ -445,6 +439,7 @@ class ReservationController extends Controller
         
         // get the reservations for that day from the model
         $reservations = Reservation::where('date', $date)->get();
+
         if($this->isAll($type)){
             $reservationsForType = $reservations;
         } else {
@@ -456,23 +451,6 @@ class ReservationController extends Controller
         $dayObj->reservations = $sorted;
 
         return $dayObj;
-    }
-
-    // returns a string
-    public function formatDate($date){
-        $formatted = date('d-m-Y', strtotime($date));
-        return $formatted;
-    }
-
-    // returns a string
-    public function formatTime($time){
-        $formatted = date('H:i', strtotime($time));
-        return $formatted;
-    }
-
-    public function dateForDB($date){
-        $formatted = date('Y-m-d', strtotime($date));
-        return $formatted;
     }
 
     public function createWeekObj($year, $weekNumber, $type){
@@ -496,7 +474,7 @@ class ReservationController extends Controller
         $days = [];
         foreach($dateRange as $date) {
                 // make dayObj object
-                $dayObj = self::createDayObj ($date->format('Y-m-d'), $type);
+                $dayObj = $this->createDayObj ($date->format('Y-m-d'), $type);
             
                 // add them to the array
                 $days[] = $dayObj;
@@ -525,6 +503,39 @@ class ReservationController extends Controller
 
     } 
 
+    // returns a string
+    public function formatDate($date){
+        $formatted = date('d-m-Y', strtotime($date));
+        return $formatted;
+    }
+
+    // returns a string
+    public function formatTime($time){
+        $formatted = date('H:i', strtotime($time));
+        return $formatted;
+    }
+
+    public function dateForDB($date){
+        $formatted = date('Y-m-d', strtotime($date));
+        return $formatted;
+    }
+
+
+    public function isAll($isGroup)
+    {
+        if($isGroup === $this->all){
+            return true;
+        }
+        return false;
+    }
+    public function getType($isGroup)
+    {
+        if($isGroup === $this->grp){
+            return $this->grp;
+        }
+        return $this->res;
+    }
+
     public function change(Request $request){
         if ($request){
              $group = $request->get('group');
@@ -535,8 +546,9 @@ class ReservationController extends Controller
             } else {
                 if($group = $this->grp){
                     $route = 'showGroups';
-                }
+                } else {
                 $route = 'showRestaurant';
+                }
             }
 
             $year = $request->get('y');

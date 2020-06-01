@@ -14,26 +14,34 @@
 	    </div>
 	@endif
 
+	@if ($errors->any())
+      	<div class="alert alert-danger">
+	        <ul>
+	            @foreach ($errors->all() as $error)
+	              <li>{{ $error }}</li>
+	            @endforeach
+	        </ul>
+	      </div><br />
+    @endif
+
 	@php
+
 		switch($isGroup){
 			case('RES'):
 				$route = 'desktop.components.day.res-list-view';
-				var_dump('RES');
 				break;
 			case('GRP'):
 				$route = 'desktop.components.day.grp-list-view';
-				var_dump('GRP');
 				break;
 			default:
 				$route = 'desktop.components.day.all-list-view';
-				var_dump('ALL');
 				break;
 		}
 	@endphp
-	
+
 		@forelse($day->reservations as $reservation)
 			@component($route, ['reservation' => $reservation])
-
+			
 			@endcomponent
 
 		@empty

@@ -10,22 +10,22 @@
 @import 'login';
 
 // overview (group/restaurant) css
-@import 'overview_all';
+@import 'view_all';
 
 // overview (group/restaurant) css
-@import 'overview_day';
+@import 'view_day';
 
 // overview (group/restaurant) css
-@import 'overview_week';
+@import 'view_week';
 
 // overview (group/restaurant) css
-@import 'overview_month';
+@import 'view_month';
 
 // form custom css
 @import 'form';
 
-// modal view css
-@import 'week';
+@import 'all';
+
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';

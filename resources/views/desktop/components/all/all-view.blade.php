@@ -1,7 +1,8 @@
-	@php
-		$grpBG = true;
-		$resBG = false;		
-	@endphp
+@php
+	$grpBG = true;
+	$resBG = false;		
+@endphp
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-6">

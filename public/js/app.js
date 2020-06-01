@@ -1937,6 +1937,12 @@ module.exports = {
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 
@@ -38287,7 +38293,7 @@ var staticRenderFns = [
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-md-3" }, [
+      _c("div", { staticClass: "col-md-2" }, [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "act-startTime" } }, [_vm._v("Start")]),
           _vm._v(" "),
@@ -38298,13 +38304,26 @@ var staticRenderFns = [
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-md-3" }, [
+      _c("div", { staticClass: "col-md-2" }, [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "endTime" } }, [_vm._v("Einde")]),
           _vm._v(" "),
           _c("input", {
             staticClass: "form-control",
             attrs: { type: "text", name: "act-endTime", value: "" }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-2" }, [
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "act-size" } }, [
+            _vm._v("Aantal personen")
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "form-control",
+            attrs: { type: "text", name: "act-size", value: "" }
           })
         ])
       ])
@@ -50623,12 +50642,14 @@ new Vue({
       this.isModalVisible = false;
     }
   }
-}); // vanillaJS for test version of menu
+}); // vanillaJS 
 
 window.onload = function () {
   var button = document.getElementById("nav-add");
   var dropdown = document.getElementById("nav-dropdown");
   var dropdownAria = document.getElementById("navbarDropdown");
+  var menuBalk = document.getElementById("nav-container");
+  var overzicht = document.getElementById("overzicht");
   var nameOfClass = "show"; // declare function for "onMouseOver" event:
 
   button.onmouseover = function () {
@@ -50642,12 +50663,21 @@ window.onload = function () {
 
 
   dropdown.onmouseout = function () {
+    closeHover();
+  }; // declare function for "onMouseOut" event:
+
+
+  overzicht.onmouseout = function () {
+    closeHover();
+  };
+
+  function closeHover() {
     if (button.classList) {
       button.classList.remove(nameOfClass);
       dropdown.classList.remove(nameOfClass);
       dropdownAria.setAttribute("aria-expanded", "false");
     }
-  };
+  }
 };
 
 /***/ }),

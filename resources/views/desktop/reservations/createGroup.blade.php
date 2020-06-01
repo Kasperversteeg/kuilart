@@ -73,19 +73,25 @@
 					        </div>
 					    </div>
 			          	{{-- start- and endTime--}}
-			          	<div class="col-md-3">
+			          	<div class="col-md-2">
 				          <div class="form-group">    
 				              <label for="act-startTime">Start</label>
 				              <input type="text" class="form-control" name="act-startTime" value='{{ old('act-startTime')}}'/>
 				          </div>
 					    </div>
-			          	<div class="col-md-3">
+			          	<div class="col-md-2">
 				          <div class="form-group">    
-				              <label for="endTime">Einde</label>
+				              <label for="act-endTime">Einde</label>
 				              <input type="text" class="form-control" name="act-endTime" value='{{ old('act-endTime')}}'/>
 				          </div>
+				         </div>
+			          	<div class="col-md-2">
+				          <div class="form-group">    
+				              <label for="act-size">Aantal personen</label>
+				              <input type="text" class="form-control" name="act-size" value='{{ old('act-size')}}'/>
+				          </div>
 					    </div>
-			          </div>
+			         </div>
 			          
 
 			          <formline v-for="item in fields" :key='item.id' v-bind:id="item.name">

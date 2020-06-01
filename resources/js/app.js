@@ -33,14 +33,21 @@ new Vue({
 
 
 
-// vanillaJS for test version of menu
+// vanillaJS 
+
+
+
+
+
 window.onload = function() {
 	var button = document.getElementById("nav-add");
 	var dropdown = document.getElementById("nav-dropdown");
 	var dropdownAria = document.getElementById("navbarDropdown");
+	var menuBalk = document.getElementById("nav-container");
+	var overzicht = document.getElementById("overzicht");
 	var nameOfClass = "show";
 
-	
+
 	// declare function for "onMouseOver" event:
 	button.onmouseover = function() {
 		// Some browsers do not support "classList". So, it's necessary to write a condition to see if the current browser supports it.
@@ -53,14 +60,20 @@ window.onload = function() {
  
 	// declare function for "onMouseOut" event:
 	dropdown.onmouseout = function () {
-	
+		closeHover();
+	}
+	// declare function for "onMouseOut" event:
+	overzicht.onmouseout = function () {
+		closeHover();
+	}
+
+	function closeHover(){
 		if (button.classList) {
 			button.classList.remove(nameOfClass);
 			dropdown.classList.remove(nameOfClass);
 			dropdownAria.setAttribute("aria-expanded", "false");
 		}
 	}
-
 }
 
 

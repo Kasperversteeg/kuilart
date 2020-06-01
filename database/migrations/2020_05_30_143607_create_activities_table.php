@@ -20,6 +20,7 @@ class CreateActivitiesTable extends Migration
             $table->time('startTime');
             $table->time('endTime');
             $table->string('description');
+            $table->integer('size');
         });
     }
 

@@ -11,16 +11,13 @@
 #nav-spacer {
 	padding: 0 .7rem;
 }
-.icon-l{
-	height:105%;
-}
 .icon {
 	height: 34px;
 	width: 34px;
-	transition: ease 0.4s;
+	transition: ease 0.2s;
 }
 
-.nav-svg:hover .icon{
+.nav-link:hover .icon{
 	fill:$primary;
 }
 
