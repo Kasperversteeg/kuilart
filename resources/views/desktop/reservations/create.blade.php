@@ -5,7 +5,7 @@
 	{{-- add reservation --}}
 		<div class="row border justify-content-center reservations-container p-2">
 			<div class="col-sm-12 p-2">
-				<h1 class="display-4">Voeg resevering toe</h1>
+				<h1 class="display-4">Voeg reservering toe</h1>
 			  	<div>
 			    	@if ($errors->any())
 			      	<div class="alert alert-danger">
@@ -18,17 +18,6 @@
 			    	@endif
 			      <form method="post" action="{{ route('reservations.store') }}">
 			          @csrf
-
-			          {{-- type input --}}
-			         {{--  <div class="form-group">    
-			              <label for="type">Type</label>
-			              <select name="type" id="reservationType">
-			              	<option value="GRP" selected="selected">Groep</option>
-			              	<option value="RES">Restaurant</option>
-			              </select>
-			          </div> --}}
-
-			          
 			          {{-- name and size input --}}
 			          <div class="row">
 			          	<div class="col-md-6">

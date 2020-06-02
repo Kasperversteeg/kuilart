@@ -17,17 +17,19 @@
 		case('GRP'):
 			$route = 'desktop.components.month.grp-view';
 			$link = 'showGroups';
+			$title = 'Groeps';
 			break;
 		default:
 			$route = 'desktop.components.month.all-view';
 			$link = 'showAll';
+			$title = 'Alle ';
 			break;
 	}
 
 	$bool = false;
 	@endphp
 
-	<h1 class="pt-4 display-4">{{ $isGroup }} <small>{{ ucfirst($monthName) . ' ' . $year }}</small></h2>
+	<h1 class="pt-4 display-4">{{ $title }}reserveringen <small>{{ ucfirst($monthName) . ' ' . $year }}</small></h2>
 	
 
 	{{-- show reservations --}}

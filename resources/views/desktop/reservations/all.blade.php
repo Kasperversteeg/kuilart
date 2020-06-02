@@ -10,20 +10,24 @@
 	    </div>
 	@endif
 
-	<h1 class="pt-4 display-4">{{ $isGroup }} reserveringen</h1>		
 	@php
 	switch($isGroup){
 		case('RES'):
 			$route = 'desktop.components.all.res-view';
+			$title = 'Restaurant ';
 			break;
 		case('GRP'):
 			$route = 'desktop.components.all.grp-view';
+			$title = 'Groeps';
 			break;
 		default:
 			$route = 'desktop.components.all.all-view';
+			$title = 'Alle ';
 			break;
 	}
 	@endphp
+
+	<h1 class="pt-4 display-4">{{ $title }}reserveringen</h1>		
 
 	{{-- show reservations --}}
 	<div id="reservations-container" class="pt-4">

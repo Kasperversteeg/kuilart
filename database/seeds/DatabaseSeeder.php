@@ -21,5 +21,9 @@ class DatabaseSeeder extends Seeder
         factory(App\Reservation::class, 50)->create();
 
         factory(App\Activity::class, 100)->create();
+
+        factory(App\Bowling::class, 3)->create(['startTime' => '17:00', 'endTime' => '18:00']);
+        factory(App\Bowling::class, 2)->create(['startTime' => '19:00', 'endTime' => '20:00']);
+        factory(App\Bowling::class, 4)->create(['startTime' => '21:00', 'endTime' => '22:00']);
     }
 }

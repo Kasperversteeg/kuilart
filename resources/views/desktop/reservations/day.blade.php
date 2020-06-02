@@ -1,10 +1,26 @@
 @extends('layouts.desktop')
-@section('content')
-	
+@section('content')	
 	@include('layouts.submenu')
 
+	@php
 
-	<h1 class="pt-4 display-4">{{ $isGroup }}</h1>
+		switch($isGroup){
+			case('RES'):
+				$title = 'Restaurant ';
+				$route = 'desktop.components.day.res-list-view';
+				break;
+			case('GRP'):
+				$title = 'Groeps';
+				$route = 'desktop.components.day.grp-list-view';
+				break;
+			default:
+				$route = 'desktop.components.day.all-list-view';
+				$title = 'Alle ';
+				break;
+		}
+	@endphp
+
+	<h1 class="pt-4 display-4">{{ $title }}reserveringen</h1>
 	<h3 class="pt-4">{{ ucfirst(__($day->day)) . ' ' . __(date('d-m-y', strtotime($day->date))) }}</h3>
 	
 		
@@ -24,20 +40,6 @@
 	      </div><br />
     @endif
 
-	@php
-
-		switch($isGroup){
-			case('RES'):
-				$route = 'desktop.components.day.res-list-view';
-				break;
-			case('GRP'):
-				$route = 'desktop.components.day.grp-list-view';
-				break;
-			default:
-				$route = 'desktop.components.day.all-list-view';
-				break;
-		}
-	@endphp
 
 		@forelse($day->reservations as $reservation)
 			@if($reservation->type === 'GRP')

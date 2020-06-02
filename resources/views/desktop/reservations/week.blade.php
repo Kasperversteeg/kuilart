@@ -1,10 +1,29 @@
 @extends('layouts.desktop')
 @section('content')
-
-
 	@include('layouts.submenu')
+
+	@php
+		switch($isGroup){
+			case('RES'):
+				$link = 'showRestaurant';
+				$route = 'desktop.components.week.res-view';
+				$title = 'Restaurant ';
+				break;
+			case('GRP'):
+				$link = 'showGroups';
+				$route = 'desktop.components.week.grp-view';
+				$title = 'Groeps';
+				break;
+			default:
+				$link = 'showAll';
+				$route = 'desktop.components.week.all-view';
+				$title = 'Alle ';
+				break;
+		}
+	@endphp
+
 	<div class="row mb-0">
-		<h1 class="pt-4 display-4">{{ $isGroup }}  <small>Week:{{__($week->weekNumber) }}</small></h1>
+		<h1 class="pt-4 display-4">{{ $title }}reserveringen <small>Week:{{__($week->weekNumber) }}</small></h1>
 	</div>
 	<div class="row">
 		<h4>{{ __($week->start) }} t/m {{ $week->end }}</h4>
@@ -26,27 +45,13 @@
 	      </div><br />
     @endif
 
-	@php
-		switch($isGroup){
-			case('RES'):
-				$route = 'desktop.components.week.res-view';
-				break;
-			case('GRP'):
-				$route = 'desktop.components.week.grp-view';
-				break;
-			default:
-				$route = 'desktop.components.week.all-view';
-				break;
-		}
-	@endphp
-
 	{{-- show reservations --}}
 	<div id="reservations-week-view" class="pt-4 reservations-container row">
 		@foreach($week->days as $date)
 		<div class="col-md border weekview-day-column p-1">
 			<div class="row border-bottom p-2 weekview-day-column-header mb-4">
 				<div class="col-12 justify-content-center d-flex">
-					<h4><a href="{{ route('showRestaurant', ['d'=> $date->date]) }}">{{ ucfirst($date->day) }}</a></h4> 
+					<h4><a href="{{ route($link, ['d'=> $date->date]) }}">{{ ucfirst($date->day) }}</a></h4> 
 				</div>
 				<div class="col-12 justify-content-center d-flex">
 					<p>{{ date('d-m-y', strtotime($date->date)) }}</p>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+
 use App\Reservation;
 use App\Activity;
 use Carbon\Carbon;
@@ -43,12 +44,11 @@ class ReservationController extends Controller
             $sortedReservations = $this->sortReservationsByDate($reservations);
         } else {
               // check if type is one of the preset types
-        if($type = $this->getType($isGroup)){
-            $reservations = Reservation::where('type', $type)->get();     
-            $sortedReservations = $this->sortReservationsByDate($reservations);        
+            if($type = $this->getType($isGroup)){
+                $reservations = Reservation::where('type', $type)->get();     
+                $sortedReservations = $this->sortReservationsByDate($reservations);        
             }
         }
-
       
         if(isset($sortedReservations)){
             return view('desktop.reservations.all', [
@@ -59,7 +59,7 @@ class ReservationController extends Controller
 
         abort(404);
     }
-
+    // later i found out there is a 'grouped' function.... implement later
     public function sortReservationsByDate($reservations)
     {
         if($reservations){
@@ -149,76 +149,7 @@ class ReservationController extends Controller
     }
 
 
-    public function getReservationsForType($query, $type){
-        $app = app();
-        $object = $app->make('stdClass');
-        $object->type = $type;
-        if($query){
-            // check for D in array, if yes retun day view
-            if(Arr::exists($query, 'd')){
-                $dayObj = $this->createDayObj($query['d'], $type);
 
-                $object->url = 'day';
-                $object->array = [
-                    'day' => $dayObj
-                    ];
-            }
-
-            // check for w in array, if yes retun week view
-            if(Arr::exists($query, 'w')){
-
-                $weekObj = $this->createWeekObj($query['y'], $query['w'], $type);
-                $object->url = 'week';
-                $object->array = [
-                    'week' => $weekObj
-                ];
-
-            }
-            // check for m in array, if yes retun month view
-            if(Arr::exists($query, 'm')){
-              
-                $obj = $this->getObjForMonth($query, $type);
-                $object->url = $obj->url;
-                $object->array = $obj->array;      
-            }
-
-            return $object;
-        }
-        abort(404);
-    }
-    public function getObjForMonth($query, $type){
-        $app = app();
-        $object = $app->make('stdClass');
-
-        $date = Carbon::createFromDate($query['y'],$query['m'],'01');
-        $monthName = $date->monthName; 
-
-        // create month array
-        $monthArray = [];
-
-        //start of month
-        $startWeekNumber = $date->firstOfMonth()->weekOfYear;
-        //end of month
-        $endWeekNumber = $date->lastOfMonth()->weekOfYear;
-
-        if($startWeekNumber == 52){
-            $startWeekNumber = 1; 
-        }
-        // loop from start of week to end of the week
-        for ($startWeekNumber; $startWeekNumber <= $endWeekNumber; $startWeekNumber++) { 
-            // create weekobj with reservations within for weeknumber
-            $weekObj = $this->createWeekObj($query['y'], $startWeekNumber, $type);
-            // add it to an array
-            $monthArray[] = $weekObj;
-        }
-        $object->url = 'month';
-        $object->array = [
-            'month' => $monthArray, 
-            'monthName' => $monthName,
-            'year' => $query['y']
-        ];
-        return $object;
-   }
      /**
      * Show the form for creating a new resource.
      *
@@ -303,6 +234,13 @@ class ReservationController extends Controller
     {
         // redirect to update view
         $reservation = $this->createResObj($id);
+        if($reservation->type === $this->grp){
+            $activities = $reservation->activities;
+            return view('desktop.reservations.editGroup', [
+                'reservation' => $reservation,
+                'activities' => $activities
+            ]);
+        }
         return view('desktop.reservations.edit', compact('reservation'));
     }
 
@@ -318,6 +256,7 @@ class ReservationController extends Controller
         $resObj->date = $this->formatDate($reservation->date);
         $resObj->startTime = $this->formatTime($reservation->startTime);
         $resObj->notes = $reservation->notes;
+        $resObj->activities = $reservation->activities;
 
         return $resObj;
     }
@@ -346,15 +285,26 @@ class ReservationController extends Controller
 
         $isGroup = $request->get('type');
 
-        if($isGroup === $this->grp){
-            $succesMsg = 'Groep gewijzigd';
-            $route = 'showGroups';
-        } else {
-            $succesMsg = 'Reservering gewijzigd';
-            $route = 'showRestaurant';
-        }
+        return redirect()->route($route, ['s' => 'all'])->with('success', 'Reservering gewijzigd');
+    }
 
-        return redirect()->route($route, ['s' => 'all'])->with('success', $succesMsg);
+    public function updateGroup(Request $request, $id)
+    {
+        $validateRequest = self::validateGroup($request);
+        $reservation = Reservation::find($id);
+
+
+        $reservation->type = $request->get('type');
+        $reservation->name = $request->get('name');
+        $reservation->size = $request->get('size');
+        $reservation->date = $this->dateForDB($request->get('date'));
+        $reservation->startTime = $request->get('startTime');
+        $reservation->notes = $request->get('notes');
+        $reservation->save();
+
+        $isGroup = $request->get('type');
+
+        return redirect()->route($route, ['s' => 'all'])->with('success', 'Reservering gewijzigd');
     }
 
     /**
@@ -503,6 +453,77 @@ class ReservationController extends Controller
 
     } 
 
+    public function getReservationsForType($query, $type){
+        $app = app();
+        $object = $app->make('stdClass');
+        $object->type = $type;
+        if($query){
+            // check for D in array, if yes retun day view
+            if(Arr::exists($query, 'd')){
+                $dayObj = $this->createDayObj($query['d'], $type);
+
+                $object->url = 'day';
+                $object->array = [
+                    'day' => $dayObj
+                    ];
+            }
+
+            // check for w in array, if yes retun week view
+            if(Arr::exists($query, 'w')){
+
+                $weekObj = $this->createWeekObj($query['y'], $query['w'], $type);
+                $object->url = 'week';
+                $object->array = [
+                    'week' => $weekObj
+                ];
+
+            }
+            // check for m in array, if yes retun month view
+            if(Arr::exists($query, 'm')){
+              
+                $obj = $this->getObjForMonth($query, $type);
+                $object->url = $obj->url;
+                $object->array = $obj->array;      
+            }
+
+            return $object;
+        }
+        abort(404);
+    }
+    public function getObjForMonth($query, $type){
+        $app = app();
+        $object = $app->make('stdClass');
+
+        $date = Carbon::createFromDate($query['y'],$query['m'],'01');
+        $monthName = $date->monthName; 
+
+        // create month array
+        $monthArray = [];
+
+        //start of month
+        $startWeekNumber = $date->firstOfMonth()->weekOfYear;
+        //end of month
+        $endWeekNumber = $date->lastOfMonth()->weekOfYear;
+
+        if($startWeekNumber == 52){
+            $startWeekNumber = 1; 
+        }
+        // loop from start of week to end of the week
+        for ($startWeekNumber; $startWeekNumber <= $endWeekNumber; $startWeekNumber++) { 
+            // create weekobj with reservations within for weeknumber
+            $weekObj = $this->createWeekObj($query['y'], $startWeekNumber, $type);
+            // add it to an array
+            $monthArray[] = $weekObj;
+        }
+        $object->url = 'month';
+        $object->array = [
+            'month' => $monthArray, 
+            'monthName' => $monthName,
+            'year' => $query['y']
+        ];
+        return $object;
+   }
+
     // returns a string
     public function formatDate($date){
         $formatted = date('d-m-Y', strtotime($date));
@@ -539,18 +560,15 @@ class ReservationController extends Controller
     public function change(Request $request){
         if ($request){
              $group = $request->get('group');
-
-
             if($this->isAll($group)){
                 $route = 'showAll';
             } else {
-                if($group = $this->grp){
+                if($group === $this->grp){
                     $route = 'showGroups';
                 } else {
-                $route = 'showRestaurant';
+                    $route = 'showRestaurant';
                 }
             }
-
             $year = $request->get('y');
             $select = $request->get('select');
             $int = $request->get('int');

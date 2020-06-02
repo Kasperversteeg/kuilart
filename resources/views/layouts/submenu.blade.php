@@ -18,6 +18,7 @@
 	$request = Request::query();
 
 	$select = array_key_first($request);
+	
 	if(array_key_exists($select, $request)){
 		$int = $request[$select];
 	}
