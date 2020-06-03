@@ -32,7 +32,7 @@
 	@endif
 
 
-	<div class="container bowling-view-container pb-4">
+	<div class="container bowling-view-container pb-1">
 		<div class="row border-bottom">
 			<div class="col"></div>
 			<div class="col"><p>Baan 1</p></div>
@@ -59,7 +59,7 @@
 		@endforeach
 	</div>
 
-	<div class="container pt-2">
+	<div class="container">
 	{{-- add reservation --}}
 		<div class="row border justify-content-center reservations-container p-2">
 			<div class="col-sm-12 p-2">
@@ -136,7 +136,7 @@
 					          
 			          <div class="row justify-content-end">
 			          	<div class="col-sm-2">
-				          <button type="submit" class="btn btn-primary float-right">Add reservation</button>
+				          <button type="submit" class="btn btn-primary float-right">Voeg toe</button>
 				        </div>
 			          </div>
 			      </form>

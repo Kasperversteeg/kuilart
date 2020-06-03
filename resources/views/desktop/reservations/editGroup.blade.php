@@ -97,12 +97,21 @@
 			              <label for="notes">Opmerking</label>
 			              <input type="text" class="form-control" name="notes" value='{{ old('notes')}}'/>
 			          </div>             
-			          <div class="row justify-content-end">
-			          	<div class="col-sm-2">
-				          <button type="submit" class="btn btn-primary float-right">Add reservation</button>
-				        </div>
-			          </div>
+				          <button type="submit" class="btn btn-primary float-right">Edit</button>
+				        
 			      </form>
+			      <div class="row">
+		          	<div class="col-sm-2">
+			          	<form method="post" action="{{ route('reservations.destroy', $reservation->id) }}">
+				          @method('DELETE')
+				          @csrf
+					      <button type="submit" class="btn btn-danger">Delete reservation</button>
+				      	</form>
+				      </div>
+		          	<div class="col-sm-8 col-0"></div>
+		          	<div class="col-sm-2">
+			        </div>
+		        </div>  
 			  </div>
 			</div>
 		</div>

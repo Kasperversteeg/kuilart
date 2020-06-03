@@ -16,10 +16,9 @@
 				        </ul>
 				      </div><br />
 			    	@endif
-			      <form method="post" action="{{ route('groups.create') }}">
+			      <form method="post" action="{{ route('groups.store') }}">
 			          @csrf
 			          
-			          {{-- name and size input --}}
 			          <div class="row">
 			          	<div class="col-md-6">
 					        <div class="form-group">    
@@ -34,7 +33,7 @@
 				          </div>
 					    </div>
 			          </div>
-			          {{-- date and time input --}}
+
 			          <div class="row">
 			          	<div class="col-md-6">
 					        <div class="form-group">    
@@ -51,7 +50,6 @@
 			          </div>
 
 					
-			          {{-- ACTIVITY --}}				
 					<hr />
 
 					<h5>Activiteiten</h5>
@@ -62,7 +60,7 @@
 					            <input type="text" class="form-control" name="act-description" value='{{ old('act-description')}}'/>
 					        </div>
 					    </div>
-			          	{{-- start- and endTime--}}
+
 			          	<div class="col-md-2">
 				          <div class="form-group">    
 				              <label for="act-startTime">Start</label>
@@ -91,7 +89,6 @@
 						<button type="button" v-on:click="addActivity('test')">Add</button>
 						<hr />
 						
-						{{-- description input --}}
 			          <div class="form-group">    
 			              <label for="notes">Opmerking</label>
 			              <input type="text" class="form-control" name="notes" value='{{ old('notes')}}'/>

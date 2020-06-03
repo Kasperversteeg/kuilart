@@ -130,8 +130,8 @@ class BowlingController extends Controller
             ]);
 
         $bowling->save();
+        return redirect()->route('bowling.index', 'd='.$bowling->date)->with('succes', 'Reservering toegevoegd');
 
-        return redirect()->route('bowling.index')->with('succes', 'Bowlingbaan gereserveerd'); 
     }
 
     public function validateRequest($request)
