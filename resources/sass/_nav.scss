@@ -21,6 +21,11 @@
 	fill:$primary;
 }
 
-.icon-active{
+.active{
+	.icon{
 	fill:$primary;
+	}
+}
+.dropdown-item:hover, .dropdown-item:focus{
+	background-color: $primary!important;
 }

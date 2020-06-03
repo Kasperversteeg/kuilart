@@ -1,3 +1,5 @@
+
+
 {{-- //////////////////////////////////   Start Menu   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ --}}
 <nav class="bg-light navbar navbar-expand-md border-bottom">
     <div class="container" id="nav-container">
@@ -17,26 +19,26 @@
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown" id='nav-dropdown'>
                     <a class="dropdown-item" href="{{ route('groups.create') }}">Groep</a>                            
                     <a class="dropdown-item" href="{{ route('reservations.create') }}">Restaurant</a>
-                    <a class="dropdown-item" href="{{ route('bowling.create') }}">Bowlingbaan</a>
+                    <a class="dropdown-item" href="{{ route('bowling.index', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">Bowlingbaan</a>
                   </div>
                 </li>
                 <li class="nav-item border-left">
-                    <a class="nav-link" id="overzicht" href="{{ route('showAll',  'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
-                        <x-icon icon="overzicht" height='34px' width="34px" />
+                    <a class="nav-link {{ (request()->segment(2) == 'all') ? 'active' : '' }}" id="overzicht" href="{{ route('showAll',  'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
+                        <x-icon class="icon-active" icon="overzicht" height='34px' width="34px" />
                     </a>
                 </li>
                 <li class="nav-item border-left">
-                    <a class="nav-link" href="{{ route('showGroups', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
+                    <a class="nav-link {{ (request()->segment(2) == 'group') ? 'active' : '' }}" href="{{ route('showGroups', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
                         <x-icon icon="groep" height='34px' width="34px" />
                     </a>
                 </li>
                 <li class="nav-item border-left">
-                    <a class="nav-link" href="{{ route('showRestaurant', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
+                    <a class="nav-link {{ (request()->segment(2) == 'restaurant') ? 'active' : '' }}" href="{{ route('showRestaurant', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
                         <x-icon icon="restaurant" height='34px' width="34px" />
                     </a>
                 </li>
                 <li class="nav-item border-left">
-                    <a class="nav-link" href="{{ route('bowling.index') }}">
+                    <a class="nav-link {{ (request()->segment(1) == 'bowling') ? 'active' : '' }}" href="{{ route('bowling.index', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
                         <x-icon icon="bowling" height='34px' width="34px" />
                     </a>
                 </li>

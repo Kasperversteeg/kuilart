@@ -37,8 +37,14 @@ class ReservationController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    // for now is set to false, need to make global function
+    public function isMobile(){
+        return false;
+    }
+
     public function index($isGroup)
     {
+
         if($this->isAll($isGroup)){           
             $reservations = Reservation::all();
             $sortedReservations = $this->sortReservationsByDate($reservations);
@@ -49,8 +55,15 @@ class ReservationController extends Controller
                 $sortedReservations = $this->sortReservationsByDate($reservations);        
             }
         }
-      
+        
+
         if(isset($sortedReservations)){
+            if($this->isMobile()){
+                return view('mobile.reservations.all', [
+                    'reservations' => $sortedReservations,
+                    'isGroup' => $isGroup
+                ]);
+            }
             return view('desktop.reservations.all', [
                 'reservations' => $sortedReservations,
                 'isGroup' => $isGroup
@@ -99,6 +112,10 @@ class ReservationController extends Controller
             $groupObj = $this->getReservationsForType($query, $this->all);
 
             if (isset($groupObj)) {
+                if($this->isMobile()){
+                    $groupObj->array['isGroup'] =  $this->all;  
+                    return view('mobile.reservations.'.$groupObj->url, $groupObj->array);
+                }
                 $groupObj->array['isGroup'] =  $this->all;
                 return view('desktop.reservations.'.$groupObj->url, $groupObj->array);
             }
@@ -119,6 +136,10 @@ class ReservationController extends Controller
             $groupObj = $this->getReservationsForType($query, $this->grp);
 
             if (isset($groupObj)) {
+                if($this->isMobile()){
+                    $groupObj->array['isGroup'] =  $this->grp;
+                    return view('mobile.reservations.'.$groupObj->url, $groupObj->array);
+                }
                 $groupObj->array['isGroup'] =  $this->grp;
                 return view('desktop.reservations.'.$groupObj->url, $groupObj->array);
             }
@@ -139,9 +160,13 @@ class ReservationController extends Controller
             $groupObj = $this->getReservationsForType($query, $this->res);
 
             if (isset($groupObj)) {
+                if($this->isMobile()){
+                    $groupObj->array['isGroup'] =  $this->res;
+                    return view('mobile.reservations.'.$groupObj->url, $groupObj->array);
+                }
                 $groupObj->array['isGroup'] =  $this->res;
                 return view('desktop.reservations.'.$groupObj->url, $groupObj->array);
-            }
+        }
         }
 
         // if no query key exists, show 404

@@ -190,9 +190,25 @@ class BowlingController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Bowling $bowling)
-    {
+    {    
+        $url = url()->previous();
+
+         if($url){
+            $s = explode('=', $url);
+            $rows = [
+                $this->createRow($s['1'], '17:00', '18:00'),
+                $this->createRow($s['1'], '18:00', '19:00'),
+                $this->createRow($s['1'], '19:00', '20:00'),
+                $this->createRow($s['1'], '20:00', '21:00'),
+                $this->createRow($s['1'], '21:00', '22:00'),
+            ];
+            // dd($bowling);
+            return view('desktop.bowling.edit',[
+            'rows' => $rows,
+            'current' => $bowling
+            ]);
+        }
         
-        return view('desktop.bowling.edit');
     }
 
     /**
@@ -204,7 +220,17 @@ class BowlingController extends Controller
      */
     public function update(Request $request, Bowling $bowling)
     {
-        //
+        $request = $this->validateRequest($request);
+
+        $bowling->name = $request->get('name');
+        $bowling->startTime =  $request->get('startTime');
+        $bowling->endTime =  $request->get('endTime');
+        $bowling->date =  $this->dateForDB($request->get('date'));
+        $bowling->lane =  $request->get('lane');
+
+        $bowling->save();    
+
+        return redirect()->route('bowling.index', 'd='.$bowling->date)->with('succes', 'Reservering gewijzigd');
     }
 
     /**
@@ -215,8 +241,10 @@ class BowlingController extends Controller
      */
     public function destroy(Bowling $bowling)
     {
-        //
+        
+        $bowling->delete();   
+        
+        return redirect()->route('bowling.index', 'd='.$bowling->date)->with('succes', 'Reservering verwijderd'); 
+
     }
-
-
 }

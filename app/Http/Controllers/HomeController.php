@@ -36,19 +36,16 @@ class HomeController extends Controller
         $agent->setUserAgent($dd);
 
         $device = $agent->getUserAgent();
-        
-
 
         if($agent->getUserAgent() == 'mobile'){
             return view('mobile/home')->with('device', $agent->getUserAgent());
-        } elseif ($agent->getUserAgent() == 'desktop'){
-            // return view('home')->with('device', $agent->getUserAgent());
-            return view('desktop/home', [
-                'device' => $device, 
-                'now' => Carbon::now()
-            ]);
+        } 
+        return view('desktop/home', [
+            'device' => $device, 
+            'now' => Carbon::now()
+        ]);
 
-        }
+        
 
         // Uncomment when going live
         // if($agent->isMobile()) {

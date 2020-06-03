@@ -1,5 +1,15 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
+.bowling-row {
+  min-height: 75px;
+}
+
+.delete-bowling {
+  position: absolute;
+  bottom: 15px;
+  margin-left: 2px;
+}
+
 .navbar-nav {
   max-height: 50px;
 }
@@ -22,8 +32,13 @@
   fill: #3490dc;
 }
 
-.icon-active {
+.active .icon {
   fill: #3490dc;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: #3490dc !important;
 }
 
 .vh-minusMenu {
@@ -11000,5 +11015,36 @@ a.text-dark:focus {
     color: inherit;
     border-color: #dee2e6;
   }
+}
+
+.mobile-nav {
+  flex-direction: row;
+}
+
+.mobile-nav .mobile-nav-item {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+}
+
+.mobile-nav .mobile-nav-item .nav-link {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.mobile-dropdown-menu.show {
+  display: block;
+}
+
+.mobile-dropdown-menu {
+  position: absolute !important;
+  bottom: 116%;
+  left: 0 !important;
+  top: auto;
+}
+
+.clear-nav {
+  padding-bottom: 67px;
 }
 

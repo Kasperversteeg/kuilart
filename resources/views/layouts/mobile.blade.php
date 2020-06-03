@@ -9,7 +9,7 @@
     <title>{{ config('app.name', 'Kuilart') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app-mobile.js') }}" defer></script>
     {{-- for tests --}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -18,23 +18,19 @@
 </head>
 <body>
     <div id="app">
-        @include('desktop.components.nav')
-        {{-- //////////////////////////////////  Start Content   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ --}}
+
         <main class="content">
             <div class="container pt-2">
                 {{-- submenu for overview --}}
                 @yield('submenu')
-                {{-- any content for desktop --}}
+                {{-- any content for mobile --}}
                 @yield('content')
             </div>
         </main>
+        <div class="clear-nav"></div>
+        {{-- fixed bottom nav for mobile users --}}
+        @include('mobile.components.nav')
 
-        @component('desktop.reservations.modalCreate')
-        @endcomponent
-
-        {{-- //////////////////////////////////  End Content   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ --}}
-        
-        {{-- //////////////////////////////////  Scripts   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ --}}
         @stack('scripts')
     </div>
 

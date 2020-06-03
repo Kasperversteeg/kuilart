@@ -1,0 +1,27 @@
+.mobile-nav {
+  flex-direction: row;
+
+  .mobile-nav-item {
+    width: 20%; 
+    display: flex;
+    justify-content: center;
+    .nav-link{
+      display: flex;
+      justify-content: center;
+      width:100%;
+    }
+  }
+}
+.mobile-dropdown-menu.show{
+  display: block;
+}
+.mobile-dropdown-menu {
+    position: absolute!important;
+    bottom: 116%;
+    left: 0!important;
+    top:auto;
+   
+}
+.clear-nav { 
+  padding-bottom: 67px;
+}

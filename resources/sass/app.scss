@@ -4,6 +4,9 @@
 // Variables
 @import 'variables';
 
+// Bowling css
+@import 'bowling';
+
 // navbar custom css
 @import 'nav';
 // login css
@@ -29,3 +32,6 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+// Mobile
+@import 'mobile';
