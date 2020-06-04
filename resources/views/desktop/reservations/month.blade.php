@@ -2,7 +2,7 @@
 
 @section('content')
 
-	@include('layouts.submenu')
+	@include('desktop.components.submenu')
 
 	{{-- <h1>Welcome {{ Auth::user()->name }} </h1> --}}
 
@@ -16,7 +16,7 @@
 	switch($isGroup){
 		case('GRP'):
 			$route = 'desktop.components.month.grp-view';
-			$link = 'showGroups';
+			$link = 'groups.index';
 			$title = 'Groeps';
 			break;
 		default:

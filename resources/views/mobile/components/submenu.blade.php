@@ -3,13 +3,13 @@
 @php
 	switch($isGroup){
 		case('RES'):
-			$route = 'showRestaurant';
+			$route = 'restaurant.index';
 			break;
 		case('GRP'):
-			$route = 'showGroups';
+			$route = 'groups.index';
 			break;
 		default:
-			$route = 'showAll';
+			$route = 'all.index';
 			break;
 	}
 

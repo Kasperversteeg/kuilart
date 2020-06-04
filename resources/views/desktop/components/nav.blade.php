@@ -23,17 +23,17 @@
                   </div>
                 </li>
                 <li class="nav-item border-left">
-                    <a class="nav-link {{ (request()->segment(2) == 'all') ? 'active' : '' }}" id="overzicht" href="{{ route('showAll',  'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
+                    <a class="nav-link {{ (request()->segment(2) == 'all') ? 'active' : '' }}" id="overzicht" href="{{ route('all.index',  'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
                         <x-icon class="icon-active" icon="overzicht" height='34px' width="34px" />
                     </a>
                 </li>
                 <li class="nav-item border-left">
-                    <a class="nav-link {{ (request()->segment(2) == 'group') ? 'active' : '' }}" href="{{ route('showGroups', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
+                    <a class="nav-link {{ (request()->segment(2) == 'group') ? 'active' : '' }}" href="{{ route('groups.index', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
                         <x-icon icon="groep" height='34px' width="34px" />
                     </a>
                 </li>
                 <li class="nav-item border-left">
-                    <a class="nav-link {{ (request()->segment(2) == 'restaurant') ? 'active' : '' }}" href="{{ route('showRestaurant', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
+                    <a class="nav-link {{ (request()->segment(2) == 'restaurant') ? 'active' : '' }}" href="{{ route('restaurants.index', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
                         <x-icon icon="restaurant" height='34px' width="34px" />
                     </a>
                 </li>

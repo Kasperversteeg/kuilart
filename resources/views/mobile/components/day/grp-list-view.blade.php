@@ -8,8 +8,8 @@
 				<div class="col-10">
 					<h4><a href="{{ route('groups.edit', $reservation->id)}} ">{{ $reservation->name }}</a></h4>
 				</div>
-				<div class="col-2 pl-0 pr-1">
-					<p class="font-weight-bold">{{ $reservation->size }}<small> P.</small></p>
+				<div class="col-2 pl-0 pr-3 d-flex justify-content-end">
+					<p class="font-weight-bold font-bigger">{{ $reservation->size }}<small> P.</small></p>
 				</div>
 			</div>
 			{{-- activities --}}

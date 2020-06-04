@@ -32,16 +32,16 @@ class BowlingController extends Controller
                     $this->createRow($query['d'], '20:00', '21:00'),
                     $this->createRow($query['d'], '21:00', '22:00'),
                 ];
+                if(isMobile()){
+                    return view('mobile.bowling.index',[
+                    'rows' => $rows
+                    ]);
+                }
                 return view('desktop.bowling.index',[
                 'rows' => $rows
                 ]);
             }
-        } else {
-            $reservations = Bowling::all(); 
-            return view('desktop.bowling.home', [
-            'reservations' => $reservations
-            ]);
-        }  
+        } 
     }
 
     public function createRow($date, $start, $end)
@@ -73,31 +73,6 @@ class BowlingController extends Controller
         return $rowObj;
     }
 
-
-
-
-    public function createRows()
-    {
-        return view('desktop.bowling.home');
-    }
-
-    // returns a string
-    public function formatDate($date){
-        $formatted = date('d-m-Y', strtotime($date));
-        return $formatted;
-    }
-
-    // returns a string
-    public function formatTime($time){
-        $formatted = date('H:i', strtotime($time));
-        return $formatted;
-    }
-
-    public function dateForDB($date){
-        $formatted = date('Y-m-d', strtotime($date));
-        return $formatted;
-    }
-
     /** 
      * Show the form for creating a new resource.
      *
@@ -125,7 +100,7 @@ class BowlingController extends Controller
             'name' => $request->get('name'),
             'startTime' => $request->get('startTime'),
             'endTime' => $request->get('endTime'),
-            'date' => $this->dateForDB($request->get('date')),
+            'date' => dateForDB($request->get('date')),
             'lane' => $request->get('lane')
             ]);
 
@@ -225,7 +200,7 @@ class BowlingController extends Controller
         $bowling->name = $request->get('name');
         $bowling->startTime =  $request->get('startTime');
         $bowling->endTime =  $request->get('endTime');
-        $bowling->date =  $this->dateForDB($request->get('date'));
+        $bowling->date =  dateForDB($request->get('date'));
         $bowling->lane =  $request->get('lane');
 
         $bowling->save();    

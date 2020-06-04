@@ -19,32 +19,29 @@ Route::get('test', function()
 	//testpage
 });
 
-
+// home device check first
 Route::get('/', 'HomeController@deviceCheck')->name('home')->middleware('auth');
-
-Route::get('/login', function () {
-    return view('auth.login');
-});
 
 Auth::routes();
 
-// van periode veranderen
+// change the shown period 
 Route::get('/change/', 'ReservationController@change')->name('change')->middleware('auth');
 Route::get('/bowling/change', 'BowlingController@change')->name('bowling.change')->middleware('auth');
 
-// veranderen naar groupscontroller in de toekomst
-Route::get('/groups/create', 'ReservationController@createGroup')->middleware('auth')->name('groups.create');
-Route::post('/groups/store', 'ReservationController@storeGroup')->middleware('auth')->name('groups.store');
-Route::get('/groups/{group}/edit', 'ReservationController@edit')->middleware('auth')->name('groups.edit');
-Route::get('/groups/{group}', 'ReservationController@updateGroup')->middleware('auth')->name('groups.update');
+// Groupscontroller 
+Route::get('/groups/create', 'GroupController@createGroup')->middleware('auth')->name('groups.create');
+Route::post('/groups/store', 'GroupController@storeGroup')->middleware('auth')->name('groups.store');
+Route::get('/groups/{group}/edit', 'GroupController@edit')->middleware('auth')->name('groups.edit');
+Route::patch('/groups/{group}', 'GroupController@updateGroup')->middleware('auth')->name('groups.update');
 
-Route::get('/reservations/all', 'ReservationController@showAll')->name('showAll')->middleware('auth');
-Route::get('/reservations/group', 'ReservationController@showGroups')->name('showGroups')->middleware('auth');
-Route::get('/reservations/restaurant', 'ReservationController@showRestaurant')->name('showRestaurant')->middleware('auth');
+// overview pages
+Route::get('/reservations/all', 'ReservationController@showAll')->name('all.index')->middleware('auth');
+Route::get('/reservations/restaurant', 'ReservationController@showRestaurant')->name('restaurants.index')->middleware('auth');
+Route::get('/reservations/group', 'GroupController@index')->name('groups.index')->middleware('auth');
 
-
+// Resources
 Route::post('/reservations/{id}/updateTable', 'ReservationController@updateTableNr')->name('updateTableNr');
-
 Route::resource('/reservations', 'ReservationController')->middleware('auth');
-
 Route::resource('/bowling', 'BowlingController')->middleware('auth');
+
+

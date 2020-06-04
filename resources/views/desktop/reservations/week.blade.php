@@ -1,21 +1,21 @@
 @extends('layouts.desktop')
 @section('content')
-	@include('layouts.submenu')
+	@include('desktop.components.submenu')
 
 	@php
 		switch($isGroup){
 			case('RES'):
-				$link = 'showRestaurant';
+				$link = 'restaurants.index';
 				$route = 'desktop.components.week.res-view';
 				$title = 'Restaurant ';
 				break;
 			case('GRP'):
-				$link = 'showGroups';
+				$link = 'groups.index';
 				$route = 'desktop.components.week.grp-view';
 				$title = 'Groeps';
 				break;
 			default:
-				$link = 'showAll';
+				$link = 'all.index';
 				$route = 'desktop.components.week.all-view';
 				$title = 'Alle ';
 				break;

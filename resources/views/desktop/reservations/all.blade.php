@@ -2,7 +2,7 @@
 
 @section('content')
 
-	@include('layouts.submenu')	
+	@include('desktop.components.submenu')	
 
 	@if(session()->get('success'))
 	    <div class="alert alert-success">

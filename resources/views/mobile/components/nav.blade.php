@@ -15,17 +15,17 @@
                   </div>
                 </li>
             <li class="nav-item mobile-nav-item border-left">
-                <a class="nav-link" id="overzicht" href="{{ route('showAll',  'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
+                <a class="nav-link" id="overzicht" href="{{ route('all.index',  'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
                     <x-icon icon="overzicht" height='34px' width="34px" />
                 </a>
             </li>
             <li class="nav-item mobile-nav-item border-left">
-                <a class="nav-link" href="{{ route('showGroups', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
+                <a class="nav-link" href="{{ route('groups.index', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
                     <x-icon icon="groep" height='34px' width="34px" />
                 </a>
             </li>
             <li class="nav-item mobile-nav-item border-left">
-                <a class="nav-link" href="{{ route('showRestaurant', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
+                <a class="nav-link" href="{{ route('restaurants.index', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">
                     <x-icon icon="restaurant" height='34px' width="34px" />
                 </a>
             </li>

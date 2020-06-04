@@ -1,6 +1,6 @@
 @extends('layouts.desktop')
 @section('content')	
-	@include('layouts.submenu')
+	@include('desktop.components.submenu')
 
 	@php
 

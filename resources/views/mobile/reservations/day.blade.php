@@ -8,7 +8,7 @@
 				$title = 'Restaurant ';
 				break;
 			case('GRP'):
-				$title = 'mobile';
+				$title = 'Groeps';
 				break;
 			default:
 				$title = 'Alle ';
