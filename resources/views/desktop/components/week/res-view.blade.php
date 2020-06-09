@@ -1,4 +1,4 @@
-<div class="mb-2 res-week-wrapper p-2 border-res"> 
+<div class="mb-2 res-week-wrapper p-2 border-res container"> 
 	<div class="row reservation-name">
 		<div class="col-sm-12">
 			<a href="{{ route('reservations.edit',$reservation->id)}} ">{{$reservation->name}}</a>

@@ -36,6 +36,7 @@
 	$allUrl = route($route, 's='.'all');
 
 @endphp
+<div class="container py-4">
    <div class="row nav-sub-menu justify-content-center"> 
    		@if ($select != 's')
    		<div class="col-1">
@@ -60,6 +61,7 @@
        @endif
 
     </div>
+</div>
 
 
 

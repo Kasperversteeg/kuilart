@@ -14,10 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('test', function()
-{
-	//testpage
-});
+
+// Route::get('/edit/{id}', 'ReservationController@editModal')->middleware('auth');
 
 // home device check first
 Route::get('/', 'HomeController@deviceCheck')->name('home')->middleware('auth');
@@ -29,10 +27,10 @@ Route::get('/change/', 'ReservationController@change')->name('change')->middlewa
 Route::get('/bowling/change', 'BowlingController@change')->name('bowling.change')->middleware('auth');
 
 // Groupscontroller 
-Route::get('/groups/create', 'GroupController@createGroup')->middleware('auth')->name('groups.create');
-Route::post('/groups/store', 'GroupController@storeGroup')->middleware('auth')->name('groups.store');
+Route::get('/groups/create', 'GroupController@create')->middleware('auth')->name('groups.create');
+Route::post('/groups/store', 'GroupController@store')->middleware('auth')->name('groups.store');
 Route::get('/groups/{group}/edit', 'GroupController@edit')->middleware('auth')->name('groups.edit');
-Route::patch('/groups/{group}', 'GroupController@updateGroup')->middleware('auth')->name('groups.update');
+Route::patch('/groups/{group}', 'GroupController@update')->middleware('auth')->name('groups.update');
 
 // overview pages
 Route::get('/reservations/all', 'ReservationController@showAll')->name('all.index')->middleware('auth');

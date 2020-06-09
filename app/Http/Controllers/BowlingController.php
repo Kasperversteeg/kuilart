@@ -69,7 +69,6 @@ class BowlingController extends Controller
         }
 
         $rowObj->lanes = $lanes;
-
         return $rowObj;
     }
 

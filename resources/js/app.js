@@ -1,43 +1,62 @@
 require('./bootstrap');
+require('vue-flash-message/dist/vue-flash-message.min.css');
 
-import Modal from './components/Modal';
-import FormLine from './components/FormLine';
+// going to be one main + 4 components
+import ModalRes from './components/ModalRes';
+import ModalGrp from './components/ModalGrp';
+import ModalResEdit from './components/ModalResEdit';
+import ModalGrpEdit from './components/ModalGrpEdit';
+
+
+import FormLine from './components/FormLine'; 
+import VueFlashMessage from 'vue-flash-message'; 
 
 window.Vue = require('vue');
 
-Vue.component('modal', Modal);
+
+Vue.component('res', ModalRes);
+Vue.component('grp', ModalGrp);
 Vue.component('formline', FormLine);
+Vue.component('edit-res', ModalResEdit);
+Vue.component('edit-grp', ModalGrpEdit);
+
+Vue.use(VueFlashMessage);
+
 
 new Vue({
 	el: '#app',
 	data: {
-        isModalVisible: false,
+        resModalShowing: false,
+        grpModalShowing: false,
+        editGrpShowing: false,
+        editResShowing: false,
         count: 0,
-        fields: [] 
+        fields: [],
+        editId: 0
     },
     methods: {
-    	addActivity(id){
-    		this.fields.push({
-    			name: id,
-    			id:'act-'+this.count++
-    		});
-    	},
-      showModal() {
-        this.isModalVisible = true;
+      toggleRes() {
+        this.resModalShowing = !this.resModalShowing;
       },
-      closeModal() {
-        this.isModalVisible = false;
-      }
+      toggleGrp(){
+      	this.grpModalShowing = !this.grpModalShowing;
+      },
+      editReservation(reservationId){
+      	this.editId = reservationId;
+      	this.editResShowing = true;
+      },
+      closeReservation(){
+      	this.editResShowing = false;
+      },
+      editGroup(reservationId){
+      	this.editId = reservationId;
+      	this.editGrpShowing = true;
+      },
+      closeGroup(){
+      	this.editGrpShowing = false;
+      },
     }
 });
-
-
-
-// vanillaJS 
-
-
-
-
 
 window.onload = function() {
 	var button = document.getElementById("nav-add");

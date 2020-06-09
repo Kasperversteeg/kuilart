@@ -6,7 +6,8 @@ use Carbon\CarbonPeriod;
 use App\Reservation;
 use Illuminate\Support\Arr;
 
-class ReservationsObj{
+class ReservationsObj
+{
 	public $date;
 
 	public $grp;
@@ -38,7 +39,6 @@ class ReservationsObj{
                 $resObject->array = [
                     'week' => $this->createWeekObj($query['y'], $query['w'], $type)
                 ];
-
             }
             // check for m in array, if yes retun month view
             if(Arr::exists($query, 'm')){

@@ -1,16 +1,7 @@
 @extends('layouts.desktop')
 
 @section('content')
-
 	@include('desktop.components.submenu')
-
-	{{-- <h1>Welcome {{ Auth::user()->name }} </h1> --}}
-
-	@if(session()->get('success'))
-	    <div class="alert alert-success">
-	      {{ session()->get('success') }}  
-	    </div>
-	@endif
 
 	@php
 	switch($isGroup){
@@ -21,19 +12,18 @@
 			break;
 		default:
 			$route = 'desktop.components.month.all-view';
-			$link = 'showAll';
+			$link = 'all.index';
 			$title = 'Alle ';
 			break;
 	}
-
 	$bool = false;
 	@endphp
-
-	<h1 class="pt-4 display-4">{{ $title }}reserveringen <small>{{ ucfirst($monthName) . ' ' . $year }}</small></h2>
-	
+	@section('title')
+		<h1 class="pb-4">{{ $title }}reserveringen <small>{{ ucfirst($monthName) . ' ' . $year }}</small></h2>
+	@endsection
 
 	{{-- show reservations --}}
-	<div id="reservations-month" class="pt-4 reservations-container">
+	<div id="reservations-month" class="reservations-container">
 		<div class="row  pb-3">
 			<div class="col-1"></div>
 			<div class="col d-flex justify-content-center"><h4>Maandag</h4></div>

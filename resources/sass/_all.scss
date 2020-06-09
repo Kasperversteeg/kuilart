@@ -1,3 +1,16 @@
+.container-submenu{
+	background-color: $container-color;
+	h1, h2, h3, h4, h5 {
+		margin-bottom: 0px;
+	}
+}
+.container-main{
+  	-webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.2);
+  	-moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.2);
+  	box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.2);
+}
+
+
 .border-res{
 	border: 1px solid $res-color;
 }
@@ -6,23 +19,6 @@
 	border: 1px solid $grp-color;
 } 
 
-@media (min-width: 1200px) {
-  .custom-container{
-    width: 1000px;
-  }
-}
-
-@media (min-width: 992px) {
-  .custom-container{
-    width: 800px;
-  }
-}
-
-@media (min-width: 768px) {
-  .custom-container{
-    width: 650px;
-  }
-}
 .font-bigger{
   font-size: 1.2rem;
 }

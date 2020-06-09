@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 use App\Reservation;
+use App\Http\Requests\ReservationRequest;
 use Carbon\Carbon;
 use App\Classes\ReservationsObj;
 
@@ -20,21 +21,6 @@ class ReservationController extends Controller
         $this->res = config('constants.types.restaurant');
         $this->all = config('constants.types.all');
     }
-
-    public function updateTableNr(Request $request, $id){
-
-        $reservation = Reservation::find($id);
-        $validated = $request->validate([ 'tableNr' => ['required', 'int']]);
-        $reservation->updateTableNr($validated['tableNr']);
-
-        return back();
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     public function index($isGroup)
     {
@@ -194,6 +180,7 @@ class ReservationController extends Controller
     public function store(Request $request)
     {
             $request = $this->validateRes($request);
+
             $reservation = new Reservation([
                 'type' => $this->res,
                 'name' => $request->get('name'),
@@ -204,49 +191,35 @@ class ReservationController extends Controller
             ]);
 
             $reservation->save();
-
-            return redirect()->route('showRestaurant', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
     }
 
+    // public function edit($id)
+    // {
+    //     $r= 'desktop';
+    //     if(isMobile()){
+    //         $r= 'mobile';
+    //     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //     // redirect to update view
+    //     $reservation = Reservation::find($id);
+    //     return view($r.'.reservations.edit', compact('reservation'));
+    // }
+
     public function edit($id)
     {
-        if(isMobile()){
-            $r= 'mobile';
-        } else {
-            $r= 'desktop';
-        }
         // redirect to update view
         $reservation = Reservation::find($id);
-        if($reservation->type === $this->grp){
-            $activities = $reservation->activities;
-            return view($r.'.reservations.editGroup', [
-                'reservation' => $reservation,
-                'activities' => $reservation->activities
-            ]);
-        }
-        return view($r.'.reservations.edit', compact('reservation'));
+
+       return response()->json([
+            'reservation' => $reservation
+       ]);
+        
     }
 
-   
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        $validateRequest = self::validateGroup($request);
+        $validateRequest = self::validateRes($request);
         $reservation = Reservation::find($id);
-
 
         $reservation->type = $request->get('type');
         $reservation->name = $request->get('name');
@@ -256,9 +229,17 @@ class ReservationController extends Controller
         $reservation->notes = $request->get('notes');
         $reservation->save();
 
-        return redirect()->route('showRestaurant', ['s' => 'all'])->with('success', 'Reservering gewijzigd');
+        return redirect()->route('restaurants.index', ['s' => 'all'])->with('success', 'Reservering gewijzigd');
     }
 
+    public function updateTableNr(Request $request, $id){
+
+        $reservation = Reservation::find($id);
+        $validated = $request->validate([ 'tableNr' => ['required', 'int']]);
+        $reservation->updateTableNr($validated['tableNr']);
+
+        return back();
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -274,10 +255,10 @@ class ReservationController extends Controller
     
         if($isGroup === $this->grp){
             $succesMsg = 'Groep verwijderd';
-            $route = 'showGroups';
+            $route = 'groups.index';
         } else {
             $succesMsg = 'Reservering verwijderd';
-            $route = 'showRestaurant';
+            $route = 'restaurants.index';
         }
 
         return redirect()->route($route, ['s' => 'all'])->with('success', $succesMsg);

@@ -1946,37 +1946,901 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Modal.vue?vue&type=script&lang=js&":
-/*!****************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Modal.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalGrp.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ModalGrp.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FormLine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormLine */ "./resources/js/components/FormLine.vue");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var Errors = /*#__PURE__*/function () {
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+
+  _createClass(Errors, [{
+    key: "get",
+    value: function get(field) {
+      if (this.errors[field]) {
+        return this.errors[field][0];
+      }
+    }
+  }, {
+    key: "has",
+    value: function has(field) {
+      if (this.errors[field]) {
+        return true;
+      }
+
+      return false;
+    }
+  }, {
+    key: "record",
+    value: function record(errors) {
+      this.errors = errors.errors;
+    }
+  }, {
+    key: "reset",
+    value: function reset() {
+      this.errors = {};
+    }
+  }]);
+
+  return Errors;
+}();
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'modal',
+  name: 'modalgroup',
+  components: {
+    FormLine: _FormLine__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
-      isGroup: true
+      fields: [],
+      count: 0,
+      name: '',
+      size: '',
+      date: '',
+      startTime: '',
+      notes: '',
+      errors: new Errors(),
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
   methods: {
-    setGrp: function setGrp() {
-      if (!this.isGroup) {
-        this.isGroup = true;
-        console.log('changed to ' + this.isGroup);
-      }
+    close: function close() {
+      this.errors.reset();
+      this.$emit('close');
     },
-    setRes: function setRes() {
-      if (this.isGroup) {
-        this.isGroup = false;
-        console.log('changed to ' + this.isGroup);
-      }
+    addActivity: function addActivity(id) {
+      this.fields.push({
+        name: id,
+        id: 'act-' + this.count++
+      });
     },
+    formSend: function formSend() {
+      this.close();
+      this.flash('Reservering geplaatst!', 'success', {
+        timeout: 3500
+      });
+      this.name = '';
+      this.size = '';
+      this.date = '';
+      this.startTime = '';
+      this.notes = '';
+    },
+    formSubmit: function formSubmit(e) {
+      var _this = this;
+
+      e.preventDefault();
+      var currentObj = this;
+      axios.post('/groups/store', {
+        name: this.name,
+        size: this.size,
+        date: this.date,
+        startTime: this.startTime,
+        notes: this.notes
+      }).then(function (response) {
+        _this.formSend();
+      })["catch"](function (error) {
+        _this.errors.record(error.response.data);
+
+        _this.flash('Er zijn invoervelden niet goed ingevuld!', 'error', {
+          timeout: 3000
+        });
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalGrpEdit.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ModalGrpEdit.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var Errors = /*#__PURE__*/function () {
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+
+  _createClass(Errors, [{
+    key: "get",
+    value: function get(field) {
+      if (this.errors[field]) {
+        return this.errors[field][0];
+      }
+    }
+  }, {
+    key: "has",
+    value: function has(field) {
+      if (this.errors[field]) {
+        return true;
+      }
+
+      return false;
+    }
+  }, {
+    key: "record",
+    value: function record(errors) {
+      this.errors = errors.errors;
+    }
+  }, {
+    key: "reset",
+    value: function reset() {
+      this.errors = {};
+    }
+  }]);
+
+  return Errors;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    id: Number
+  },
+  data: function data() {
+    return {
+      fields: [],
+      count: 0,
+      reservation: {},
+      name: '',
+      size: '',
+      date: '',
+      startTime: '',
+      notes: '',
+      errors: new Errors(),
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    };
+  },
+  methods: {
     close: function close() {
       this.$emit('close');
+    },
+    updateForm: function updateForm() {
+      this.name = this.reservation.name;
+      this.size = this.reservation.size;
+      this.date = this.reservation.date;
+      this.startTime = this.reservation.startTime;
+      this.notes = this.reservation.notes;
+    },
+    resetInput: function resetInput() {
+      this.name = '';
+      this.size = '';
+      this.date = '';
+      this.startTime = '';
+      this.notes = '';
+    },
+    getReservation: function getReservation() {
+      var _this = this;
+
+      axios.get('/groups/' + this.id + '/edit').then(function (response) {
+        _this.reservation = response.data.reservation;
+        console.log(_this.reservation.name);
+
+        _this.updateForm();
+      })["catch"](function (error) {
+        _this.flash('Kon geen reservering met die ID ophalen', 'error', {
+          timeout: 3000
+        });
+      });
+    },
+    updateReservation: function updateReservation(e) {
+      var _this2 = this;
+
+      e.preventDefault();
+      var currentObj = this;
+      console.log(currentObj);
+      axios.post('/reservations/' + this.reservation.id, {
+        name: currentObj.name,
+        size: currentObj.size,
+        date: currentObj.date,
+        startTime: currentObj.startTime,
+        notes: currentObj.notes,
+        type: this.reservation.type,
+        _method: "patch"
+      }).then(function (response) {
+        _this2.close();
+
+        _this2.flash('Reservering gewijzigd!', 'success', {
+          timeout: 3500
+        });
+      })["catch"](function (error) {
+        _this2.errors.record(error.response.data);
+
+        _this2.flash('Er zijn invoervelden niet correct ingevuld!', 'error', {
+          timeout: 3000
+        });
+      });
+    }
+  },
+  watch: {
+    id: function id() {
+      this.resetInput();
+      this.getReservation();
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalRes.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ModalRes.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue2_timepicker_src_vue_timepicker_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue2-timepicker/src/vue-timepicker.vue */ "./node_modules/vue2-timepicker/src/vue-timepicker.vue");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var Errors = /*#__PURE__*/function () {
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+
+  _createClass(Errors, [{
+    key: "get",
+    value: function get(field) {
+      if (this.errors[field]) {
+        return this.errors[field][0];
+      }
+    }
+  }, {
+    key: "has",
+    value: function has(field) {
+      if (this.errors[field]) {
+        return true;
+      }
+
+      return false;
+    }
+  }, {
+    key: "record",
+    value: function record(errors) {
+      this.errors = errors.errors;
+    }
+  }, {
+    key: "reset",
+    value: function reset() {
+      this.errors = {};
+    }
+  }]);
+
+  return Errors;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'res',
+  components: {
+    VueTimepicker: vue2_timepicker_src_vue_timepicker_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      simpleStringValue: '',
+      name: '',
+      size: '',
+      date: '',
+      startTime: '',
+      notes: '',
+      errors: new Errors(),
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    };
+  },
+  methods: {
+    close: function close() {
+      this.errors.reset();
+      this.$emit('close');
+    },
+    formSend: function formSend() {
+      this.close();
+      this.flash('Reservering geplaatst!', 'success', {
+        timeout: 3500
+      });
+      this.name = '';
+      this.size = '';
+      this.date = '';
+      this.startTime = '';
+      this.notes = '';
+    },
+    formSubmit: function formSubmit(e) {
+      var _this = this;
+
+      e.preventDefault();
+      var currentObj = this;
+      axios.post('/reservations', {
+        name: this.name,
+        size: this.size,
+        date: this.date,
+        startTime: this.simpleStringValue,
+        notes: this.notes
+      }).then(function (response) {
+        _this.formSend();
+      })["catch"](function (error) {
+        _this.errors.record(error.response.data);
+
+        _this.flash('Er zijn invoervelden niet goed ingevuld!', 'error', {
+          timeout: 3000
+        });
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalResEdit.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ModalResEdit.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var Errors = /*#__PURE__*/function () {
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+
+  _createClass(Errors, [{
+    key: "get",
+    value: function get(field) {
+      if (this.errors[field]) {
+        return this.errors[field][0];
+      }
+    }
+  }, {
+    key: "has",
+    value: function has(field) {
+      if (this.errors[field]) {
+        return true;
+      }
+
+      return false;
+    }
+  }, {
+    key: "record",
+    value: function record(errors) {
+      this.errors = errors.errors;
+    }
+  }, {
+    key: "reset",
+    value: function reset() {
+      this.errors = {};
+    }
+  }]);
+
+  return Errors;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    id: Number
+  },
+  data: function data() {
+    return {
+      reservation: {},
+      name: '',
+      size: '',
+      date: '',
+      startTime: '',
+      notes: '',
+      errors: new Errors(),
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    };
+  },
+  methods: {
+    close: function close() {
+      this.$emit('close');
+    },
+    updateForm: function updateForm() {
+      this.name = this.reservation.name;
+      this.size = this.reservation.size;
+      this.date = this.reservation.date;
+      this.startTime = this.reservation.startTime;
+      this.notes = this.reservation.notes;
+    },
+    resetInput: function resetInput() {
+      this.name = '';
+      this.size = '';
+      this.date = '';
+      this.startTime = '';
+      this.notes = '';
+    },
+    getReservation: function getReservation() {
+      var _this = this;
+
+      axios.get('/reservations/' + this.id + '/edit').then(function (response) {
+        _this.reservation = response.data.reservation;
+
+        _this.updateForm();
+      })["catch"](function (error) {
+        _this.flash('Kon geen reservering met die ID ophalen', 'error', {
+          timeout: 3000
+        });
+      });
+    },
+    updateReservation: function updateReservation(e) {
+      var _this2 = this;
+
+      e.preventDefault();
+      var currentObj = this;
+      console.log(currentObj);
+      axios.post('/reservations/' + this.reservation.id, {
+        name: currentObj.name,
+        size: currentObj.size,
+        date: currentObj.date,
+        startTime: currentObj.startTime,
+        notes: currentObj.notes,
+        type: this.reservation.type,
+        _method: "patch"
+      }).then(function (response) {
+        _this2.close();
+
+        _this2.flash('Reservering gewijzigd!', 'success', {
+          timeout: 3500
+        });
+      })["catch"](function (error) {
+        _this2.errors.record(error.response.data);
+
+        _this2.flash('Er zijn invoervelden niet correct ingevuld!', 'error', {
+          timeout: 3000
+        });
+      });
+    }
+  },
+  watch: {
+    id: function id() {
+      this.resetInput();
+      this.getReservation();
     }
   }
 });
@@ -6514,19 +7378,38 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Modal.vue?vue&type=style&index=0&lang=css&":
-/*!***********************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Modal.vue?vue&type=style&index=0&lang=css& ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-flash-message/dist/vue-flash-message.min.css":
+/*!*******************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-flash-message/dist/vue-flash-message.min.css ***!
+  \*******************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
 // imports
 
 
 // module
-exports.push([module.i, "\n.modal-backdrop {\n  background-color: rgba(0, 0, 0, 0.3);\n}\n.modal {\n\tmargin-top: 5%;\n  background: #FFFFFF;\n}\n.btn-close {\n  border: 1px solid #ced4da;\n  font-size: 30px;\n  padding:0 10px;\n  cursor: pointer;\n  font-weight: bold;\n  background: transparent;\n}\n.fade-enter-active, .fade-leave-active {\n  transition: opacity .3s;\n}\n\n  /*\n  you set the css property before transition starts\n  */\n.fade-enter, .fade-leave-to {\n  opacity: 0;\n}\n\n  /*\n  you set the css property it will be when transition ends\n  */\n.fade-enter-to, .fade-leave {\n  opacity: 1;\n}\n\n", ""]);
+exports.push([module.i, ".flash__message{-webkit-box-sizing:border-box;box-sizing:border-box;padding:15px 30px 15px 15px;margin-bottom:10px;border:1px solid transparent;border-radius:4px;background-color:#ccc;position:relative}.flash__message.success{color:#3c763d;background-color:#dff0d8;border-color:#d6e9c6}.flash__message.warning{color:#8a6d3b;background-color:#fcf8e3;border-color:#faebcc}.flash__message.error{color:#a94442;background-color:#f2dede;border-color:#ebccd1}.flash__message.info{color:#37516a;background-color:#f2f5fe;border-color:#dfe3f0}.flash__close-button{-webkit-box-sizing:border-box;box-sizing:border-box;position:absolute;top:0;right:0;color:inherit;-webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:transparent;background:none;border:none;cursor:pointer;font-size:18px;line-height:10px;margin:0;padding:8px}.flash__close-button:active,.flash__close-button:focus{outline:none}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=style&index=0&lang=css&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=style&index=0&lang=css& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.vue__time-picker {\n  display: block;\n  position: relative;\n  font-size: 1em;\n  width: 100%;\n  font-family: sans-serif;\n  vertical-align: middle;\n}\n.vue__time-picker * {\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n}\n.vue__time-picker input.display-time {\n  border: 0px;\n  padding: 0.375rem 0.75rem;  \n  font-size: 1em;\n  width: 100%;\n}\n.vue__time-picker input.display-time.invalid:not(.skip-error-style) {\n  border-color: #cc0033;\n  outline-color: #cc0033;\n}\n.vue__time-picker input.display-time:disabled,\n.vue__time-picker input.display-time.disabled {\n  color: #d2d2d2;\n}\n.vue__time-picker .clear-btn {\n  position: absolute;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-flow: column nowrap;\n          flex-flow: column nowrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  width: 1.3em;\n  z-index: 3;\n  font-size: 1.1em;\n  line-height: 1em;\n  vertical-align: middle;\n  color: #d2d2d2;\n  background: rgba(255,255,255,0);\n  text-align: center;\n  font-style: normal;\n\n  /* Vertical align fixes for webkit browsers only */\n  -webkit-margin-before: -0.15em;\n\n  -webkit-transition: color .2s;\n  transition: color .2s;\n}\n.vue__time-picker .clear-btn:hover {\n  color: #797979;\n  cursor: pointer;\n}\n.vue__time-picker .clear-btn:active {\n  outline: 0;\n}\n.vue__time-picker .time-picker-overlay {\n  z-index: 2;\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n}\n.vue__time-picker .dropdown {\n  position: absolute;\n  z-index: 5;\n  top: calc(2.2em + 2px);\n  left: 0;\n  background: #fff;\n  -webkit-box-shadow: 0 1px 6px rgba(0,0,0,0.15);\n          box-shadow: 0 1px 6px rgba(0,0,0,0.15);\n  width: 10em;\n  height: 10em;\n  font-weight: normal;\n}\n.vue__time-picker .dropdown .select-list {\n  width: 10em;\n  height: 10em;\n  overflow: hidden;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-flow: row nowrap;\n          flex-flow: row nowrap;\n  -webkit-box-align: stretch;\n      -ms-flex-align: stretch;\n          align-items: stretch;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n}\n.vue__time-picker .dropdown .select-list:focus,\n.vue__time-picker .dropdown .select-list:active {\n  outline: 0;\n}\n.vue__time-picker .dropdown ul {\n  padding: 0;\n  margin: 0;\n  list-style: none;\n  outline: 0;\n\n  -webkit-box-flex: 1;\n\n      -ms-flex: 1 1 0.00001px;\n\n          flex: 1 1 0.00001px;\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n.vue__time-picker .dropdown ul.minutes,\n.vue__time-picker .dropdown ul.seconds,\n.vue__time-picker .dropdown ul.apms{\n  border-left: 1px solid #fff;\n}\n.vue__time-picker .dropdown ul li {\n  list-style: none;\n  text-align: center;\n  padding: 0.3em 0;\n  color: #161616;\n}\n.vue__time-picker .dropdown ul li:not(.hint):not([disabled]):hover,\n.vue__time-picker .dropdown ul li:not(.hint):not([disabled]):focus {\n  background: rgba(0,0,0,.08);\n  color: #161616;\n  cursor: pointer;\n}\n.vue__time-picker .dropdown ul li:not([disabled]).active,\n.vue__time-picker .dropdown ul li:not([disabled]).active:hover,\n.vue__time-picker .dropdown ul li:not([disabled]).active:focus {\n  background: #41B883;\n  color: #fff;\n}\n.vue__time-picker .dropdown ul li[disabled],\n.vue__time-picker .dropdown ul li[disabled]:hover {\n  background: transparent;\n  opacity: 0.3;\n  cursor: not-allowed;\n}\n.vue__time-picker .dropdown .hint {\n  color: #a5a5a5;\n  cursor: default;\n  font-size: 0.8em;\n}\n", ""]);
 
 // exports
 
@@ -37643,15 +38526,15 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Modal.vue?vue&type=style&index=0&lang=css&":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Modal.vue?vue&type=style&index=0&lang=css& ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=style&index=0&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Modal.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Modal.vue?vue&type=style&index=0&lang=css&");
+var content = __webpack_require__(/*! !../../css-loader??ref--6-1!../../vue-loader/lib/loaders/stylePostLoader.js!../../postcss-loader/src??ref--6-2!../../vue-loader/lib??vue-loader-options!./vue-timepicker.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=style&index=0&lang=css&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -37665,7 +38548,7 @@ var options = {"hmr":true}
 options.transform = transform
 options.insertInto = undefined;
 
-var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+var update = __webpack_require__(/*! ../../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
 
 if(content.locals) module.exports = content.locals;
 
@@ -38257,6 +39140,3006 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-flash-message/dist/vue-flash-message.min.css":
+/*!***********************************************************************!*\
+  !*** ./node_modules/vue-flash-message/dist/vue-flash-message.min.css ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../css-loader??ref--6-1!../../postcss-loader/src??ref--6-2!./vue-flash-message.min.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-flash-message/dist/vue-flash-message.min.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/vue-flash-message/dist/vue-flash-message.min.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/vue-flash-message/dist/vue-flash-message.min.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(t,e){ true?module.exports=e():undefined}(window,function(){return function(t){var e={};function n(r){if(e[r])return e[r].exports;var o=e[r]={i:r,l:!1,exports:{}};return t[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}return n.m=t,n.c=e,n.d=function(t,e,r){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:r})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var o in t)n.d(r,o,function(e){return t[e]}.bind(null,o));return r},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="dist/",n(n.s=55)}([function(t,e,n){t.exports={default:n(44),__esModule:!0}},function(t,e){var n=t.exports={version:"2.5.3"};"number"==typeof __e&&(__e=n)},function(t,e){t.exports=function(t){try{return!!t()}catch(t){return!0}}},function(t,e,n){t.exports=!n(2)(function(){return 7!=Object.defineProperty({},"a",{get:function(){return 7}}).a})},function(t,e){t.exports=function(t){return"object"==typeof t?null!==t:"function"==typeof t}},function(t,e){var n=t.exports="undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")();"number"==typeof __g&&(__g=n)},function(t,e,n){var r=n(5),o=n(1),i=n(52),u=n(50),s=function(t,e,n){var a,c,f,l=t&s.F,p=t&s.G,d=t&s.S,h=t&s.P,m=t&s.B,v=t&s.W,y=p?o:o[e]||(o[e]={}),g=y.prototype,b=p?r:d?r[e]:(r[e]||{}).prototype;for(a in p&&(n=e),n)(c=!l&&b&&void 0!==b[a])&&a in y||(f=c?b[a]:n[a],y[a]=p&&"function"!=typeof b[a]?n[a]:m&&c?i(f,r):v&&b[a]==f?function(t){var e=function(e,n,r){if(this instanceof t){switch(arguments.length){case 0:return new t;case 1:return new t(e);case 2:return new t(e,n)}return new t(e,n,r)}return t.apply(this,arguments)};return e.prototype=t.prototype,e}(f):h&&"function"==typeof f?i(Function.call,f):f,h&&((y.virtual||(y.virtual={}))[a]=f,t&s.R&&g&&!g[a]&&u(g,a,f)))};s.F=1,s.G=2,s.S=4,s.P=8,s.B=16,s.W=32,s.U=64,s.R=128,t.exports=s},function(t,e,n){(function(t){var r=void 0!==t&&t||"undefined"!=typeof self&&self||window,o=Function.prototype.apply;function i(t,e){this._id=t,this._clearFn=e}e.setTimeout=function(){return new i(o.call(setTimeout,r,arguments),clearTimeout)},e.setInterval=function(){return new i(o.call(setInterval,r,arguments),clearInterval)},e.clearTimeout=e.clearInterval=function(t){t&&t.close()},i.prototype.unref=i.prototype.ref=function(){},i.prototype.close=function(){this._clearFn.call(r,this._id)},e.enroll=function(t,e){clearTimeout(t._idleTimeoutId),t._idleTimeout=e},e.unenroll=function(t){clearTimeout(t._idleTimeoutId),t._idleTimeout=-1},e._unrefActive=e.active=function(t){clearTimeout(t._idleTimeoutId);var e=t._idleTimeout;e>=0&&(t._idleTimeoutId=setTimeout(function(){t._onTimeout&&t._onTimeout()},e))},n(29),e.setImmediate="undefined"!=typeof self&&self.setImmediate||void 0!==t&&t.setImmediate||this&&this.setImmediate,e.clearImmediate="undefined"!=typeof self&&self.clearImmediate||void 0!==t&&t.clearImmediate||this&&this.clearImmediate}).call(this,n(8))},function(t,e){var n;n=function(){return this}();try{n=n||Function("return this")()||(0,eval)("this")}catch(t){"object"==typeof window&&(n=window)}t.exports=n},function(t,e,n){var r=n(11);t.exports=function(t){return Object(r(t))}},function(t,e){var n=Math.ceil,r=Math.floor;t.exports=function(t){return isNaN(t=+t)?0:(t>0?r:n)(t)}},function(t,e){t.exports=function(t){if(void 0==t)throw TypeError("Can't call method on  "+t);return t}},function(t,e,n){var r=n(39);t.exports=Object("z").propertyIsEnumerable(0)?Object:function(t){return"String"==r(t)?t.split(""):Object(t)}},function(t,e,n){var r=n(12),o=n(11);t.exports=function(t){return r(o(t))}},function(t,e,n){var r=n(41),o=n(32);t.exports=Object.keys||function(t){return r(t,o)}},function(t,e,n){var r=n(49),o=n(48),i=n(46),u=Object.defineProperty;e.f=n(3)?Object.defineProperty:function(t,e,n){if(r(t),e=i(e,!0),r(n),o)try{return u(t,e,n)}catch(t){}if("get"in n||"set"in n)throw TypeError("Accessors not supported!");return"value"in n&&(t[e]=n.value),t}},function(t,e,n){t.exports={default:n(54),__esModule:!0}},function(t,e,n){t.exports={default:n(27),__esModule:!0}},function(t,e,n){"use strict";e.__esModule=!0;var r,o=n(16),i=(r=o)&&r.__esModule?r:{default:r};e.default=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),(0,i.default)(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}()},function(t,e,n){"use strict";e.__esModule=!0,e.default=function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}},function(t,e,n){"use strict";e.__esModule=!0;var r,o=n(0),i=(r=o)&&r.__esModule?r:{default:r};e.default=i.default||function(t){for(var e=1;e<arguments.length;e++){var n=arguments[e];for(var r in n)Object.prototype.hasOwnProperty.call(n,r)&&(t[r]=n[r])}return t}},function(t,e,n){"use strict";e.__esModule=!0;var r,o=n(16),i=(r=o)&&r.__esModule?r:{default:r};e.default=function(t,e,n){return e in t?(0,i.default)(t,e,{value:n,enumerable:!0,configurable:!0,writable:!0}):t[e]=n,t}},function(t,e,n){"use strict";n.r(e);var r=n(21),o=n.n(r),i=n(20),u=n.n(i),s=n(0),a=n.n(s),c=n(19),f=n.n(c),l=n(18),p=n.n(l),d=n(7),h=n(17),m=n.n(h),v=function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},e=t.duration,n=void 0===e?3e3:e,r=t.css,o=void 0===r?null:r,i=arguments[1];return{render:function(t){var e=this,n=[];return m()(this.storage).map(function(r){var o=[t("div",{attrs:{class:"flash__message-content"},domProps:{innerHTML:e.storage[r].content}})];return e.storage[r].options.important||o.push(t("button",{attrs:{type:"button",class:"flash__close-button","data-dismiss":"alert","aria-label":"alertClose"},on:{click:function(t){t.stopPropagation(),t.preventDefault(),e.destroyFlash(r)}}},[t("span",{attrs:{"aria-hidden":"true"},domProps:{innerHTML:"&times;"}})])),n.push(t("div",{class:e.cssClasses(r)+" flash__message",key:r,attrs:{role:"alert","aria-live":"polite","aria-atomic":"true"},on:{mouseover:function(){e.onMouseOver(r)},mouseleave:function(){e.onMouseOut(r)}}},o)),!1}),t("div",{},[t("transition-group",{attrs:{name:this.transitionName,tag:"div"},class:this.outerClass},n)])},props:{transitionName:{type:String,default:"flash-transition"},outerClass:{type:String,default:"flash__wrapper"}},data:function(){return a()({message:null,closed:!1,_timeout:null},{duration:n,css:o})},computed:{storage:function(){return i.storage}},methods:{cssClasses:function(t){return this.getFlash(t).type},getFlash:function(t){return this.storage[t]},destroyFlash:function(t){this.getFlash(t).destroy()},onMouseOver:function(t){var e=this.getFlash(t);void 0!==e&&e.onStartInteract()},onMouseOut:function(t){var e=this.getFlash(t);void 0!==e&&e.onCompleteInteract()}}}};function y(t){return t&&"[object Function]"==={}.toString.call(t)}n.d(e,"FlashMessageComponent",function(){return v}),n(24);var g=function(){function t(e,n,r,o,i){f()(this,t);var u;this.storage=e,this.content=n,this.options=a()({autoEmit:!0,important:!1,pauseOnInteract:!1,timeout:0,beforeDestroy:null,onStartInteract:null,onCompleteInteract:null},i,o),this.type=r,this.id=(u=(new Date).getTime(),"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(t){var e=(u+16*Math.random())%16|0;return u=Math.floor(u/16),("x"===t?e:3&e|8).toString(16)})),this.timer=null,this.options.autoEmit&&this.emit()}return p()(t,[{key:"emit",value:function(){this.storage.push(this.id,this),this.startSelfDestructTimer()}},{key:"destroy",value:function(){this.killSelfDestructTimer(),this.beforeDestroy(),this.storage.destroy(this.id)}},{key:"setSelfDestructTimeout",value:function(t){this.options.timeout=t}},{key:"startSelfDestructTimer",value:function(){var t=this;this.options.timeout>0&&Object(d.setTimeout)(function(){t.destroy()},this.options.timeout)}},{key:"killSelfDestructTimer",value:function(){Object(d.clearTimeout)(this.timer)}},{key:"beforeDestroy",value:function(){y(this.options.beforeDestroy)&&this.options.beforeDestroy()}},{key:"onStartInteract",value:function(){this.options.pauseOnInteract&&this.killSelfDestructTimer(),y(this.options.onStartInteract)&&this.options.onStartInteract()}},{key:"onCompleteInteract",value:function(){this.options.pauseOnInteract&&this.startSelfDestructTimer(),y(this.options.onCompleteInteract)&&this.options.onCompleteInteract()}}]),t}();e.default={install:function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},n=a()({method:"flash",storage:"$flashStorage",createShortcuts:!0,name:"flash-message"},e),r=new t({data:function(){return{storage:{}}},methods:{flash:function(t,e,n){return new g(r,t,e,n)},push:function(e,n){t.set(this.storage,e,n)},destroy:function(e){t.delete(this.storage,e)},destroyAll:function(){t.set(this,"storage",{})}}}),i=n.createShortcuts?{flashInfo:function(t,e){return this[n.method](t,"info",e)},flashError:function(t,e){return this[n.method](t,"error",e)},flashWarning:function(t,e){return this[n.method](t,"warning",e)},flashSuccess:function(t,e){return this[n.method](t,"success",e)}}:{};t.mixin({methods:u()(o()({},n.method,function(t,e,o){return arguments.length>0?new g(r,t,e,o,n.messageOptions):r}),i)}),t.prototype[n.storage]=r,t.component(n.name,v(n,r))}}},,function(t,e,n){},function(t,e,n){var r=n(6),o=n(1),i=n(2);t.exports=function(t,e){var n=(o.Object||{})[t]||Object[t],u={};u[t]=e(n),r(r.S+r.F*i(function(){n(1)}),"Object",u)}},function(t,e,n){var r=n(9),o=n(14);n(25)("keys",function(){return function(t){return o(r(t))}})},function(t,e,n){n(26),t.exports=n(1).Object.keys},function(t,e){var n,r,o=t.exports={};function i(){throw new Error("setTimeout has not been defined")}function u(){throw new Error("clearTimeout has not been defined")}function s(t){if(n===setTimeout)return setTimeout(t,0);if((n===i||!n)&&setTimeout)return n=setTimeout,setTimeout(t,0);try{return n(t,0)}catch(e){try{return n.call(null,t,0)}catch(e){return n.call(this,t,0)}}}!function(){try{n="function"==typeof setTimeout?setTimeout:i}catch(t){n=i}try{r="function"==typeof clearTimeout?clearTimeout:u}catch(t){r=u}}();var a,c=[],f=!1,l=-1;function p(){f&&a&&(f=!1,a.length?c=a.concat(c):l=-1,c.length&&d())}function d(){if(!f){var t=s(p);f=!0;for(var e=c.length;e;){for(a=c,c=[];++l<e;)a&&a[l].run();l=-1,e=c.length}a=null,f=!1,function(t){if(r===clearTimeout)return clearTimeout(t);if((r===u||!r)&&clearTimeout)return r=clearTimeout,clearTimeout(t);try{r(t)}catch(e){try{return r.call(null,t)}catch(e){return r.call(this,t)}}}(t)}}function h(t,e){this.fun=t,this.array=e}function m(){}o.nextTick=function(t){var e=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)e[n-1]=arguments[n];c.push(new h(t,e)),1!==c.length||f||s(d)},h.prototype.run=function(){this.fun.apply(null,this.array)},o.title="browser",o.browser=!0,o.env={},o.argv=[],o.version="",o.versions={},o.on=m,o.addListener=m,o.once=m,o.off=m,o.removeListener=m,o.removeAllListeners=m,o.emit=m,o.prependListener=m,o.prependOnceListener=m,o.listeners=function(t){return[]},o.binding=function(t){throw new Error("process.binding is not supported")},o.cwd=function(){return"/"},o.chdir=function(t){throw new Error("process.chdir is not supported")},o.umask=function(){return 0}},function(t,e,n){(function(t,e){!function(t,n){"use strict";if(!t.setImmediate){var r,o,i,u,s,a=1,c={},f=!1,l=t.document,p=Object.getPrototypeOf&&Object.getPrototypeOf(t);p=p&&p.setTimeout?p:t,"[object process]"==={}.toString.call(t.process)?r=function(t){e.nextTick(function(){h(t)})}:!function(){if(t.postMessage&&!t.importScripts){var e=!0,n=t.onmessage;return t.onmessage=function(){e=!1},t.postMessage("","*"),t.onmessage=n,e}}()?t.MessageChannel?((i=new MessageChannel).port1.onmessage=function(t){h(t.data)},r=function(t){i.port2.postMessage(t)}):l&&"onreadystatechange"in l.createElement("script")?(o=l.documentElement,r=function(t){var e=l.createElement("script");e.onreadystatechange=function(){h(t),e.onreadystatechange=null,o.removeChild(e),e=null},o.appendChild(e)}):r=function(t){setTimeout(h,0,t)}:(u="setImmediate$"+Math.random()+"$",s=function(e){e.source===t&&"string"==typeof e.data&&0===e.data.indexOf(u)&&h(+e.data.slice(u.length))},t.addEventListener?t.addEventListener("message",s,!1):t.attachEvent("onmessage",s),r=function(e){t.postMessage(u+e,"*")}),p.setImmediate=function(t){"function"!=typeof t&&(t=new Function(""+t));for(var e=new Array(arguments.length-1),n=0;n<e.length;n++)e[n]=arguments[n+1];var o={callback:t,args:e};return c[a]=o,r(a),a++},p.clearImmediate=d}function d(t){delete c[t]}function h(t){if(f)setTimeout(h,0,t);else{var e=c[t];if(e){f=!0;try{!function(t){var e=t.callback,r=t.args;switch(r.length){case 0:e();break;case 1:e(r[0]);break;case 2:e(r[0],r[1]);break;case 3:e(r[0],r[1],r[2]);break;default:e.apply(n,r)}}(e)}finally{d(t),f=!1}}}}}("undefined"==typeof self?void 0===t?this:t:self)}).call(this,n(8),n(28))},function(t,e){e.f={}.propertyIsEnumerable},function(t,e){e.f=Object.getOwnPropertySymbols},function(t,e){t.exports="constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf".split(",")},function(t,e){var n=0,r=Math.random();t.exports=function(t){return"Symbol(".concat(void 0===t?"":t,")_",(++n+r).toString(36))}},function(t,e,n){var r=n(5),o=r["__core-js_shared__"]||(r["__core-js_shared__"]={});t.exports=function(t){return o[t]||(o[t]={})}},function(t,e,n){var r=n(34)("keys"),o=n(33);t.exports=function(t){return r[t]||(r[t]=o(t))}},function(t,e,n){var r=n(10),o=Math.max,i=Math.min;t.exports=function(t,e){return(t=r(t))<0?o(t+e,0):i(t,e)}},function(t,e,n){var r=n(10),o=Math.min;t.exports=function(t){return t>0?o(r(t),9007199254740991):0}},function(t,e,n){var r=n(13),o=n(37),i=n(36);t.exports=function(t){return function(e,n,u){var s,a=r(e),c=o(a.length),f=i(u,c);if(t&&n!=n){for(;c>f;)if((s=a[f++])!=s)return!0}else for(;c>f;f++)if((t||f in a)&&a[f]===n)return t||f||0;return!t&&-1}}},function(t,e){var n={}.toString;t.exports=function(t){return n.call(t).slice(8,-1)}},function(t,e){var n={}.hasOwnProperty;t.exports=function(t,e){return n.call(t,e)}},function(t,e,n){var r=n(40),o=n(13),i=n(38)(!1),u=n(35)("IE_PROTO");t.exports=function(t,e){var n,s=o(t),a=0,c=[];for(n in s)n!=u&&r(s,n)&&c.push(n);for(;e.length>a;)r(s,n=e[a++])&&(~i(c,n)||c.push(n));return c}},function(t,e,n){"use strict";var r=n(14),o=n(31),i=n(30),u=n(9),s=n(12),a=Object.assign;t.exports=!a||n(2)(function(){var t={},e={},n=Symbol(),r="abcdefghijklmnopqrst";return t[n]=7,r.split("").forEach(function(t){e[t]=t}),7!=a({},t)[n]||Object.keys(a({},e)).join("")!=r})?function(t,e){for(var n=u(t),a=arguments.length,c=1,f=o.f,l=i.f;a>c;)for(var p,d=s(arguments[c++]),h=f?r(d).concat(f(d)):r(d),m=h.length,v=0;m>v;)l.call(d,p=h[v++])&&(n[p]=d[p]);return n}:a},function(t,e,n){var r=n(6);r(r.S+r.F,"Object",{assign:n(42)})},function(t,e,n){n(43),t.exports=n(1).Object.assign},function(t,e){t.exports=function(t,e){return{enumerable:!(1&t),configurable:!(2&t),writable:!(4&t),value:e}}},function(t,e,n){var r=n(4);t.exports=function(t,e){if(!r(t))return t;var n,o;if(e&&"function"==typeof(n=t.toString)&&!r(o=n.call(t)))return o;if("function"==typeof(n=t.valueOf)&&!r(o=n.call(t)))return o;if(!e&&"function"==typeof(n=t.toString)&&!r(o=n.call(t)))return o;throw TypeError("Can't convert object to primitive value")}},function(t,e,n){var r=n(4),o=n(5).document,i=r(o)&&r(o.createElement);t.exports=function(t){return i?o.createElement(t):{}}},function(t,e,n){t.exports=!n(3)&&!n(2)(function(){return 7!=Object.defineProperty(n(47)("div"),"a",{get:function(){return 7}}).a})},function(t,e,n){var r=n(4);t.exports=function(t){if(!r(t))throw TypeError(t+" is not an object!");return t}},function(t,e,n){var r=n(15),o=n(45);t.exports=n(3)?function(t,e,n){return r.f(t,e,o(1,n))}:function(t,e,n){return t[e]=n,t}},function(t,e){t.exports=function(t){if("function"!=typeof t)throw TypeError(t+" is not a function!");return t}},function(t,e,n){var r=n(51);t.exports=function(t,e,n){if(r(t),void 0===e)return t;switch(n){case 1:return function(n){return t.call(e,n)};case 2:return function(n,r){return t.call(e,n,r)};case 3:return function(n,r,o){return t.call(e,n,r,o)}}return function(){return t.apply(e,arguments)}}},function(t,e,n){var r=n(6);r(r.S+r.F*!n(3),"Object",{defineProperty:n(15).f})},function(t,e,n){n(53);var r=n(1).Object;t.exports=function(t,e,n){return r.defineProperty(t,e,n)}},function(t,e,n){t.exports=n(22)}])});
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/index.js?!./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib??vue-loader-options!./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+const CONFIG = {
+  HOUR_TOKENS: ['HH', 'H', 'hh', 'h', 'kk', 'k'],
+  MINUTE_TOKENS: ['mm', 'm'],
+  SECOND_TOKENS: ['ss', 's'],
+  APM_TOKENS: ['A', 'a'],
+  BASIC_TYPES: ['hour', 'minute', 'second', 'apm']
+}
+
+const DEFAULT_OPTIONS = {
+  format: 'HH:mm',
+  minuteInterval: 1,
+  secondInterval: 1,
+  hourRange: null,
+  minuteRange: null,
+  secondRange: null,
+  hideDisabledHours: false,
+  hideDisabledMinutes: false,
+  hideDisabledSeconds: false,
+  hideDisabledItems: false,
+  advancedKeyboard: false,
+  hideDropdown: false,
+  blurDelay: 300,
+  manualInputTimeout: 1000
+}
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'VueTimepicker',
+  props: {
+    value: { type: [ Object, String ] },
+    format: { type: String },
+    minuteInterval: { type: [ Number, String ] },
+    secondInterval: { type: [ Number, String ] },
+
+    hourRange: { type: Array },
+    minuteRange: { type: Array },
+    secondRange: { type: Array },
+
+    hideDisabledHours: { type: Boolean, default: false },
+    hideDisabledMinutes: { type: Boolean, default: false },
+    hideDisabledSeconds: { type: Boolean, default: false },
+    hideDisabledItems: { type: Boolean, default: false },
+
+    hideClearButton: { type: Boolean, default: false },
+    disabled: { type: Boolean, default: false },
+    closeOnComplete: { type: Boolean, default: false },
+
+    id: { type: String },
+    name: { type: String },
+    inputClass: { type: [ String, Object, Array ] },
+    placeholder: { type: String },
+    tabindex: { type: [ Number, String ], default: 0 },
+    inputWidth: { type: String },
+    autocomplete: { type: String, default: 'off' },
+
+    hourLabel: { type: String },
+    minuteLabel: { type: String },
+    secondLabel: { type: String },
+    apmLabel: { type: String },
+    amText: { type: String },
+    pmText: { type: String },
+
+    blurDelay: { type: [ Number, String ] },
+    advancedKeyboard: { type: Boolean, default: false },
+    lazy: { type: Boolean, default: false },
+
+    autoScroll: { type: Boolean, default: false },
+    manualInput: { type: Boolean, default: false },
+    manualInputTimeout: { type: [ Number, String ] },
+    hideDropdown: { type: Boolean, default: false },
+
+    debugMode: { type: Boolean, default: false }
+  },
+
+  data () {
+    return {
+      timeValue: {},
+
+      hours: [],
+      minutes: [],
+      seconds: [],
+      apms: [],
+
+      showDropdown: false,
+      isFocusing: false,
+      debounceTimer: undefined,
+
+      hourType: 'HH',
+      minuteType: 'mm',
+      secondType: '',
+      apmType: '',
+      hour: '',
+      minute: '',
+      second: '',
+      apm: '',
+      fullValues: undefined,
+      bakDisplayTime: undefined,
+      doClearApmChecking: false,
+
+      selectionTimer: undefined,
+      kbInputTimer: undefined,
+      kbInputLog: '',
+      bakCurrentPos: null
+    }
+  },
+
+  computed: {
+    opts () {
+      const options = Object.assign({}, DEFAULT_OPTIONS)
+
+      if (this.format && this.format.length) {
+        options.format = String(this.format)
+      }
+
+      if (this.isNumber(this.minuteInterval)) {
+        options.minuteInterval = +this.minuteInterval
+      }
+      // minuteInterval failsafe
+      if (!options.minuteInterval || options.minuteInterval < 1 || options.minuteInterval > 60) {
+        if (this.debugMode) {
+          if (options.minuteInterval > 60) {
+            this.debugLog(`"minute-interval" should be less than 60. Current value is ${this.minuteInterval}`)
+          } else if (options.minuteInterval === 0 || options.minuteInterval < 1) {
+            this.debugLog(`"minute-interval" should be NO less than 1. Current value is ${this.minuteInterval}`)
+          }
+        }
+        if (options.minuteInterval === 0) {
+          options.minuteInterval = 60
+        } else {
+          options.minuteInterval = 1
+        }
+      }
+
+      if (this.isNumber(this.secondInterval)) {
+        options.secondInterval = +this.secondInterval
+      }
+      // secondInterval failsafe
+      if (!options.secondInterval || options.secondInterval < 1 || options.secondInterval > 60) {
+        if (this.debugMode) {
+          if (options.secondInterval > 60) {
+            this.debugLog(`"second-interval" should be less than 60. Current value is ${this.secondInterval}`)
+          } else if (options.secondInterval === 0 || options.secondInterval < 1) {
+            this.debugLog(`"second-interval" should be NO less than 1. Current value is ${this.secondInterval}`)
+          }
+        }
+        if (options.secondInterval === 0) {
+          options.secondInterval = 60
+        } else {
+          options.secondInterval = 1
+        }
+      }
+
+      if (this.hourRange && Array.isArray(this.hourRange)) {
+        options.hourRange = JSON.parse(JSON.stringify(this.hourRange))
+        if (!this.hourRange.length && this.debugMode) {
+          this.debugLog('The "hour-range" array is empty (length === 0)')
+        }
+      }
+
+      if (this.minuteRange && Array.isArray(this.minuteRange)) {
+        options.minuteRange = JSON.parse(JSON.stringify(this.minuteRange))
+        if (!this.minuteRange.length && this.debugMode) {
+          this.debugLog('The "minute-range" array is empty (length === 0)')
+        }
+      }
+
+      if (this.secondRange && Array.isArray(this.secondRange)) {
+        options.secondRange = JSON.parse(JSON.stringify(this.secondRange))
+        if (!this.secondRange.length && this.debugMode) {
+          this.debugLog('The "second-range" array is empty (length === 0)')
+        }
+      }
+
+      if (this.hideDisabledItems) {
+        options.hideDisabledItems = true
+      }
+
+      if (this.hideDisabledHours || this.hideDisabledItems) {
+        options.hideDisabledHours = true
+      }
+      if (this.hideDisabledMinutes || this.hideDisabledItems) {
+        options.hideDisabledMinutes = true
+      }
+      if (this.hideDisabledSeconds || this.hideDisabledItems) {
+        options.hideDisabledSeconds = true
+      }
+
+      if (this.hideDropdown) {
+        if (this.manualInput) {
+          options.hideDropdown = true
+        } else if (this.debugMode) {
+          this.debugLog('"hide-dropdown" only works with "manual-input" mode')
+        }
+      }
+
+      if (this.advancedKeyboard) {
+        if (!(this.hideDropdown && this.manualInput)) {
+          options.advancedKeyboard = true
+        } else if (this.debugMode) {
+          this.debugLog('"advanced-keyboard" has no effect when dropdown is force hidden by "hide-dropdown"')
+        }
+      }
+
+      if (this.blurDelay && +this.blurDelay > 0) {
+        options.blurDelay = +this.blurDelay
+      }
+
+      if (this.manualInputTimeout && +this.manualInputTimeout > 0) {
+        options.manualInputTimeout = +this.manualInputTimeout
+      }
+
+      return options
+    },
+
+    useStringValue () {
+      return typeof this.value === 'string'
+    },
+
+    formatString () {
+      return this.opts.format || DEFAULT_OPTIONS.format
+    },
+
+    inUse () {
+      const typesInUse = CONFIG.BASIC_TYPES.filter(type => this.getTokenByType(type))
+      // Sort types and tokens by their sequence in the "format" string
+      typesInUse.sort((l, r) => {
+        return this.formatString.indexOf(this.getTokenByType(l) || null) - this.formatString.indexOf(this.getTokenByType(r) || null)
+      })
+      const tokensInUse = typesInUse.map(type => this.getTokenByType(type))
+      return {
+        hour: !!this.hourType,
+        minute: !!this.minuteType,
+        second: !!this.secondType,
+        apm: !!this.apmType,
+        types: typesInUse || [],
+        tokens: tokensInUse || []
+      }
+    },
+
+    displayTime () {
+      let formatString = String(this.formatString)
+      if (this.hour) {
+        formatString = formatString.replace(new RegExp(this.hourType, 'g'), this.hour)
+      }
+      if (this.minute) {
+        formatString = formatString.replace(new RegExp(this.minuteType, 'g'), this.minute)
+      }
+      if (this.second && this.secondType) {
+        formatString = formatString.replace(new RegExp(this.secondType, 'g'), this.second)
+      }
+      if (this.apm && this.apmType) {
+        formatString = formatString.replace(new RegExp(this.apmType, 'g'), this.apm)
+      }
+      return formatString
+    },
+
+    customDisplayTime () {
+      if (!this.amText && !this.pmText) {
+        return this.displayTime
+      }
+      return this.displayTime.replace(new RegExp(this.apm, 'g'), this.apmDisplayText(this.apm))
+    },
+
+    inputIsEmpty () {
+      return this.formatString === this.displayTime
+    },
+
+    allValueSelected () {
+      if (
+        (this.inUse.hour && !this.hour) ||
+        (this.inUse.minute && !this.minute) ||
+        (this.inUse.second && !this.second) ||
+        (this.inUse.apm && !this.apm)
+      ) {
+        return false
+      }
+      return true
+    },
+
+    columnsSequence () {
+      return this.inUse.types.map(type => type) || []
+    },
+
+    showClearBtn () {
+      if (this.hideClearButton || this.disabled) {
+        return false
+      }
+      return !this.inputIsEmpty
+    },
+
+    baseOn12Hours () {
+      return this.hourType === 'h' || this.hourType === 'hh'
+    },
+
+    hourRangeIn24HrFormat () {
+      if (!this.hourType || !this.opts.hourRange) { return false }
+      if (!this.opts.hourRange.length) { return [] }
+
+      const range = []
+      this.opts.hourRange.forEach(value => {
+        if (value instanceof Array) {
+          if (value.length > 2 && this.debugMode) {
+            this.debugLog(`Nested array within "hour-range" must contain no more than two items. Only the first two items of ${JSON.stringify(value)} will be taken into account.`)
+          }
+
+          let start = value[0]
+          let end = value[1] || value[0]
+
+          if (this.is12hRange(start)) {
+            start = this.translate12hRange(start)
+          }
+          if (this.is12hRange(end)) {
+            end = this.translate12hRange(end)
+          }
+
+          for (let i = +start; i <= +end; i++) {
+            if (i < 0 || i > 24) { continue }
+            if (!range.includes(i)) {
+              range.push(i)
+            }
+          }
+        } else {
+          if (this.is12hRange(value)) {
+            value = this.translate12hRange(value)
+          } else {
+            value = +value
+          }
+          if (value < 0 || value > 24) { return }
+          if (!range.includes(value)) {
+            range.push(value)
+          }
+        }
+      })
+      range.sort((l, r) => { return l - r })
+      return range
+    },
+
+    restrictedHourRange () {
+      // No restriction
+      if (!this.hourRangeIn24HrFormat) { return false }
+      // 12-Hour
+      if (this.baseOn12Hours) {
+        const range = this.hourRangeIn24HrFormat.map((value) => {
+          if (value === 12) {
+            return '12p'
+          } else if (value === 24 || value === 0) {
+            return '12a'
+          }
+          return value > 12 ? `${value % 12}p` : `${value}a`
+        })
+        return range
+      }
+      // 24-Hour
+      return this.hourRangeIn24HrFormat
+    },
+
+    validHoursList () {
+      if (!this.manualInput) { return false }
+      if (this.restrictedHourRange) {
+        let list = []
+        if (this.baseOn12Hours) {
+          list = this.restrictedHourRange.map(hr => {
+            const l = hr.substr(0, hr.length - 1)
+            const r = hr.substr(-1)
+            return `${this.formatValue(this.hourType, l)}${r}`
+          })
+          const am12Index = list.indexOf('12a')
+          if (am12Index > 0) {
+            // Make '12a' the first item in h/hh
+            list.unshift(list.splice(am12Index, 1)[0])
+          }
+          return list
+        }
+        list = this.restrictedHourRange.map(hr => {
+          return this.formatValue(this.hourType, hr)
+        })
+        if (list.length > 1 && list[0] && list[0] === '24') {
+          // Make '24' the last item in k/kk
+          list.push(list.shift())
+        }
+        return list
+      }
+      if (this.baseOn12Hours) {
+        return [].concat([], this.hours.map(hr => `${hr}a`), this.hours.map(hr => `${hr}p`))
+      }
+      return this.hours
+    },
+
+    has () {
+      const result = {
+        customApmText: false
+      }
+      const apmEnabled = !!this.apmType
+
+      if (apmEnabled && this.hourRangeIn24HrFormat && this.hourRangeIn24HrFormat.length) {
+        const range = [].concat([], this.hourRangeIn24HrFormat)
+        result.am = range.some(value => value < 12 || value === 24)
+        result.pm = range.some(value => value >= 12 && value < 24)
+      } else {
+        result.am = apmEnabled
+        result.pm = apmEnabled
+      }
+      if ((this.amText && this.amText.length) || (this.pmText && this.pmText.length)) {
+        result.customApmText = true
+      }
+      return result
+    },
+
+    minuteRangeList () {
+      if (!this.minuteType || !this.opts.minuteRange) { return false }
+      if (!this.opts.minuteRange.length) { return [] }
+      return this.renderRangeList(this.opts.minuteRange, 'minute')
+    },
+
+    secondRangeList () {
+      if (!this.secondType || !this.opts.secondRange) { return false }
+      if (!this.opts.secondRange.length) { return [] }
+      return this.renderRangeList(this.opts.secondRange, 'second')
+    },
+    
+    hourLabelText () {
+      return this.hourLabel || this.hourType
+    },
+    minuteLabelText () {
+      return this.minuteLabel || this.minuteType
+    },
+    secondLabelText() {
+      return this.secondLabel || this.secondType
+    },
+    apmLabelText () {
+      return this.apmLabel || this.apmType
+    },
+
+    inputWidthStyle () {
+      if (!this.inputWidth || !this.inputWidth.length) { return }
+      return {
+        width: this.inputWidth
+      }
+    },
+
+    tokenRegexBase () {
+      return this.inUse.tokens.join('|')
+    },
+
+    tokenChunks () {
+      if (!this.manualInput && !this.useStringValue) { return false }
+
+      const formatString = String(this.formatString)
+      const tokensRegxStr = `(${this.tokenRegexBase})+?`
+      const tokensMatchAll = this.getMatchAllByRegex(formatString, tokensRegxStr)
+
+      const tokenChunks = []
+      for (let tkMatch of tokensMatchAll) {
+        const rawToken = tkMatch[0]
+        const tokenMatchItem = {
+          index: tkMatch.index,
+          token: rawToken,
+          type: this.getTokenType(rawToken),
+          needsCalibrate: rawToken.length < 2,
+          len: (rawToken || '').length
+        }
+        tokenChunks.push(tokenMatchItem)
+      }
+      return tokenChunks
+    },
+
+    needsPosCalibrate () {
+      if (!this.manualInput) { return false }
+      return this.tokenChunks.some(chk => chk.needsCalibrate)
+    },
+
+    tokenChunksPos () {
+      if (!this.manualInput) { return false }
+      if (!this.needsPosCalibrate) {
+        return this.tokenChunks.map(chk => {
+          return {
+            token: chk.token,
+            type: chk.type,
+            start: chk.index,
+            end: chk.index + chk.len
+          }
+        })
+      }
+      const list = []
+      let calibrateLen = 0
+      this.tokenChunks.forEach(chk => {
+        let chunkCurrentLen
+        // Adjust for customized AM/PM text
+        if (chk.type === 'apm' && this.has.customApmText) {
+          if (this.apm && this.apm.length) {
+            const customApmText = this.apm.toLowerCase() === 'am' ? this.amText : this.pmText
+            chunkCurrentLen = (customApmText && customApmText.length) ? customApmText.length : chk.len
+          } else {
+            chunkCurrentLen = chk.len
+          }
+        // Others
+        } else {
+          chunkCurrentLen = this[chk.type] && this[chk.type].length ? this[chk.type].length : chk.len
+        }
+        list.push({
+          token: chk.token,
+          type: chk.type,
+          start: chk.index + calibrateLen,
+          end: chk.index + calibrateLen + chunkCurrentLen
+        })
+        if (chk.needsCalibrate && chunkCurrentLen > chk.len) {
+          calibrateLen += (chunkCurrentLen - chk.len)
+        }
+      })
+      return list
+    },
+
+    invalidValues () {
+      if (this.inputIsEmpty) { return [] }
+      if (!this.restrictedHourRange && !this.minuteRangeList && !this.secondRangeList && this.opts.minuteInterval === 1 && this.opts.secondInterval === 1) { return [] }
+
+      const result = []
+      if (this.inUse.hour && !this.isEmptyValue(this.hourType, this.hour) && (!this.isValidValue(this.hourType, this.hour) || this.isDisabled('hour', this.hour))) {
+        result.push('hour')
+      }
+      if (this.inUse.minute && !this.isEmptyValue(this.minuteType, this.minute) && (!this.isValidValue(this.minuteType, this.minute) || this.isDisabled('minute', this.minute) || this.notInInterval('minute', this.minute))) {
+        result.push('minute')
+      }
+      if (this.inUse.second && !this.isEmptyValue(this.secondType, this.second) && (!this.isValidValue(this.secondType, this.second) || this.isDisabled('second', this.second) || this.notInInterval('second', this.second))) {
+        result.push('second')
+      }
+      if (this.inUse.apm && !this.isEmptyValue(this.apmType, this.apm) && (!this.isValidValue(this.apmType, this.apm) || this.isDisabled('apm', this.apm))) {
+        result.push('apm')
+      }
+      if (result.length) {
+        return result
+      }
+      return []
+    },
+
+    hasInvalidInput () {
+      return Boolean(this.invalidValues && this.invalidValues.length)
+    }
+  },
+
+  watch: {
+    'opts.format' (newValue) {
+      this.renderFormat(newValue)
+    },
+    'opts.minuteInterval' (newInteval) {
+      this.renderList('minute', newInteval)
+    },
+    'opts.secondInterval' (newInteval) {
+      this.renderList('second', newInteval)
+    },
+    value: {
+      deep: true,
+      handler () {
+        this.readValues()
+      }
+    },
+    displayTime () {
+      this.fillValues()
+    },
+    disabled (toDisabled) {
+      // Force close the dropdown when disabled
+      if (toDisabled && this.showDropdown) {
+        this.showDropdown = false
+      }
+    },
+    'invalidValues.length' (newLength, oldLength) {
+      if (newLength && newLength >= 1) {
+        this.$emit('error', this.invalidValues)
+      } else if (oldLength && oldLength >= 1) {
+        this.$emit('error', [])
+      }
+    }
+  },
+
+  methods: {
+    formatValue (token, i) {
+      if (!this.isNumber(i)) { return '' }
+      i = +i
+      switch (token) {
+        case 'H':
+        case 'h':
+        case 'k':
+        case 'm':
+        case 's':
+          if (['h', 'k'].includes(token) && i === 0) {
+            return token === 'k' ? '24' : '12'
+          }
+          return String(i)
+        case 'HH':
+        case 'mm':
+        case 'ss':
+        case 'hh':
+        case 'kk':
+          if (['hh', 'kk'].includes(token) && i === 0) {
+            return token === 'kk' ? '24' : '12'
+          }
+          return i < 10 ? `0${i}` : String(i)
+        default:
+          return ''
+      }
+    },
+
+    checkAcceptingType (validValues, formatString) {
+      if (!validValues || !formatString || !formatString.length) { return '' }
+      for (let i = 0; i < validValues.length; i++) {
+        if (formatString.indexOf(validValues[i]) > -1) {
+          return validValues[i]
+        }
+      }
+      return ''
+    },
+
+    renderFormat (newFormat) {
+      newFormat = newFormat || this.opts.format || DEFAULT_OPTIONS.format
+
+      let hourType = this.checkAcceptingType(CONFIG.HOUR_TOKENS, newFormat)
+      let minuteType = this.checkAcceptingType(CONFIG.MINUTE_TOKENS, newFormat)
+      this.secondType = this.checkAcceptingType(CONFIG.SECOND_TOKENS, newFormat)
+      this.apmType = this.checkAcceptingType(CONFIG.APM_TOKENS, newFormat)
+
+      // Failsafe checking
+      if (!hourType && !minuteType && !this.secondType && !this.apmType) {
+        if (this.debugMode && this.format) {
+          this.debugLog(`No valid tokens found in your defined "format" string "${this.format}". Fallback to the default "HH:mm" format.`)
+        }
+        hourType = 'HH'
+        minuteType = 'mm'
+      }
+      this.hourType = hourType
+      this.minuteType = minuteType
+
+      this.hourType ? this.renderHoursList() : this.hours = []
+      this.minuteType ? this.renderList('minute') : this.minutes = []
+      this.secondType ? this.renderList('second') : this.seconds = []
+      this.apmType ? this.renderApmList() : this.apms = []
+
+      this.$nextTick(() => {
+        this.readValues()
+      })
+    },
+
+    renderHoursList () {
+      const hoursCount = this.baseOn12Hours ? 12 : 24
+      const hours = []
+      for (let i = 0; i < hoursCount; i++) {
+        if (this.hourType === 'k' || this.hourType === 'kk') {
+          hours.push(this.formatValue(this.hourType, i + 1))
+        } else {
+          hours.push(this.formatValue(this.hourType, i))
+        }
+      }
+      this.hours = hours
+    },
+
+    renderList (listType, interval) {
+      if (!this.isMinuteOrSecond(listType)) { return }
+
+      const isMinute = listType === 'minute'
+      interval = interval || (isMinute ? (this.opts.minuteInterval || DEFAULT_OPTIONS.minuteInterval) : (this.opts.secondInterval || DEFAULT_OPTIONS.secondInterval))
+
+      const result = []
+      for (let i = 0; i < 60; i += interval) {
+        result.push(this.formatValue(isMinute ? this.minuteType : this.secondType, i))
+      }
+      isMinute ? this.minutes = result : this.seconds = result
+    },
+
+    renderApmList () {
+      this.apms = this.apmType === 'A' ? ['AM', 'PM'] : ['am', 'pm']
+    },
+
+    readValues () {
+      if (this.useStringValue) {
+        if (this.debugMode) {
+          this.debugLog(`Received a string value: "${this.value}"`)
+        }
+        this.readStringValues(this.value)
+      } else {
+        if (this.debugMode) {
+          this.debugLog(`Received an object value: "${JSON.stringify(this.value || {})}"`)
+        }
+        this.readObjectValues(this.value)
+      }
+    },
+
+    readObjectValues (objValue) {
+      const timeValue = JSON.parse(JSON.stringify(objValue || {}))
+      const values = Object.keys(timeValue)
+
+      // Failsafe for empty `v-model` object
+      if (values.length === 0) {
+        this.addFallbackValues()
+        return
+      }
+
+      CONFIG.BASIC_TYPES.forEach(type => {
+        const token = this.getTokenByType(type)
+        if (values.indexOf(token) > -1) {
+          const sanitizedValue = this.sanitizedValue(token, timeValue[token])
+          this[type] = sanitizedValue
+          timeValue[token] = sanitizedValue
+        } else {
+          this[type] = ''
+        }
+      })
+      this.timeValue = timeValue
+    },
+
+    getMatchAllByRegex (testString, regexString) {
+      const str = 'polyfillTest'
+      const needsPolyfill = Boolean(!str.matchAll || typeof str.matchAll !== 'function')
+      return needsPolyfill ? this.polyfillMatchAll(testString, regexString) : testString.matchAll(new RegExp(regexString, 'g'))
+    },
+
+    readStringValues (stringValue) {
+      // Failsafe for empty `v-model` string
+      if (!stringValue || !stringValue.length) {
+        this.addFallbackValues()
+        return
+      }
+
+      const formatString = String(this.formatString)
+      const tokensRegxStr = `(${this.tokenRegexBase})+?`
+      const othersRegxStr = `[^(${this.tokenRegexBase})]+`
+
+      const tokensMatchAll = this.getMatchAllByRegex(formatString, tokensRegxStr)
+      const othersMatchAll = this.getMatchAllByRegex(formatString, othersRegxStr)
+
+      const chunks = []
+      const tokenChunks = []
+
+      for (let tkMatch of tokensMatchAll) {
+        const tokenMatchItem = {
+          index: tkMatch.index,
+          token: tkMatch[0],
+          isValueToken: true
+        }
+        chunks.push(tokenMatchItem)
+        tokenChunks.push(tokenMatchItem)
+      }
+
+      for (let otMatch of othersMatchAll) {
+        chunks.push({
+          index: otMatch.index,
+          token: otMatch[0]
+        })
+      }
+
+      chunks.sort((l, r) => l.index < r.index ? -1 : 1)
+
+      let regexCombo = ''
+      chunks.forEach(chunk => {
+        if (chunk.isValueToken) {
+          const tokenRegex = this.getTokenRegex(chunk.token) || ''
+          regexCombo += tokenRegex
+        } else {
+          const safeChars = chunk.token.replace(/\\{0}(\*|\?|\.|\+)/g, '\\$1')
+          regexCombo += `(?:${safeChars})`
+        }
+      })
+
+      const comboReg = new RegExp(regexCombo)
+
+      // Do test before match
+      if (comboReg.test(stringValue)) {
+        const matchResults = stringValue.match(new RegExp(regexCombo))
+        const valueResults = matchResults.slice(1, tokenChunks.length + 1)
+        const timeValue = {}
+        valueResults.forEach((value, vrIndex) => {
+          if (tokenChunks[vrIndex]) {
+            const targetToken = tokenChunks[vrIndex].token
+            timeValue[targetToken] = this.setValueFromString(value, targetToken)
+          }
+        })
+        this.timeValue = timeValue
+
+        if (this.debugMode) {
+          const tokenChunksForLog = tokenChunks.map(tChunk => tChunk && tChunk.token)
+          this.debugLog(`Successfully parsed values ${JSON.stringify(valueResults)}\nfor ${JSON.stringify(tokenChunksForLog)}\nin format pattern '${this.formatString}'`)
+        }
+      } else {
+        if (this.debugMode) {
+          this.debugLog(`The input string in "v-model" does NOT match the "format" pattern\nformat: ${this.formatString}\nv-model: ${stringValue}`)
+        }
+      }
+    },
+
+    polyfillMatchAll (targetString, regxStr) {
+      const matchesList = targetString.match(new RegExp(regxStr, 'g'))
+      const result = []
+      const indicesReg = []
+      if (matchesList && matchesList.length) {
+        matchesList.forEach(matchedItem => {
+          const existIndex = indicesReg.findIndex(idxItem => idxItem.str === matchedItem)
+          let index
+          if (existIndex >= 0) {
+            if (indicesReg[existIndex] && indicesReg[existIndex].regex) {
+              index = indicesReg[existIndex].regex.exec(targetString).index
+            }
+          } else {
+            const itemIndicesRegex = new RegExp(matchedItem, 'g')
+            index = itemIndicesRegex.exec(targetString).index
+            indicesReg.push({
+              str: String(matchedItem),
+              regex: itemIndicesRegex
+            })
+          }
+          result.push({
+            0: String(matchedItem),
+            index: index
+          })
+        })
+      }
+      return result
+    },
+
+    addFallbackValues () {
+      const timeValue = {}
+      this.inUse.types.forEach(type => {
+        timeValue[this.getTokenByType(type)] = ''
+      })
+      this.timeValue = timeValue
+    },
+
+    setValueFromString (parsedValue, token) {
+      if (!token || !parsedValue) { return '' }
+      const tokenType = this.getTokenType(token)
+      if (!tokenType || !tokenType.length) { return '' }
+      const stdValue = (parsedValue !== this.getTokenByType(tokenType)) ? parsedValue : ''
+      this[tokenType] = stdValue
+      return stdValue
+    },
+
+    fillValues (forceEmit) {
+      const fullValues = {}
+
+      const baseHour = this.hour
+      const baseHourType = this.hourType
+
+      let apmValue
+
+      // Hour type or hour value is NOT set in the "format" string
+      if (!baseHourType || !this.isNumber(baseHour)) {
+        CONFIG.HOUR_TOKENS.forEach(token => fullValues[token] = '')
+        apmValue = this.lowerCasedApm(this.apm || '')
+        fullValues.a = apmValue
+        fullValues.A = apmValue.toUpperCase()
+
+      // Both Hour type and value are set
+      } else {
+        const hourValue = +baseHour
+        const apmValue = (this.baseOn12Hours && this.apm) ? this.lowerCasedApm(this.apm) : false
+
+        CONFIG.HOUR_TOKENS.forEach((token) => {
+          if (token === baseHourType) {
+            fullValues[token] = baseHour
+            return
+          }
+
+          let value
+          let apm
+          switch (token) {
+            case 'H':
+            case 'HH':
+            case 'k':
+            case 'kk':
+              if (this.baseOn12Hours) {
+                if (apmValue === 'pm') {
+                  value = hourValue < 12 ? hourValue + 12 : hourValue
+                } else if (['k', 'kk'].includes(token)) {
+                  value = hourValue === 12 ? 24 : hourValue
+                } else {
+                  value = hourValue % 12
+                }
+              } else {
+                if (['k', 'kk'].includes(token)) {
+                  value = hourValue === 0 ? 24 : hourValue
+                } else {
+                  value = hourValue % 24
+                }
+              }
+              fullValues[token] = this.formatValue(token, value)
+              break
+            case 'h':
+            case 'hh':
+              // h <-> hh
+              if (this.baseOn12Hours) {
+                value = hourValue
+                apm = apmValue || ''
+              // Read from other hour formats
+              } else {
+                if (hourValue > 11 && hourValue < 24) {
+                  apm = 'pm'
+                  value = hourValue === 12 ? 12 : hourValue % 12
+                } else {
+                  apm = 'am'
+                  value = hourValue % 12 === 0 ? 12 : hourValue
+                }
+              }
+              fullValues[token] = this.formatValue(token, value)
+              fullValues.a = apm
+              fullValues.A = apm.toUpperCase()
+              break
+          }
+        })
+      }
+
+      fullValues.m = this.formatValue('m', this.minute)
+      fullValues.mm = this.formatValue('mm', this.minute)
+      fullValues.s = this.formatValue('s', this.second)
+      fullValues.ss = this.formatValue('ss', this.second)
+
+      this.fullValues = fullValues
+
+      // On lazy mode, emit `input` and `change` events only when:
+      // - The user pick a new value and then close the dropdown
+      // - The user click the ("x") clear button
+      if (!this.lazy || forceEmit) {
+        this.emitTimeValue()
+      }
+
+      if (this.closeOnComplete && this.allValueSelected && this.showDropdown) {
+        this.toggleDropdown()
+      }
+    },
+
+    emitTimeValue () {
+      if (!this.fullValues) { return }
+
+      if (this.lazy && this.bakDisplayTime === this.displayTime) {
+        if (this.debugMode) {
+          this.debugLog('The value does not change on `lazy` mode. Skip the emitting `input` and `change` event.')
+        }
+        return
+      }
+
+      const fullValues = JSON.parse(JSON.stringify(this.fullValues))
+
+      if (this.useStringValue) {
+        this.$emit('input', this.inputIsEmpty ? '' : String(this.displayTime))
+      } else {
+        const tokensInUse = this.inUse.tokens || []
+        const timeValue = {}
+        tokensInUse.forEach((token) => {
+          timeValue[token] = fullValues[token] || ''
+        })
+        this.$emit('input', JSON.parse(JSON.stringify(timeValue)))
+      }
+
+      this.$emit('change', {
+        data: fullValues,
+        displayTime: this.inputIsEmpty ? '' : String(this.displayTime)
+      })
+    },
+
+    translate12hRange (value) {
+      const valueT = this.match12hRange(value)
+      if (+valueT[1] === 12) {
+        return +valueT[1] + (valueT[2].toLowerCase() === 'p' ? 0 : 12)
+      }
+      return +valueT[1] + (valueT[2].toLowerCase() === 'p' ? 12 : 0)
+    },
+
+    isDisabled (type, value) {
+      if (!this.isBasicType(type) || !this.inUse[type]) { return true }
+      switch (type) {
+        case 'hour':
+          return this.isDisabledHour(value)
+        case 'minute':
+        case 'second':
+          if (!this[`${type}RangeList`]) {
+            return false
+          }
+          return !this[`${type}RangeList`].includes(value)
+        case 'apm':
+          if (!this.restrictedHourRange) {
+            return false
+          }
+          return !this.has[this.lowerCasedApm(value)]
+        default:
+          return true
+      }
+    },
+
+    isDisabledHour (value) {
+      if (!this.restrictedHourRange) { return false }
+      if (this.baseOn12Hours) {
+        if (!this.apm || !this.apm.length) {
+          return false
+        } else {
+          const token = this.apm.toLowerCase() === 'am' ? 'a' : 'p'
+          return !this.restrictedHourRange.includes(`${+value}${token}`)
+        }
+      }
+      // Fallback for 'HH' and 'H hour format with a `hour-range` in a 12-hour form
+      if (
+        (this.hourType === 'HH' || this.hourType === 'H') &&
+        +value === 0 && this.restrictedHourRange.includes(24)
+      ) {
+        return false
+      }
+      return !this.restrictedHourRange.includes(+value)
+    },
+
+    notInInterval (section, value) {
+      if (!section || !this.isMinuteOrSecond(section)) { return }
+      if (this.opts[`${section}Interval`] === 1) { return false }
+      return +value % this.opts[`${section}Interval`] !== 0
+    },
+
+    renderRangeList (rawRange, section) {
+      if (!rawRange || !section || !this.isMinuteOrSecond(section)) { return [] }
+      const range = []
+      let formatedValue
+      rawRange.forEach(value => {
+        if (value instanceof Array) {
+          if (value.length > 2 && this.debugMode) {
+            this.debugLog(`Nested array within "${section}-range" must contain no more than two items. Only the first two items of ${JSON.stringify(value)} will be taken into account.`)
+          }
+          const start = value[0]
+          const end = value[1] || value[0]
+          for (let i = +start; i <= +end; i++) {
+            if (i < 0 || i > 59) { continue }
+            formatedValue = this.formatValue(this.getTokenByType(section), i)
+            if (!range.includes(formatedValue)) {
+              range.push(formatedValue)
+            }
+          }
+        } else {
+          if (+value < 0 || +value > 59) { return }
+          formatedValue = this.formatValue(this.getTokenByType(section), value)
+          if (!range.includes(formatedValue)) {
+            range.push(formatedValue)
+          }
+        }
+      })
+      range.sort((l, r) => { return l - r })
+      // Debug Mode
+      if (this.debugMode) {
+        const fullList = (section === 'minute' ? this.minutes : this.seconds) || []
+        const validItems = fullList.filter(item => range.includes(item))
+        if (!validItems || !validItems.length) {
+          if (section === 'minute') {
+            this.debugLog(`The minute list is empty due to the "minute-range" config\nminute-range: ${JSON.stringify(this.minuteRange)}\nminute-interval: ${this.opts.minuteInterval}`)
+          } else {
+            this.debugLog(`The second list is empty due to the "second-range" config\nsecond-range: ${JSON.stringify(this.secondRange)}\nsecond-interval: ${this.opts.secondInterval}`)
+          }
+        }
+      }
+      return range
+    },
+
+    forceApmSelection () {
+      if (this.apmType && !this.apm) {
+        if (this.manualInput) {
+          // In Manual Input Mode
+          // Skip this to allow users to paste a string value from clipboard
+          return
+        }
+        if (this.has.am || this.has.pm) {
+          this.doClearApmChecking = true
+          const apmValue = this.has.am ? 'am' : 'pm'
+          this.apm = this.apmType === 'A' ? apmValue.toUpperCase() : apmValue
+        }
+      }
+    },
+
+    emptyApmSelection () {
+      if (this.doClearApmChecking && this.hour === '' && this.minute === '' && this.second === '') {
+        this.apm = ''
+      }
+      this.doClearApmChecking = false
+    },
+
+    apmDisplayText (apmValue) {
+      if (this.amText && this.lowerCasedApm(apmValue) === 'am') {
+        return this.amText
+      }
+      if (this.pmText && this.lowerCasedApm(apmValue) === 'pm') {
+        return this.pmText
+      }
+      return apmValue
+    },
+
+    toggleDropdown () {
+      if (this.disabled) { return }
+      this.showDropdown = !this.showDropdown
+
+      if (this.showDropdown) {
+        if (!this.opts.hideDropdown) {
+          this.$emit('open')
+        }
+        this.isFocusing = true
+        this.$emit('focus')
+        // Record to check if value did changed in the later phase
+        if (this.lazy) {
+          this.bakDisplayTime = String(this.displayTime || '')
+        }
+        if (this.manualInput && !this.inputIsEmpty) {
+          this.$nextTick(() => {
+            if (this.$refs.input && this.$refs.input.selectionStart === 0 && this.$refs.input.selectionEnd === this.displayTime.length) {
+              // Select the first slot instead of the whole value string when tabbed in
+              this.selectFirstSlot()
+            }
+          })
+        }
+      } else {
+        if (!this.opts.hideDropdown) {
+          this.$emit('close')
+        }
+        this.isFocusing = false
+        this.$emit('blur')
+        if (this.lazy) {
+          this.fillValues(true)
+          this.bakDisplayTime = undefined
+        }
+      }
+
+      if (this.showDropdown) {
+        if (this.manualInput) { return }
+        if (this.restrictedHourRange && this.baseOn12Hours) {
+          this.forceApmSelection()
+        }
+        this.checkForAutoScroll()
+      } else if (this.restrictedHourRange && this.baseOn12Hours) {
+        this.emptyApmSelection()
+      }
+    },
+
+    select (type, value) {
+      if (this.isBasicType(type) && !this.isDisabled(type, value)) {
+        this[type] = value
+        if (this.doClearApmChecking) {
+          this.doClearApmChecking = false
+        }
+      }
+    },
+
+    clearTime () {
+      if (this.disabled) { return }
+      this.hour = ''
+      this.minute = ''
+      this.second = ''
+      this.apm = ''
+
+      if (this.manualInput && this.$refs && this.$refs.input && this.$refs.input.value.length) {
+        this.$refs.input.value = ''
+      }
+
+      if (this.lazy) {
+        this.fillValues(true)
+      }
+    },
+
+    //
+    // Auto-Scroll
+    //
+
+    checkForAutoScroll () {
+      if (this.inputIsEmpty) { return }
+      if (this.autoScroll) {
+        this.$nextTick(() => {
+          this.scrollToSelectedValues()
+        })
+      } else if (this.opts.advancedKeyboard) {
+        // Auto-focus on selected value in the first column for advanced-keyboard
+        this.$nextTick(() => {
+          const firstColumn = this.inUse.types[0]
+          const firstColumnClass = `${firstColumn}s`
+          this.scrollToSelected(firstColumnClass)
+        })
+      }
+    },
+
+    scrollToSelected (columnClass) {
+      if (!this.timeValue || this.inputIsEmpty) { return }
+      const targetList = this.$el.querySelectorAll(`ul.${columnClass}`)[0]
+      const targetValue = this.$el.querySelectorAll(`ul.${columnClass} li.active:not(.hint)`)[0]
+      if (targetList && targetValue) {
+        targetList.scrollTop = targetValue.offsetTop || 0
+        if (this.opts.advancedKeyboard) {
+          targetValue.focus()
+        }
+      }
+    },
+
+    scrollToSelectedValues () {
+      if (!this.timeValue || this.inputIsEmpty) { return }
+      this.inUse.types.forEach(section => {
+        const columnClass = `${section}s`
+        this.scrollToSelected(columnClass)
+      })
+    },
+
+    //
+    // Additional Keyboard Navigation
+    //
+
+    onFocus () {
+      if (this.disabled) { return }
+      if (!this.isFocusing) {
+        this.isFocusing = true
+      }
+      if (!this.showDropdown) {
+        this.toggleDropdown()
+      }
+    },
+
+    escBlur () {
+      if (this.disabled) { return }
+      this.isFocusing = false
+      const inputBox = this.$el.querySelectorAll('input.display-time')[0]
+      if (inputBox) {
+        inputBox.blur()
+      }
+    },
+
+    debounceBlur () {
+      if (this.disabled) { return }
+      this.isFocusing = false
+      window.clearTimeout(this.debounceTimer)
+      this.debounceTimer = window.setTimeout(() => {
+        window.clearTimeout(this.debounceTimer)
+        this.onBlur()
+      }, this.opts.blurDelay)
+    },
+
+    onBlur () {
+      if (!this.disabled && !this.isFocusing && this.showDropdown) {
+        this.toggleDropdown()
+      }
+    },
+
+    keepFocusing () {
+      if (!this.isFocusing) {
+        this.isFocusing = true
+      }
+    },
+
+    validItemsInCol (column) {
+      const columnClass = `${column}s`
+      return this.$el.querySelectorAll(`ul.${columnClass} > li:not(.hint):not([disabled])`)
+    },
+
+    activeItemInCol (column) {
+      const columnClass = `${column}s`
+      return this.$el.querySelectorAll(`ul.${columnClass} > li.active:not(.hint)`)
+    },
+
+    getClosestSibling (column, dataKey, getPrevious = false) {
+      const siblingsInCol = this.validItemsInCol(column)
+      const selfIndex = Array.prototype.findIndex.call(siblingsInCol, (sbl) => {
+        return sbl.getAttribute('data-key') === dataKey
+      })
+
+      // Already the first item
+      if (getPrevious && selfIndex === 0) {
+        return siblingsInCol[siblingsInCol.length - 1]
+      }
+      // Already the last item
+      if (!getPrevious && selfIndex === siblingsInCol.length - 1) {
+        return siblingsInCol[0]
+      }
+      // Selected value not in the valid values list
+      if (selfIndex < 0) {
+        return siblingsInCol[0]
+      }
+
+      if (getPrevious) {
+        return siblingsInCol[selfIndex - 1]
+      }
+      return siblingsInCol[selfIndex + 1]
+    },
+
+    prevItem (column, dataKey, isManualInput = false) {
+      const targetItem = this.getClosestSibling(column, dataKey, true)
+      if (targetItem) {
+        return isManualInput ? targetItem : targetItem.focus()
+      }
+    },
+
+    nextItem (column, dataKey, isManualInput = false) {
+      const targetItem = this.getClosestSibling(column, dataKey, false)
+      if (targetItem) {
+        return isManualInput ? targetItem : targetItem.focus()
+      }
+    },
+
+    getSideColumnName (currentColumn, toLeft = false) {
+      const currentColumnIndex = this.inUse.types.indexOf(currentColumn)
+      if (toLeft && currentColumnIndex <= 0) {
+        if (this.debugMode) {
+          this.debugLog('You\'re in the leftmost list already')
+        }
+        return
+      } else if (!toLeft && currentColumnIndex === (this.inUse.types.length - 1)) {
+        if (this.debugMode) {
+          this.debugLog('You\'re in the rightmost list already')
+        }
+        return
+      }
+      return this.inUse.types[toLeft ? currentColumnIndex - 1 : currentColumnIndex + 1]
+    },
+
+    getFirstItemInSideColumn (currentColumn, toLeft = false) {
+      const targetColumn = this.getSideColumnName(currentColumn, toLeft)
+      if (!targetColumn) { return }
+      const listItems = this.validItemsInCol(targetColumn)
+      if (listItems && listItems[0]) {
+        return listItems[0]
+      }
+    },
+
+    getActiveItemInSideColumn (currentColumn, toLeft = false) {
+      const targetColumn = this.getSideColumnName(currentColumn, toLeft)
+      if (!targetColumn) { return }
+      const activeItems = this.activeItemInCol(targetColumn)
+      if (activeItems && activeItems[0]) {
+        return activeItems[0]
+      }
+    },
+
+    toLeftColumn (currentColumn) {
+      const targetItem = this.getActiveItemInSideColumn(currentColumn, true) || this.getFirstItemInSideColumn(currentColumn, true)
+      if (targetItem) {
+        targetItem.focus()
+      }
+    },
+
+    toRightColumn (currentColumn) {
+      const targetItem = this.getActiveItemInSideColumn(currentColumn, false) || this.getFirstItemInSideColumn(currentColumn, false)
+      if (targetItem) {
+        targetItem.focus()
+      }
+    },
+
+    //
+    // Manual Input
+    //
+
+    onMouseDown () {
+      if (!this.manualInput) { return }
+      window.clearTimeout(this.selectionTimer)
+      this.selectionTimer = window.setTimeout(() => {
+        window.clearTimeout(this.selectionTimer)
+        if (this.$refs && this.$refs.input) {
+          const nearestSlot = this.getNearestChunkByPos(this.$refs.input.selectionStart || 0)
+          this.debounceSetInputSelection(nearestSlot)
+        }
+      }, 50)
+    },
+
+    keyDownHandler (evt) {
+      if (evt.isComposing || evt.keyCode === 229) {
+        // Skip IME inputs
+        evt.preventDefault()
+        evt.stopPropagation()
+        return false
+      }
+      // Numbers
+      if ((evt.keyCode >= 48 && evt.keyCode <= 57) || (evt.keyCode >= 96 && evt.keyCode <= 105)) {
+        evt.preventDefault()
+        this.keyboardInput(evt.key)
+      // A|P|M
+      } else if ([65, 80, 77].includes(evt.keyCode)) {
+        evt.preventDefault()
+        this.keyboardInput(evt.key, true)
+      // Arrow keys
+      } else if (evt.keyCode >= 37 && evt.keyCode <= 40) {
+        evt.preventDefault()
+        this.clearKbInputLog()
+        this.arrowHandler(evt)
+      // Delete|Backspace
+      } else if (evt.keyCode === 8 || evt.keyCode === 46) {
+        evt.preventDefault()
+        this.clearKbInputLog()
+        this.clearTime()
+      // Tab
+      } else if (evt.keyCode === 9) {
+        this.clearKbInputLog()
+        this.tabHandler(evt)
+      // Prevent any Non-ESC and non-pasting inputs
+      } else if (evt.keyCode !== 27 && !(evt.metaKey || evt.ctrlKey)) {
+        evt.preventDefault()
+      }
+    },
+
+    onCompostionStart (evt) {
+      evt.preventDefault()
+      evt.stopPropagation()
+      this.bakCurrentPos = this.getCurrentTokenChunk()
+      return false
+    },
+
+    onCompostionEnd (evt) {
+      evt.preventDefault()
+      evt.stopPropagation()
+
+      const cpsData = evt.data
+      let inputIsCustomApmText = false
+      if (this.has.customApmText) {
+        inputIsCustomApmText = this.isCustomApmText(cpsData)
+      }
+      if (inputIsCustomApmText) {
+        this.setSanitizedValueToSection('apm', inputIsCustomApmText)
+      }
+
+      this.$refs.input.value = this.has.customApmText ? this.customDisplayTime : this.displayTime
+
+      this.$nextTick(() => {
+        if (this.bakCurrentPos) {
+          const bakPos = JSON.parse(JSON.stringify(this.bakCurrentPos))
+          if (inputIsCustomApmText) {
+            bakPos.end = (bakPos.start + cpsData.length)
+          }
+          this.debounceSetInputSelection(bakPos)
+          this.bakCurrentPos = null
+        }
+      })
+      return false
+    },
+
+    pasteHandler (evt) {
+      evt.preventDefault()
+      let pastingText = (evt.clipboardData || window.clipboardData).getData('text')
+      if (this.debugMode) {
+        this.debugLog(`Pasting value "${pastingText}" from clipboard`)
+      }
+      if (!pastingText || !pastingText.length) { return }
+
+      // Replace custom AM/PM text (if any)
+      if (this.has.customApmText) {
+        pastingText = this.replaceCustomApmText(pastingText)
+      }
+
+      if (this.inputIsEmpty) {
+        this.readStringValues(pastingText)
+      } else {
+        this.kbInputLog = pastingText.substr(-2, 2)
+        this.setKbInput()
+        this.debounceClearKbLog()
+      }
+    },
+
+    arrowHandler (evt) {
+      const direction = { 37: 'L', 38: 'U', 39: 'R', 40: 'D' }[evt.keyCode]
+      if (direction === 'U' || direction === 'D') {
+        if (this.inputIsEmpty) {
+          this.selectFirstValidValue()
+        } else {
+          const currentChunk = this.getCurrentTokenChunk()
+          if (!currentChunk) {
+            this.selectFirstValidValue()
+            return
+          }
+          const tokenType = currentChunk.type
+          this.getClosestValidItemInCol(tokenType, this[tokenType], direction)
+          const newChunkPos = this.getCurrentTokenChunk()
+          this.debounceSetInputSelection(newChunkPos)
+        }
+      } else if (direction === 'R') {
+        this.toLateralToken(false)
+      } else if (direction === 'L') {
+        this.toLateralToken(true)
+      }
+    },
+
+    tabHandler (evt) {      
+      if (!this.inputIsEmpty && this.tokenChunksPos && this.tokenChunksPos.length) {
+        const currentChunk = this.getCurrentTokenChunk()
+        if (!currentChunk) { return }
+        const firstChunk = this.tokenChunksPos[0]
+        const lastChunk = this.tokenChunksPos[this.tokenChunksPos.length - 1]
+        if ((evt.shiftKey && currentChunk.token !== firstChunk.token) || (!evt.shiftKey && currentChunk.token !== lastChunk.token)) {
+          evt.preventDefault()
+          this.toLateralToken(evt.shiftKey)
+        }
+      }
+    },
+
+    keyboardInput (newChar, isApm = false) {
+      const currentChunk = this.getCurrentTokenChunk()
+      if (!currentChunk || (currentChunk.type !== 'apm' && isApm) || (currentChunk.type === 'apm' && !isApm)) { return }
+      this.kbInputLog = `${this.kbInputLog.substr(-1)}${newChar}`
+      this.setKbInput()
+      this.debounceClearKbLog()
+    },
+
+    clearKbInputLog () {
+      window.clearTimeout(this.kbInputTimer)
+      this.kbInputLog = ''
+    },
+
+    debounceClearKbLog () {
+      window.clearTimeout(this.kbInputTimer)
+      this.kbInputTimer = window.setTimeout(() => {
+        this.clearKbInputLog()
+      }, this.opts.manualInputTimeout)
+    },
+
+    setKbInput (value) {
+      value = value || this.kbInputLog
+      const currentChunk = this.getCurrentTokenChunk()
+      if (!currentChunk || !value || !value.length) { return }
+      const chunkType = currentChunk.type
+      const chunkToken = currentChunk.token
+
+      let validValue
+      if (chunkType === 'apm') {
+        if (this.lowerCasedApm(value).includes('a')) {
+          validValue = 'am'
+        } else if (this.lowerCasedApm(value).includes('p')) {
+          validValue = 'pm'
+        }
+        if (validValue) {
+          validValue = chunkToken === 'A' ? validValue.toUpperCase() : validValue
+        }
+      } else {
+        if (this.isValidValue(chunkToken, value)) {
+          validValue = value
+        } else {
+          const lastInputValue = this.formatValue(chunkToken, value.substr(-1))
+          if (this.isValidValue(chunkToken, lastInputValue)) {
+            validValue = lastInputValue
+          }
+        }
+      }
+
+      if (validValue) {
+        this.setSanitizedValueToSection(chunkType, validValue)
+        const newChunkPos = this.getCurrentTokenChunk()
+        this.debounceSetInputSelection(newChunkPos)      
+      }
+      if (this.debugMode) {
+        if (validValue) {
+          this.debugLog(`Successfully set value "${validValue}" from latest input "${value}" for the "${chunkType}" slot`)
+        } else {
+          this.debugLog(`Value "${value}" is invalid in the "${chunkType}" slot`)
+        }
+      }
+    },
+
+    // Form Autofill
+    onChange () {
+      if (!this.manualInput || !this.$refs || !this.$refs.input) { return }
+      const autoFillValue = this.$refs.input.value || ''
+      if (autoFillValue && autoFillValue.length) {
+        this.readStringValues(autoFillValue)
+      }
+    },
+
+    getNearestChunkByPos (startPos) {
+      if (!this.tokenChunksPos || !this.tokenChunksPos.length) { return }
+      let nearest
+      let nearestDelta = -1
+      for (let i = 0; i < this.tokenChunksPos.length; i++) {
+        const chunk = JSON.parse(JSON.stringify(this.tokenChunksPos[i]))
+        if (chunk.start === startPos) {
+          return chunk
+        }
+        const delta = Math.abs(chunk.start - startPos)
+        if (nearestDelta < 0) {
+          nearest = chunk
+          nearestDelta = delta
+        } else {
+          if (nearestDelta <= delta) {
+            return nearest
+          }
+          nearestDelta = delta
+          nearest = chunk
+        }
+      }
+      return nearest
+    },
+
+    selectFirstValidValue () {
+      if (!this.tokenChunksPos || !this.tokenChunksPos.length) { return }
+      const firstSlotType = this.tokenChunksPos[0].type
+      if (firstSlotType === 'hour') {
+        this.getClosestHourItem()
+      } else {
+        this.getClosestValidItemInCol(firstSlotType, this[firstSlotType])
+      }
+      this.selectFirstSlot()
+    },
+
+    getClosestHourItem (currentValue, direction = 'U') {
+      if (!this.validHoursList || !this.validHoursList.length) {
+        if (this.debugMode) {
+          this.debugLog(`No valid hour values found, please check your "hour-range" config\nhour-range: ${JSON.stringify(this.hourRange)}`)
+        }
+        return
+      }
+      if (!currentValue) {
+        this.setManualHour(this.validHoursList[0])
+        return
+      }
+      const currentIndex = this.validHoursList.findIndex(item => {
+        if (!this.baseOn12Hours) {
+          return item === currentValue
+        } else {
+          const valueKey = `${currentValue}${this.lowerCasedApm(this.apm) === 'pm' ? 'p' : 'a'}` 
+          return item === valueKey
+        }
+      })
+      let nextIndex
+      if (currentIndex === -1) {
+        nextIndex = 0
+      } else if (direction === 'D') {
+        nextIndex = currentIndex === 0 ? this.validHoursList.length - 1 : currentIndex - 1
+      } else {
+        nextIndex = (currentIndex + 1) % this.validHoursList.length
+      }
+      const nextItem = this.validHoursList[nextIndex]
+      this.setManualHour(nextItem)
+    },
+
+    getClosestValidItemInCol (column, currentValue, direction = 'U') {
+      if (column === 'hour') {
+        this.getClosestHourItem(currentValue, direction)
+      } else {
+        const nextItem = direction === 'D' ? this.prevItem(column, this[column], true) : this.nextItem(column, this[column], true)
+        if (nextItem) {
+          this.select(column, nextItem.getAttribute('data-key'))
+        }
+      }
+    },
+
+    setSanitizedValueToSection (section, inputValue) {
+      if (!section || !this.getTokenByType(section)) { return }
+      // NOTE: Disabled values are allowed here, followed by an 'error' event, though
+      const sanitizedValue = this.sanitizedValue(this.getTokenByType(section), inputValue)
+      this[section] = sanitizedValue
+    },
+
+    setManualHour (nextItem) {
+      if (this.is12hRange(nextItem)) {
+        const hourT = this.match12hRange(nextItem)
+        const apmValue = hourT[2] === 'a' ? 'AM' : 'PM'
+        this.setSanitizedValueToSection('apm', this.apmType === 'a' ? apmValue.toLowerCase() : apmValue)
+        this.setSanitizedValueToSection('hour', hourT[1])
+      } else {
+        this.setSanitizedValueToSection('hour', nextItem)
+      }
+    },
+
+    debounceSetInputSelection ({start = 0, end = 0 }) {
+      this.$nextTick(() => {
+        this.setInputSelectionRange(start, end)
+      })
+      window.clearTimeout(this.selectionTimer)
+      this.selectionTimer = window.setTimeout(() => {
+        window.clearTimeout(this.selectionTimer)
+        // Double-check selection for 12hr format
+        if (this.$refs.input && (this.$refs.input.selectionStart !== start || this.$refs.input.selectionEnd !== end)) {
+          this.setInputSelectionRange(start, end)
+        }
+      }, 30)
+    },
+
+    setInputSelectionRange (start, end) {
+      if (this.$refs && this.$refs.input) {
+        this.$refs.input.setSelectionRange(start, end)
+      }
+    },
+
+    getCurrentTokenChunk () {
+      return this.getNearestChunkByPos((this.$refs.input && this.$refs.input.selectionStart) || 0)
+    },
+
+    selectFirstSlot () {
+      const firstChunkPos = this.getNearestChunkByPos(0)
+      this.debounceSetInputSelection(firstChunkPos)
+    },
+
+    toLateralToken (toLeft) {
+      const currentChunk = this.getCurrentTokenChunk()
+      if (!currentChunk) {
+        this.selectFirstValidValue()
+        return
+      }
+      const currentChunkIndex = this.tokenChunksPos.findIndex(chk => chk.token === currentChunk.token)
+      if ((!toLeft && currentChunkIndex >= this.tokenChunksPos.length - 1) || (toLeft && currentChunkIndex === 0)) {
+        if (this.debugMode) {
+          if (toLeft) {
+            this.debugLog('You\'re in the leftmost slot already')
+          } else {
+            this.debugLog('You\'re in the rightmost slot already')
+          }
+        }
+        return
+      }
+      const targetSlotPos = toLeft ? this.tokenChunksPos[currentChunkIndex - 1] : this.tokenChunksPos[currentChunkIndex + 1]
+      this.debounceSetInputSelection(targetSlotPos)
+    },
+
+    isCustomApmText (inputData) {
+      if (!inputData || !inputData.length) { return false }
+      if (this.amText && this.amText === inputData) {
+        return this.apmType === 'A' ? 'AM' : 'am'
+      }
+      if (this.pmText && this.pmText === inputData) {
+        return this.apmType === 'A' ? 'PM' : 'pm'
+      }
+      return false
+    },
+
+    replaceCustomApmText (inputString) {
+      if (this.amText && this.amText.length && inputString.includes(this.amText)) {
+        return inputString.replace(new RegExp(this.amText, 'g'), this.apmType === 'A' ? 'AM' : 'am')
+      } else if (this.pmText && this.pmText.length && inputString.includes(this.pmText)) {
+        return inputString.replace(new RegExp(this.pmText, 'g'), this.apmType === 'A' ? 'PM' : 'pm')
+      }
+      return inputString
+    },
+
+    //
+    // Helpers
+    //
+
+    is12hRange (value) {
+      return /^\d{1,2}(a|p|A|P)$/.test(value)
+    },
+
+    match12hRange (value) {
+      return value.match(/^(\d{1,2})(a|p|A|P)$/)
+    },
+
+    isNumber (value) {
+      return !isNaN(parseFloat(value)) && isFinite(value)
+    },
+
+    isBasicType (type) {
+      return CONFIG.BASIC_TYPES.includes(type)
+    },
+
+    lowerCasedApm (apmValue) {
+      return (apmValue || '').toLowerCase()
+    },
+
+    getTokenRegex (token) {
+      switch (token) {
+        case 'HH':
+          return '([01][0-9]|2[0-3]|H{2})'
+        case 'H':
+          return '([0-9]{1}|1[0-9]|2[0-3]|H{1})'
+        case 'hh':
+          return '(0[1-9]|1[0-2]|h{2})'
+        case 'h':
+          return '([1-9]{1}|1[0-2]|h{1})'
+        case 'kk':
+          return '(0[1-9]|1[0-9]|2[0-4]|k{2})'
+        case 'k':
+          return '([1-9]{1}|1[0-9]|2[0-4]|k{1})'
+        case 'mm':
+          return '([0-5][0-9]|m{2})'
+        case 'ss':
+          return '([0-5][0-9]|s{2})'
+        case 'm':
+          return '([0-9]{1}|[1-5][0-9]|m{1})'
+        case 's':
+          return '([0-9]{1}|[1-5][0-9]|s{1})'
+        case 'A':
+          return '(AM|PM|A{1})'
+        case 'a':
+          return '(am|pm|a{1})'
+        default:
+          return ''
+      }
+    },
+
+    isEmptyValue (targetToken, testValue) {
+      return (!testValue || !testValue.length) || (testValue && testValue === targetToken)
+    },
+
+    isValidValue (targetToken, testValue) {
+      if (!targetToken || this.isEmptyValue(targetToken, testValue)) { return false }
+      const tokenRegexStr = this.getTokenRegex(targetToken)
+      if (!tokenRegexStr || !tokenRegexStr.length) { return false }
+      return (new RegExp(`^${tokenRegexStr}$`)).test(testValue)
+    },
+
+    sanitizedValue (targetToken, inputValue) {
+      if (this.isValidValue(targetToken, inputValue)) {
+        return inputValue
+      }
+      return ''
+    },
+
+    getTokenType (token) {
+      return this.inUse.types[this.inUse.tokens.indexOf(token)] || ''
+    },
+
+    getTokenByType (type) {
+      return this[`${type}Type`] || ''
+    },
+
+    isMinuteOrSecond (type) {
+      return ['minute', 'second'].includes(type)
+    },
+
+    debugLog (logText) {
+      if (!logText || !logText.length) { return }
+      let identifier = ''
+      if (this.id) {
+        identifier += `#${this.id}`
+      }
+      if (this.name) {
+        identifier += `[name=${this.name}]`
+      }
+      if (this.inputClass) {
+        let inputClasses = []
+        if (typeof this.inputClass === 'string') {
+          inputClasses = this.inputClass.split(/\s/g)
+        } else if (Array.isArray(this.inputClass)) {
+          inputClasses = [].concat([], this.inputClass)
+        } else if (typeof this.inputClass === 'object') {
+          Object.keys(this.inputClass).forEach(clsName => {
+            if (this.inputClass[clsName]) {
+              inputClasses.push(clsName)
+            }
+          })
+        }
+        for (let inputClass of inputClasses) {
+          if (inputClass && inputClass.trim().length) {
+            identifier += `.${inputClass.trim()}`
+          }
+        }
+      }
+      const finalLogText = `DEBUG: ${logText}${identifier ? `\n\t(${identifier})` : '' }`
+      if (window.console.debug && typeof window.console.debug === 'function') {
+        window.console.debug(finalLogText)
+      } else {
+        window.console.log(finalLogText)
+      }
+    }
+  },
+
+  mounted () {
+    window.clearTimeout(this.debounceTimer)
+    window.clearTimeout(this.selectionTimer)
+    window.clearTimeout(this.kbInputTimer)
+    this.renderFormat()
+  },
+
+  beforeDestroy () {
+    window.clearTimeout(this.debounceTimer)
+    window.clearTimeout(this.selectionTimer)
+    window.clearTimeout(this.kbInputTimer)
+  }
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=template&id=c4588f32&":
+/*!**************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=template&id=c4588f32& ***!
+  \**************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "span",
+    { staticClass: "vue__time-picker time-picker", style: _vm.inputWidthStyle },
+    [
+      _c("input", {
+        ref: "input",
+        staticClass: "display-time",
+        class: [
+          _vm.inputClass,
+          {
+            "is-empty": _vm.inputIsEmpty,
+            invalid: _vm.hasInvalidInput,
+            "all-selected": _vm.allValueSelected,
+            disabled: _vm.disabled
+          }
+        ],
+        style: _vm.inputWidthStyle,
+        attrs: {
+          type: "text",
+          id: _vm.id,
+          name: _vm.name,
+          placeholder: _vm.placeholder ? _vm.placeholder : _vm.formatString,
+          tabindex: _vm.disabled ? -1 : _vm.tabindex,
+          disabled: _vm.disabled,
+          readonly: !_vm.manualInput,
+          autocomplete: _vm.autocomplete
+        },
+        domProps: { value: _vm.inputIsEmpty ? null : _vm.customDisplayTime },
+        on: {
+          focus: _vm.onFocus,
+          change: _vm.onChange,
+          blur: _vm.debounceBlur,
+          mousedown: _vm.onMouseDown,
+          keydown: [
+            _vm.keyDownHandler,
+            function($event) {
+              if (
+                !$event.type.indexOf("key") &&
+                _vm._k($event.keyCode, "esc", 27, $event.key, ["Esc", "Escape"])
+              ) {
+                return null
+              }
+              if (
+                $event.ctrlKey ||
+                $event.shiftKey ||
+                $event.altKey ||
+                $event.metaKey
+              ) {
+                return null
+              }
+              return _vm.escBlur($event)
+            }
+          ],
+          compositionstart: _vm.onCompostionStart,
+          compositionend: _vm.onCompostionEnd,
+          paste: _vm.pasteHandler
+        }
+      }),
+      _vm._v(" "),
+      !_vm.showDropdown && _vm.showClearBtn
+        ? _c(
+            "span",
+            {
+              staticClass: "clear-btn",
+              attrs: { tabindex: "-1" },
+              on: { click: _vm.clearTime }
+            },
+            [_vm._v("×")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.showDropdown
+        ? _c("div", {
+            staticClass: "time-picker-overlay",
+            attrs: { tabindex: "-1" },
+            on: { click: _vm.toggleDropdown }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.showDropdown && !_vm.opts.hideDropdown,
+              expression: "showDropdown && !opts.hideDropdown"
+            }
+          ],
+          staticClass: "dropdown",
+          style: _vm.inputWidthStyle,
+          attrs: { tabindex: "-1" },
+          on: {
+            mouseup: _vm.keepFocusing,
+            click: function($event) {
+              $event.stopPropagation()
+            }
+          }
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass: "select-list",
+              style: _vm.inputWidthStyle,
+              attrs: { tabindex: "-1" }
+            },
+            [
+              !_vm.opts.advancedKeyboard
+                ? [
+                    _vm._l(_vm.columnsSequence, function(column) {
+                      return [
+                        column === "hour"
+                          ? _c(
+                              "ul",
+                              {
+                                key: column,
+                                staticClass: "hours",
+                                on: { scroll: _vm.keepFocusing }
+                              },
+                              [
+                                _c("li", {
+                                  staticClass: "hint",
+                                  domProps: {
+                                    textContent: _vm._s(_vm.hourLabelText)
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _vm._l(_vm.hours, function(hr, hIndex) {
+                                  return [
+                                    !_vm.opts.hideDisabledHours ||
+                                    (_vm.opts.hideDisabledHours &&
+                                      !_vm.isDisabled("hour", hr))
+                                      ? _c("li", {
+                                          key: hIndex,
+                                          class: { active: _vm.hour === hr },
+                                          attrs: {
+                                            disabled: _vm.isDisabled(
+                                              "hour",
+                                              hr
+                                            ),
+                                            "data-key": hr
+                                          },
+                                          domProps: { textContent: _vm._s(hr) },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.select("hour", hr)
+                                            }
+                                          }
+                                        })
+                                      : _vm._e()
+                                  ]
+                                })
+                              ],
+                              2
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        column === "minute"
+                          ? _c(
+                              "ul",
+                              {
+                                key: column,
+                                staticClass: "minutes",
+                                on: { scroll: _vm.keepFocusing }
+                              },
+                              [
+                                _c("li", {
+                                  staticClass: "hint",
+                                  domProps: {
+                                    textContent: _vm._s(_vm.minuteLabelText)
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _vm._l(_vm.minutes, function(m, mIndex) {
+                                  return [
+                                    !_vm.opts.hideDisabledMinutes ||
+                                    (_vm.opts.hideDisabledMinutes &&
+                                      !_vm.isDisabled("minute", m))
+                                      ? _c("li", {
+                                          key: mIndex,
+                                          class: { active: _vm.minute === m },
+                                          attrs: {
+                                            disabled: _vm.isDisabled(
+                                              "minute",
+                                              m
+                                            ),
+                                            "data-key": m
+                                          },
+                                          domProps: { textContent: _vm._s(m) },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.select("minute", m)
+                                            }
+                                          }
+                                        })
+                                      : _vm._e()
+                                  ]
+                                })
+                              ],
+                              2
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        column === "second"
+                          ? _c(
+                              "ul",
+                              {
+                                key: column,
+                                staticClass: "seconds",
+                                on: { scroll: _vm.keepFocusing }
+                              },
+                              [
+                                _c("li", {
+                                  staticClass: "hint",
+                                  domProps: {
+                                    textContent: _vm._s(_vm.secondLabelText)
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _vm._l(_vm.seconds, function(s, sIndex) {
+                                  return [
+                                    !_vm.opts.hideDisabledSeconds ||
+                                    (_vm.opts.hideDisabledSeconds &&
+                                      !_vm.isDisabled("second", s))
+                                      ? _c("li", {
+                                          key: sIndex,
+                                          class: { active: _vm.second === s },
+                                          attrs: {
+                                            disabled: _vm.isDisabled(
+                                              "second",
+                                              s
+                                            ),
+                                            "data-key": s
+                                          },
+                                          domProps: { textContent: _vm._s(s) },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.select("second", s)
+                                            }
+                                          }
+                                        })
+                                      : _vm._e()
+                                  ]
+                                })
+                              ],
+                              2
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        column === "apm"
+                          ? _c(
+                              "ul",
+                              {
+                                key: column,
+                                staticClass: "apms",
+                                on: { scroll: _vm.keepFocusing }
+                              },
+                              [
+                                _c("li", {
+                                  staticClass: "hint",
+                                  domProps: {
+                                    textContent: _vm._s(_vm.apmLabelText)
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _vm._l(_vm.apms, function(a, aIndex) {
+                                  return [
+                                    !_vm.opts.hideDisabledHours ||
+                                    (_vm.opts.hideDisabledHours &&
+                                      !_vm.isDisabled("apm", a))
+                                      ? _c("li", {
+                                          key: aIndex,
+                                          class: { active: _vm.apm === a },
+                                          attrs: {
+                                            disabled: _vm.isDisabled("apm", a),
+                                            "data-key": a
+                                          },
+                                          domProps: {
+                                            textContent: _vm._s(
+                                              _vm.apmDisplayText(a)
+                                            )
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.select("apm", a)
+                                            }
+                                          }
+                                        })
+                                      : _vm._e()
+                                  ]
+                                })
+                              ],
+                              2
+                            )
+                          : _vm._e()
+                      ]
+                    })
+                  ]
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.opts.advancedKeyboard
+                ? [
+                    _vm._l(_vm.columnsSequence, function(column) {
+                      return [
+                        column === "hour"
+                          ? _c(
+                              "ul",
+                              {
+                                key: column,
+                                staticClass: "hours",
+                                attrs: { tabindex: "-1" },
+                                on: { scroll: _vm.keepFocusing }
+                              },
+                              [
+                                _c("li", {
+                                  staticClass: "hint",
+                                  attrs: { tabindex: "-1" },
+                                  domProps: {
+                                    textContent: _vm._s(_vm.hourLabelText)
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _vm._l(_vm.hours, function(hr, hIndex) {
+                                  return [
+                                    !_vm.opts.hideDisabledHours ||
+                                    (_vm.opts.hideDisabledHours &&
+                                      !_vm.isDisabled("hour", hr))
+                                      ? _c("li", {
+                                          key: hIndex,
+                                          class: { active: _vm.hour === hr },
+                                          attrs: {
+                                            tabindex: _vm.isDisabled("hour", hr)
+                                              ? -1
+                                              : _vm.tabindex,
+                                            "data-key": hr,
+                                            disabled: _vm.isDisabled("hour", hr)
+                                          },
+                                          domProps: { textContent: _vm._s(hr) },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.select("hour", hr)
+                                            },
+                                            keydown: [
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "space",
+                                                    32,
+                                                    $event.key,
+                                                    [" ", "Spacebar"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.select("hour", hr)
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "enter",
+                                                    13,
+                                                    $event.key,
+                                                    "Enter"
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.select("hour", hr)
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "up",
+                                                    38,
+                                                    $event.key,
+                                                    ["Up", "ArrowUp"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.prevItem("hour", hr)
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "down",
+                                                    40,
+                                                    $event.key,
+                                                    ["Down", "ArrowDown"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.nextItem("hour", hr)
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "left",
+                                                    37,
+                                                    $event.key,
+                                                    ["Left", "ArrowLeft"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                if (
+                                                  "button" in $event &&
+                                                  $event.button !== 0
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.toLeftColumn("hour")
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "right",
+                                                    39,
+                                                    $event.key,
+                                                    ["Right", "ArrowRight"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                if (
+                                                  "button" in $event &&
+                                                  $event.button !== 2
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.toRightColumn("hour")
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "esc",
+                                                    27,
+                                                    $event.key,
+                                                    ["Esc", "Escape"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                if (
+                                                  $event.ctrlKey ||
+                                                  $event.shiftKey ||
+                                                  $event.altKey ||
+                                                  $event.metaKey
+                                                ) {
+                                                  return null
+                                                }
+                                                return _vm.debounceBlur($event)
+                                              }
+                                            ],
+                                            blur: _vm.debounceBlur,
+                                            focus: _vm.keepFocusing
+                                          }
+                                        })
+                                      : _vm._e()
+                                  ]
+                                })
+                              ],
+                              2
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        column === "minute"
+                          ? _c(
+                              "ul",
+                              {
+                                key: column,
+                                staticClass: "minutes",
+                                attrs: { tabindex: "-1" },
+                                on: { scroll: _vm.keepFocusing }
+                              },
+                              [
+                                _c("li", {
+                                  staticClass: "hint",
+                                  attrs: { tabindex: "-1" },
+                                  domProps: {
+                                    textContent: _vm._s(_vm.minuteLabelText)
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _vm._l(_vm.minutes, function(m, mIndex) {
+                                  return [
+                                    !_vm.opts.hideDisabledMinutes ||
+                                    (_vm.opts.hideDisabledMinutes &&
+                                      !_vm.isDisabled("minute", m))
+                                      ? _c("li", {
+                                          key: mIndex,
+                                          class: { active: _vm.minute === m },
+                                          attrs: {
+                                            tabindex: _vm.isDisabled(
+                                              "minute",
+                                              m
+                                            )
+                                              ? -1
+                                              : _vm.tabindex,
+                                            "data-key": m,
+                                            disabled: _vm.isDisabled(
+                                              "minute",
+                                              m
+                                            )
+                                          },
+                                          domProps: { textContent: _vm._s(m) },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.select("minute", m)
+                                            },
+                                            keydown: [
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "space",
+                                                    32,
+                                                    $event.key,
+                                                    [" ", "Spacebar"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.select("minute", m)
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "enter",
+                                                    13,
+                                                    $event.key,
+                                                    "Enter"
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.select("minute", m)
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "up",
+                                                    38,
+                                                    $event.key,
+                                                    ["Up", "ArrowUp"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.prevItem("minute", m)
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "down",
+                                                    40,
+                                                    $event.key,
+                                                    ["Down", "ArrowDown"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.nextItem("minute", m)
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "left",
+                                                    37,
+                                                    $event.key,
+                                                    ["Left", "ArrowLeft"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                if (
+                                                  "button" in $event &&
+                                                  $event.button !== 0
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.toLeftColumn(
+                                                  "minute"
+                                                )
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "right",
+                                                    39,
+                                                    $event.key,
+                                                    ["Right", "ArrowRight"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                if (
+                                                  "button" in $event &&
+                                                  $event.button !== 2
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.toRightColumn(
+                                                  "minute"
+                                                )
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "esc",
+                                                    27,
+                                                    $event.key,
+                                                    ["Esc", "Escape"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                if (
+                                                  $event.ctrlKey ||
+                                                  $event.shiftKey ||
+                                                  $event.altKey ||
+                                                  $event.metaKey
+                                                ) {
+                                                  return null
+                                                }
+                                                return _vm.debounceBlur($event)
+                                              }
+                                            ],
+                                            blur: _vm.debounceBlur,
+                                            focus: _vm.keepFocusing
+                                          }
+                                        })
+                                      : _vm._e()
+                                  ]
+                                })
+                              ],
+                              2
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        column === "second"
+                          ? _c(
+                              "ul",
+                              {
+                                key: column,
+                                staticClass: "seconds",
+                                attrs: { tabindex: "-1" },
+                                on: { scroll: _vm.keepFocusing }
+                              },
+                              [
+                                _c("li", {
+                                  staticClass: "hint",
+                                  attrs: { tabindex: "-1" },
+                                  domProps: {
+                                    textContent: _vm._s(_vm.secondLabelText)
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _vm._l(_vm.seconds, function(s, sIndex) {
+                                  return [
+                                    !_vm.opts.hideDisabledSeconds ||
+                                    (_vm.opts.hideDisabledSeconds &&
+                                      !_vm.isDisabled("second", s))
+                                      ? _c("li", {
+                                          key: sIndex,
+                                          class: { active: _vm.second === s },
+                                          attrs: {
+                                            tabindex: _vm.isDisabled(
+                                              "second",
+                                              s
+                                            )
+                                              ? -1
+                                              : _vm.tabindex,
+                                            "data-key": s,
+                                            disabled: _vm.isDisabled(
+                                              "second",
+                                              s
+                                            )
+                                          },
+                                          domProps: { textContent: _vm._s(s) },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.select("second", s)
+                                            },
+                                            keydown: [
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "space",
+                                                    32,
+                                                    $event.key,
+                                                    [" ", "Spacebar"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.select("second", s)
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "enter",
+                                                    13,
+                                                    $event.key,
+                                                    "Enter"
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.select("second", s)
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "up",
+                                                    38,
+                                                    $event.key,
+                                                    ["Up", "ArrowUp"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.prevItem("second", s)
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "down",
+                                                    40,
+                                                    $event.key,
+                                                    ["Down", "ArrowDown"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.nextItem("second", s)
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "left",
+                                                    37,
+                                                    $event.key,
+                                                    ["Left", "ArrowLeft"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                if (
+                                                  "button" in $event &&
+                                                  $event.button !== 0
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.toLeftColumn(
+                                                  "second"
+                                                )
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "right",
+                                                    39,
+                                                    $event.key,
+                                                    ["Right", "ArrowRight"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                if (
+                                                  "button" in $event &&
+                                                  $event.button !== 2
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.toRightColumn(
+                                                  "second"
+                                                )
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "esc",
+                                                    27,
+                                                    $event.key,
+                                                    ["Esc", "Escape"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                if (
+                                                  $event.ctrlKey ||
+                                                  $event.shiftKey ||
+                                                  $event.altKey ||
+                                                  $event.metaKey
+                                                ) {
+                                                  return null
+                                                }
+                                                return _vm.debounceBlur($event)
+                                              }
+                                            ],
+                                            blur: _vm.debounceBlur,
+                                            focus: _vm.keepFocusing
+                                          }
+                                        })
+                                      : _vm._e()
+                                  ]
+                                })
+                              ],
+                              2
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        column === "apm"
+                          ? _c(
+                              "ul",
+                              {
+                                key: column,
+                                staticClass: "apms",
+                                attrs: { tabindex: "-1" },
+                                on: { scroll: _vm.keepFocusing }
+                              },
+                              [
+                                _c("li", {
+                                  staticClass: "hint",
+                                  attrs: { tabindex: "-1" },
+                                  domProps: {
+                                    textContent: _vm._s(_vm.apmLabelText)
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _vm._l(_vm.apms, function(a, aIndex) {
+                                  return [
+                                    !_vm.opts.hideDisabledHours ||
+                                    (_vm.opts.hideDisabledHours &&
+                                      !_vm.isDisabled("apm", a))
+                                      ? _c("li", {
+                                          key: aIndex,
+                                          class: { active: _vm.apm === a },
+                                          attrs: {
+                                            tabindex: _vm.isDisabled("apm", a)
+                                              ? -1
+                                              : _vm.tabindex,
+                                            "data-key": a,
+                                            disabled: _vm.isDisabled("apm", a)
+                                          },
+                                          domProps: {
+                                            textContent: _vm._s(
+                                              _vm.apmDisplayText(a)
+                                            )
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.select("apm", a)
+                                            },
+                                            keydown: [
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "space",
+                                                    32,
+                                                    $event.key,
+                                                    [" ", "Spacebar"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.select("apm", a)
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "enter",
+                                                    13,
+                                                    $event.key,
+                                                    "Enter"
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.select("apm", a)
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "up",
+                                                    38,
+                                                    $event.key,
+                                                    ["Up", "ArrowUp"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.prevItem("apm", a)
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "down",
+                                                    40,
+                                                    $event.key,
+                                                    ["Down", "ArrowDown"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.nextItem("apm", a)
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "left",
+                                                    37,
+                                                    $event.key,
+                                                    ["Left", "ArrowLeft"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                if (
+                                                  "button" in $event &&
+                                                  $event.button !== 0
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.toLeftColumn("apm")
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "right",
+                                                    39,
+                                                    $event.key,
+                                                    ["Right", "ArrowRight"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                if (
+                                                  "button" in $event &&
+                                                  $event.button !== 2
+                                                ) {
+                                                  return null
+                                                }
+                                                $event.preventDefault()
+                                                return _vm.toRightColumn("apm")
+                                              },
+                                              function($event) {
+                                                if (
+                                                  !$event.type.indexOf("key") &&
+                                                  _vm._k(
+                                                    $event.keyCode,
+                                                    "esc",
+                                                    27,
+                                                    $event.key,
+                                                    ["Esc", "Escape"]
+                                                  )
+                                                ) {
+                                                  return null
+                                                }
+                                                if (
+                                                  $event.ctrlKey ||
+                                                  $event.shiftKey ||
+                                                  $event.altKey ||
+                                                  $event.metaKey
+                                                ) {
+                                                  return null
+                                                }
+                                                return _vm.debounceBlur($event)
+                                              }
+                                            ],
+                                            blur: _vm.debounceBlur,
+                                            focus: _vm.keepFocusing
+                                          }
+                                        })
+                                      : _vm._e()
+                                  ]
+                                })
+                              ],
+                              2
+                            )
+                          : _vm._e()
+                      ]
+                    })
+                  ]
+                : _vm._e()
+            ],
+            2
+          )
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FormLine.vue?vue&type=template&id=22a7cf7a&":
 /*!***********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FormLine.vue?vue&type=template&id=22a7cf7a& ***!
@@ -38336,10 +42219,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Modal.vue?vue&type=template&id=53ab54d2&":
-/*!********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Modal.vue?vue&type=template&id=53ab54d2& ***!
-  \********************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalGrp.vue?vue&type=template&id=5b63473a&":
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ModalGrp.vue?vue&type=template&id=5b63473a& ***!
+  \***********************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -38368,14 +42251,9 @@ var render = function() {
             "div",
             { staticClass: "modal-header row", attrs: { id: "modalTitle" } },
             [
-              _c(
-                "div",
-                { staticClass: "col-11" },
-                [
-                  _vm._t("header-title", [_vm._v("This is the default title!")])
-                ],
-                2
-              ),
+              _c("div", { staticClass: "col-11" }, [
+                _c("h1", [_vm._v("Voeg groep toe")])
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-1 d-flex justify-content-end" }, [
                 _c(
@@ -38385,50 +42263,1061 @@ var render = function() {
                     attrs: { type: "button", "aria-label": "Close modal" },
                     on: { click: _vm.close }
                   },
-                  [_vm._v("\n\t\t            ×\n\t\t         ")]
+                  [_vm._v("\n        ×\n        ")]
                 )
               ])
             ]
           ),
           _vm._v(" "),
+          _c("div", { staticClass: "modal-content container py-4" }, [
+            _c(
+              "form",
+              { attrs: { method: "post" }, on: { submit: _vm.formSubmit } },
+              [
+                _c("input", {
+                  attrs: { type: "hidden", name: "_token" },
+                  domProps: { value: _vm.csrf }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "name" }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(_vm.errors.get("name")))])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "size" } }, [
+                        _vm._v("Aantal personen")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "size" }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(_vm.errors.get("size")))])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "date" } }, [
+                        _vm._v("Datum")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "date" }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(_vm.errors.get("date")))])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "startTime" } }, [
+                        _vm._v("Tijd")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "startTime" }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(_vm.errors.get("startTime")))])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c("h5", [_vm._v("Activiteiten")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row activity-row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "description" } }, [
+                        _vm._v("Name")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "act-description" }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [
+                        _vm._v(_vm._s(_vm.errors.get("act-description")))
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "act-startTime" } }, [
+                        _vm._v("Start")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "act-startTime" }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [
+                        _vm._v(_vm._s(_vm.errors.get("act-startTime")))
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "act-endTime" } }, [
+                        _vm._v("Einde")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "act-endTime" }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [
+                        _vm._v(_vm._s(_vm.errors.get("act-endTime")))
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "act-size" } }, [
+                        _vm._v("Aantal personen")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "act-size" }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(_vm.errors.get("act-size")))])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.fields, function(item) {
+                  return _c("formline", {
+                    key: item.id,
+                    attrs: { id: item.name }
+                  })
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.addActivity("test")
+                      }
+                    }
+                  },
+                  [_vm._v("Voeg nog een activiteit toe")]
+                ),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "notes" } }, [
+                    _vm._v("Opmerking")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass: "form-control",
+                    attrs: { type: "text", name: "notes" }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row justify-content-end" }, [
+                  _c("div", { staticClass: "col-sm-2" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary float-right",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Add reservation")]
+                    )
+                  ])
+                ])
+              ],
+              2
+            )
+          ])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalGrpEdit.vue?vue&type=template&id=caa387e6&":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ModalGrpEdit.vue?vue&type=template&id=caa387e6& ***!
+  \***************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("transition", { attrs: { name: "fade" } }, [
+    _c("div", { staticClass: "modal-backdrop" }, [
+      _c(
+        "div",
+        {
+          staticClass: "modal container",
+          attrs: {
+            role: "modal",
+            "aria-labelledby": "modalTitle",
+            "aria-describedby": "modalDescription"
+          }
+        },
+        [
           _c(
             "div",
-            { staticClass: "modal-selector row", attrs: { id: "modalTitle" } },
+            { staticClass: "modal-header row", attrs: { id: "modalTitle" } },
             [
-              _c(
-                "div",
-                { staticClass: "col-12" },
-                [
-                  _vm._t("selector-buttons", [
-                    _c("p", [_vm._v(" Default buttons:")])
-                  ])
-                ],
-                2
-              )
+              _c("div", { staticClass: "col-11" }, [
+                _c("h1", [_vm._v("Pas groep aan")])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-1 d-flex justify-content-end" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn-close",
+                    attrs: { type: "button", "aria-label": "Close modal" },
+                    on: { click: _vm.close }
+                  },
+                  [_vm._v("\n        ×\n        ")]
+                )
+              ])
             ]
           ),
           _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "modal-content row",
-              attrs: { id: "modalDescription" }
-            },
-            [
-              _c(
-                "div",
-                { staticClass: "col-12" },
-                [
-                  _vm._t("body", [
-                    _vm._v(
-                      "\n\t\t            I'm the default body!\n\t          "
+          _c("div", { staticClass: "modal-content container py-4" }, [
+            _c(
+              "form",
+              {
+                attrs: { method: "post" },
+                on: { submit: _vm.updateReservation }
+              },
+              [
+                _c("input", {
+                  attrs: { type: "hidden", name: "_token" },
+                  domProps: { value: _vm.csrf }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.name,
+                            expression: "name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "name" },
+                        domProps: { value: _vm.name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.name = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(_vm.errors.get("name")))])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "size" } }, [
+                        _vm._v("Aantal personen")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.size,
+                            expression: "size"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "size" },
+                        domProps: { value: _vm.size },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.size = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(_vm.errors.get("size")))])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "date" } }, [
+                        _vm._v("Datum")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.date,
+                            expression: "date"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "date" },
+                        domProps: { value: _vm.date },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.date = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(_vm.errors.get("date")))])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "startTime" } }, [
+                        _vm._v("Tijd")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.startTime,
+                            expression: "startTime"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "startTime" },
+                        domProps: { value: _vm.startTime },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.startTime = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(_vm.errors.get("startTime")))])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c("h5", [_vm._v("Activiteiten")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row activity-row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "description" } }, [
+                        _vm._v("Name")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "act-description" }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [
+                        _vm._v(_vm._s(_vm.errors.get("act-description")))
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "act-startTime" } }, [
+                        _vm._v("Start")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "act-startTime" }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [
+                        _vm._v(_vm._s(_vm.errors.get("act-startTime")))
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "act-endTime" } }, [
+                        _vm._v("Einde")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "act-endTime" }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [
+                        _vm._v(_vm._s(_vm.errors.get("act-endTime")))
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-2" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "act-size" } }, [
+                        _vm._v("Aantal personen")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "act-size" }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(_vm.errors.get("act-size")))])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.fields, function(item) {
+                  return _c("formline", {
+                    key: item.id,
+                    attrs: { id: item.name }
+                  })
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.addActivity("test")
+                      }
+                    }
+                  },
+                  [_vm._v("Voeg nog een activiteit toe")]
+                ),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "notes" } }, [
+                    _vm._v("Opmerking")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.notes,
+                        expression: "notes"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", name: "notes" },
+                    domProps: { value: _vm.notes },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.notes = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row justify-content-end" }, [
+                  _c("div", { staticClass: "col-sm-2" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary float-right",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Wijzig")]
                     )
                   ])
-                ],
-                2
-              )
+                ])
+              ],
+              2
+            )
+          ])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalRes.vue?vue&type=template&id=022e2e9e&":
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ModalRes.vue?vue&type=template&id=022e2e9e& ***!
+  \***********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("transition", { attrs: { name: "fade" } }, [
+    _c("div", { staticClass: "modal-backdrop" }, [
+      _c(
+        "div",
+        {
+          staticClass: "modal container",
+          attrs: {
+            role: "modal",
+            "aria-labelledby": "modalTitle",
+            "aria-describedby": "modalDescription"
+          }
+        },
+        [
+          _c(
+            "div",
+            { staticClass: "modal-header row", attrs: { id: "modalTitle" } },
+            [
+              _c("div", { staticClass: "col-11" }, [
+                _c("h1", [_vm._v("Voeg reservering toe")])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-1 d-flex justify-content-end" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn-close",
+                    attrs: { type: "button", "aria-label": "Close modal" },
+                    on: { click: _vm.close }
+                  },
+                  [_vm._v("\n         ×\n         ")]
+                )
+              ])
             ]
-          )
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-content container py-4" }, [
+            _c(
+              "form",
+              { attrs: { method: "post" }, on: { submit: _vm.formSubmit } },
+              [
+                _c("input", {
+                  attrs: { type: "hidden", name: "_token" },
+                  domProps: { value: _vm.csrf }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.name,
+                            expression: "name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "name" },
+                        domProps: { value: _vm.name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.name = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(_vm.errors.get("name")))])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "size" } }, [
+                        _vm._v("Aantal personen")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.size,
+                            expression: "size"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "size" },
+                        domProps: { value: _vm.size },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.size = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(_vm.errors.get("size")))])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "date" } }, [
+                        _vm._v("Datum")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.date,
+                            expression: "date"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "date", name: "date" },
+                        domProps: { value: _vm.date },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.date = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(_vm.errors.get("date")))])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "startTime" } }, [
+                        _vm._v("Tijd")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-control p-0" },
+                        [
+                          _c("vue-timepicker", {
+                            attrs: {
+                              "minute-interval": 15,
+                              "hour-range": [
+                                11,
+                                12,
+                                13,
+                                14,
+                                15,
+                                16,
+                                17,
+                                18,
+                                19,
+                                20,
+                                21,
+                                22,
+                                23
+                              ],
+                              "manual-input": ""
+                            },
+                            model: {
+                              value: _vm.simpleStringValue,
+                              callback: function($$v) {
+                                _vm.simpleStringValue = $$v
+                              },
+                              expression: "simpleStringValue"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(_vm.errors.get("startTime")))])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "notes" } }, [
+                    _vm._v("Opmerking")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.notes,
+                        expression: "notes"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", name: "notes" },
+                    domProps: { value: _vm.notes },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.notes = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", [_vm._v(_vm._s(_vm.errors.get("notes")))])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row justify-content-end" }, [
+                  _c("div", { staticClass: "col-sm-2" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary float-right",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Add reservation")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          ])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalResEdit.vue?vue&type=template&id=559478c8&":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ModalResEdit.vue?vue&type=template&id=559478c8& ***!
+  \***************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("transition", { attrs: { name: "fade" } }, [
+    _c("div", { staticClass: "modal-backdrop" }, [
+      _c(
+        "div",
+        {
+          staticClass: "modal container",
+          attrs: {
+            role: "modal",
+            "aria-labelledby": "modalTitle",
+            "aria-describedby": "modalDescription"
+          }
+        },
+        [
+          _c(
+            "div",
+            { staticClass: "modal-header row", attrs: { id: "modalTitle" } },
+            [
+              _c("div", { staticClass: "col-11" }, [
+                _c("h1", [_vm._v("Pas reservering aan")])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-1 d-flex justify-content-end" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn-close",
+                    attrs: { type: "button", "aria-label": "Close modal" },
+                    on: { click: _vm.close }
+                  },
+                  [_vm._v("\n           ×\n           ")]
+                )
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-content container py-4" }, [
+            _c(
+              "form",
+              {
+                attrs: { method: "post" },
+                on: { submit: _vm.updateReservation }
+              },
+              [
+                _c("input", {
+                  attrs: { type: "hidden", name: "_token" },
+                  domProps: { value: _vm.csrf }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.name,
+                            expression: "name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "name" },
+                        domProps: { value: _vm.name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.name = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(_vm.errors.get("name")))])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "size" } }, [
+                        _vm._v("Aantal personen")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.size,
+                            expression: "size"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "size" },
+                        domProps: { value: _vm.size },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.size = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(_vm.errors.get("size")))])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "date" } }, [
+                        _vm._v("Datum")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.date,
+                            expression: "date"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "date" },
+                        domProps: { value: _vm.date },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.date = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(_vm.errors.get("date")))])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "startTime" } }, [
+                        _vm._v("Tijd")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.startTime,
+                            expression: "startTime"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "startTime" },
+                        domProps: { value: _vm.startTime },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.startTime = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v(_vm._s(_vm.errors.get("startTime")))])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "notes" } }, [
+                    _vm._v("Opmerking")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.notes,
+                        expression: "notes"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", name: "notes" },
+                    domProps: { value: _vm.notes },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.notes = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", [_vm._v(_vm._s(_vm.errors.get("notes")))])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row justify-content-end" }, [
+                  _c("div", { staticClass: "col-sm-2" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary float-right",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Wijzig")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          ])
         ]
       )
     ])
@@ -50539,6 +55428,93 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/vue2-timepicker/src/vue-timepicker.vue":
+/*!*************************************************************!*\
+  !*** ./node_modules/vue2-timepicker/src/vue-timepicker.vue ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _vue_timepicker_vue_vue_type_template_id_c4588f32___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vue-timepicker.vue?vue&type=template&id=c4588f32& */ "./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=template&id=c4588f32&");
+/* harmony import */ var _vue_timepicker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./vue-timepicker.vue?vue&type=script&lang=js& */ "./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _vue_timepicker_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./vue-timepicker.vue?vue&type=style&index=0&lang=css& */ "./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _vue_timepicker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _vue_timepicker_vue_vue_type_template_id_c4588f32___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _vue_timepicker_vue_vue_type_template_id_c4588f32___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "node_modules/vue2-timepicker/src/vue-timepicker.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************!*\
+  !*** ./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _vue_loader_lib_index_js_vue_loader_options_vue_timepicker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../vue-loader/lib??vue-loader-options!./vue-timepicker.vue?vue&type=script&lang=js& */ "./node_modules/vue-loader/lib/index.js?!./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_vue_loader_lib_index_js_vue_loader_options_vue_timepicker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************************!*\
+  !*** ./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _style_loader_index_js_css_loader_index_js_ref_6_1_vue_loader_lib_loaders_stylePostLoader_js_postcss_loader_src_index_js_ref_6_2_vue_loader_lib_index_js_vue_loader_options_vue_timepicker_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../style-loader!../../css-loader??ref--6-1!../../vue-loader/lib/loaders/stylePostLoader.js!../../postcss-loader/src??ref--6-2!../../vue-loader/lib??vue-loader-options!./vue-timepicker.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _style_loader_index_js_css_loader_index_js_ref_6_1_vue_loader_lib_loaders_stylePostLoader_js_postcss_loader_src_index_js_ref_6_2_vue_loader_lib_index_js_vue_loader_options_vue_timepicker_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_index_js_css_loader_index_js_ref_6_1_vue_loader_lib_loaders_stylePostLoader_js_postcss_loader_src_index_js_ref_6_2_vue_loader_lib_index_js_vue_loader_options_vue_timepicker_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _style_loader_index_js_css_loader_index_js_ref_6_1_vue_loader_lib_loaders_stylePostLoader_js_postcss_loader_src_index_js_ref_6_2_vue_loader_lib_index_js_vue_loader_options_vue_timepicker_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _style_loader_index_js_css_loader_index_js_ref_6_1_vue_loader_lib_loaders_stylePostLoader_js_postcss_loader_src_index_js_ref_6_2_vue_loader_lib_index_js_vue_loader_options_vue_timepicker_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_style_loader_index_js_css_loader_index_js_ref_6_1_vue_loader_lib_loaders_stylePostLoader_js_postcss_loader_src_index_js_ref_6_2_vue_loader_lib_index_js_vue_loader_options_vue_timepicker_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=template&id=c4588f32&":
+/*!********************************************************************************************!*\
+  !*** ./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=template&id=c4588f32& ***!
+  \********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _vue_loader_lib_loaders_templateLoader_js_vue_loader_options_vue_loader_lib_index_js_vue_loader_options_vue_timepicker_vue_vue_type_template_id_c4588f32___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../vue-loader/lib??vue-loader-options!./vue-timepicker.vue?vue&type=template&id=c4588f32& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./node_modules/vue2-timepicker/src/vue-timepicker.vue?vue&type=template&id=c4588f32&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _vue_loader_lib_loaders_templateLoader_js_vue_loader_options_vue_loader_lib_index_js_vue_loader_options_vue_timepicker_vue_vue_type_template_id_c4588f32___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _vue_loader_lib_loaders_templateLoader_js_vue_loader_options_vue_loader_lib_index_js_vue_loader_options_vue_timepicker_vue_vue_type_template_id_c4588f32___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./node_modules/webpack/buildin/global.js":
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -50612,37 +55588,65 @@ module.exports = function(module) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_Modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Modal */ "./resources/js/components/Modal.vue");
-/* harmony import */ var _components_FormLine__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/FormLine */ "./resources/js/components/FormLine.vue");
+/* harmony import */ var _components_ModalRes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/ModalRes */ "./resources/js/components/ModalRes.vue");
+/* harmony import */ var _components_ModalGrp__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/ModalGrp */ "./resources/js/components/ModalGrp.vue");
+/* harmony import */ var _components_ModalResEdit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/ModalResEdit */ "./resources/js/components/ModalResEdit.vue");
+/* harmony import */ var _components_ModalGrpEdit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/ModalGrpEdit */ "./resources/js/components/ModalGrpEdit.vue");
+/* harmony import */ var _components_FormLine__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/FormLine */ "./resources/js/components/FormLine.vue");
+/* harmony import */ var vue_flash_message__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-flash-message */ "./node_modules/vue-flash-message/dist/vue-flash-message.min.js");
+/* harmony import */ var vue_flash_message__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_flash_message__WEBPACK_IMPORTED_MODULE_5__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
+__webpack_require__(/*! vue-flash-message/dist/vue-flash-message.min.css */ "./node_modules/vue-flash-message/dist/vue-flash-message.min.css"); // going to be one main + 4 components
+
+
+
+
+
 
 
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-Vue.component('modal', _components_Modal__WEBPACK_IMPORTED_MODULE_0__["default"]);
-Vue.component('formline', _components_FormLine__WEBPACK_IMPORTED_MODULE_1__["default"]);
+Vue.component('res', _components_ModalRes__WEBPACK_IMPORTED_MODULE_0__["default"]);
+Vue.component('grp', _components_ModalGrp__WEBPACK_IMPORTED_MODULE_1__["default"]);
+Vue.component('formline', _components_FormLine__WEBPACK_IMPORTED_MODULE_4__["default"]);
+Vue.component('edit-res', _components_ModalResEdit__WEBPACK_IMPORTED_MODULE_2__["default"]);
+Vue.component('edit-grp', _components_ModalGrpEdit__WEBPACK_IMPORTED_MODULE_3__["default"]);
+Vue.use(vue_flash_message__WEBPACK_IMPORTED_MODULE_5___default.a);
 new Vue({
   el: '#app',
   data: {
-    isModalVisible: false,
+    resModalShowing: false,
+    grpModalShowing: false,
+    editGrpShowing: false,
+    editResShowing: false,
     count: 0,
-    fields: []
+    fields: [],
+    editId: 0
   },
   methods: {
-    addActivity: function addActivity(id) {
-      this.fields.push({
-        name: id,
-        id: 'act-' + this.count++
-      });
+    toggleRes: function toggleRes() {
+      this.resModalShowing = !this.resModalShowing;
     },
-    showModal: function showModal() {
-      this.isModalVisible = true;
+    toggleGrp: function toggleGrp() {
+      this.grpModalShowing = !this.grpModalShowing;
     },
-    closeModal: function closeModal() {
-      this.isModalVisible = false;
+    editReservation: function editReservation(reservationId) {
+      this.editId = reservationId;
+      this.editResShowing = true;
+    },
+    closeReservation: function closeReservation() {
+      this.editResShowing = false;
+    },
+    editGroup: function editGroup(reservationId) {
+      this.editId = reservationId;
+      this.editGrpShowing = true;
+    },
+    closeGroup: function closeGroup() {
+      this.editGrpShowing = false;
     }
   }
-}); // vanillaJS 
+});
 
 window.onload = function () {
   var button = document.getElementById("nav-add");
@@ -50800,20 +55804,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Modal.vue":
-/*!*******************************************!*\
-  !*** ./resources/js/components/Modal.vue ***!
-  \*******************************************/
+/***/ "./resources/js/components/ModalGrp.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/components/ModalGrp.vue ***!
+  \**********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Modal_vue_vue_type_template_id_53ab54d2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Modal.vue?vue&type=template&id=53ab54d2& */ "./resources/js/components/Modal.vue?vue&type=template&id=53ab54d2&");
-/* harmony import */ var _Modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Modal.vue?vue&type=script&lang=js& */ "./resources/js/components/Modal.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _Modal_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Modal.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/Modal.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
+/* harmony import */ var _ModalGrp_vue_vue_type_template_id_5b63473a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ModalGrp.vue?vue&type=template&id=5b63473a& */ "./resources/js/components/ModalGrp.vue?vue&type=template&id=5b63473a&");
+/* harmony import */ var _ModalGrp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ModalGrp.vue?vue&type=script&lang=js& */ "./resources/js/components/ModalGrp.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -50821,10 +55823,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
-  _Modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Modal_vue_vue_type_template_id_53ab54d2___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Modal_vue_vue_type_template_id_53ab54d2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ModalGrp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ModalGrp_vue_vue_type_template_id_5b63473a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ModalGrp_vue_vue_type_template_id_5b63473a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -50834,54 +55836,245 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/Modal.vue"
+component.options.__file = "resources/js/components/ModalGrp.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/Modal.vue?vue&type=script&lang=js&":
-/*!********************************************************************!*\
-  !*** ./resources/js/components/Modal.vue?vue&type=script&lang=js& ***!
-  \********************************************************************/
+/***/ "./resources/js/components/ModalGrp.vue?vue&type=script&lang=js&":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/ModalGrp.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Modal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Modal.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalGrp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ModalGrp.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalGrp.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalGrp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/Modal.vue?vue&type=style&index=0&lang=css&":
-/*!****************************************************************************!*\
-  !*** ./resources/js/components/Modal.vue?vue&type=style&index=0&lang=css& ***!
-  \****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Modal_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Modal.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Modal.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Modal_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Modal_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Modal_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Modal_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Modal_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "./resources/js/components/Modal.vue?vue&type=template&id=53ab54d2&":
-/*!**************************************************************************!*\
-  !*** ./resources/js/components/Modal.vue?vue&type=template&id=53ab54d2& ***!
-  \**************************************************************************/
+/***/ "./resources/js/components/ModalGrp.vue?vue&type=template&id=5b63473a&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/ModalGrp.vue?vue&type=template&id=5b63473a& ***!
+  \*****************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Modal_vue_vue_type_template_id_53ab54d2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Modal.vue?vue&type=template&id=53ab54d2& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Modal.vue?vue&type=template&id=53ab54d2&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Modal_vue_vue_type_template_id_53ab54d2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalGrp_vue_vue_type_template_id_5b63473a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ModalGrp.vue?vue&type=template&id=5b63473a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalGrp.vue?vue&type=template&id=5b63473a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalGrp_vue_vue_type_template_id_5b63473a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Modal_vue_vue_type_template_id_53ab54d2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalGrp_vue_vue_type_template_id_5b63473a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ModalGrpEdit.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/components/ModalGrpEdit.vue ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ModalGrpEdit_vue_vue_type_template_id_caa387e6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ModalGrpEdit.vue?vue&type=template&id=caa387e6& */ "./resources/js/components/ModalGrpEdit.vue?vue&type=template&id=caa387e6&");
+/* harmony import */ var _ModalGrpEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ModalGrpEdit.vue?vue&type=script&lang=js& */ "./resources/js/components/ModalGrpEdit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ModalGrpEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ModalGrpEdit_vue_vue_type_template_id_caa387e6___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ModalGrpEdit_vue_vue_type_template_id_caa387e6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ModalGrpEdit.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/ModalGrpEdit.vue?vue&type=script&lang=js&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/ModalGrpEdit.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalGrpEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ModalGrpEdit.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalGrpEdit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalGrpEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ModalGrpEdit.vue?vue&type=template&id=caa387e6&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/ModalGrpEdit.vue?vue&type=template&id=caa387e6& ***!
+  \*********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalGrpEdit_vue_vue_type_template_id_caa387e6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ModalGrpEdit.vue?vue&type=template&id=caa387e6& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalGrpEdit.vue?vue&type=template&id=caa387e6&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalGrpEdit_vue_vue_type_template_id_caa387e6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalGrpEdit_vue_vue_type_template_id_caa387e6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ModalRes.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/components/ModalRes.vue ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ModalRes_vue_vue_type_template_id_022e2e9e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ModalRes.vue?vue&type=template&id=022e2e9e& */ "./resources/js/components/ModalRes.vue?vue&type=template&id=022e2e9e&");
+/* harmony import */ var _ModalRes_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ModalRes.vue?vue&type=script&lang=js& */ "./resources/js/components/ModalRes.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ModalRes_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ModalRes_vue_vue_type_template_id_022e2e9e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ModalRes_vue_vue_type_template_id_022e2e9e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ModalRes.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/ModalRes.vue?vue&type=script&lang=js&":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/ModalRes.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalRes_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ModalRes.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalRes.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalRes_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ModalRes.vue?vue&type=template&id=022e2e9e&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/ModalRes.vue?vue&type=template&id=022e2e9e& ***!
+  \*****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalRes_vue_vue_type_template_id_022e2e9e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ModalRes.vue?vue&type=template&id=022e2e9e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalRes.vue?vue&type=template&id=022e2e9e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalRes_vue_vue_type_template_id_022e2e9e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalRes_vue_vue_type_template_id_022e2e9e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ModalResEdit.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/components/ModalResEdit.vue ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ModalResEdit_vue_vue_type_template_id_559478c8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ModalResEdit.vue?vue&type=template&id=559478c8& */ "./resources/js/components/ModalResEdit.vue?vue&type=template&id=559478c8&");
+/* harmony import */ var _ModalResEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ModalResEdit.vue?vue&type=script&lang=js& */ "./resources/js/components/ModalResEdit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ModalResEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ModalResEdit_vue_vue_type_template_id_559478c8___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ModalResEdit_vue_vue_type_template_id_559478c8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ModalResEdit.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/ModalResEdit.vue?vue&type=script&lang=js&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/ModalResEdit.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalResEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ModalResEdit.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalResEdit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalResEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ModalResEdit.vue?vue&type=template&id=559478c8&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/ModalResEdit.vue?vue&type=template&id=559478c8& ***!
+  \*********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalResEdit_vue_vue_type_template_id_559478c8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ModalResEdit.vue?vue&type=template&id=559478c8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalResEdit.vue?vue&type=template&id=559478c8&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalResEdit_vue_vue_type_template_id_559478c8___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalResEdit_vue_vue_type_template_id_559478c8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

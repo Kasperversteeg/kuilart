@@ -1,4 +1,5 @@
 @extends('layouts.desktop')
+
 @php
 	$request = Request::query();
 	$select = array_key_first($request);
@@ -8,31 +9,13 @@
 	}
 
 @endphp
+
+@include('desktop.components.submenu-bowling')
+@section('title')
+	<h1 class="pb-4">Bowling <small>{{ $request ?  date('d-m-Y', strtotime($date)) : '' }}</small></h1>
+@endsection
 @section('content')
-	<div class="row py-4">
-		<div class="col-12">
-			<h1 class="display-4">Bowling <small>{{ $request ?  date('d-m-Y', strtotime($date)) : '' }}</small></h1>
-		</div>
-		@if($request)
-			<div class="col-2">
-				<a class="btn btn-primary" href="{{ route('bowling.change', ['date'=> $date, 'go' => 'prev']) }}">vorige</a>
-			</div>
-			<div class="col-8"></div>
-			<div class="col-2 d-flex justify-content-end">
-				<a class="btn btn-primary" href="{{ route('bowling.change', ['date'=> $date, 'go' => 'next']) }}">volgende</a>
-			</div>
-		@endif
-		
-	</div>
-	
-	@if(session()->get('success'))
-	    <div class="alert alert-success">
-	      {{ session()->get('success') }}  
-	    </div>
-	@endif
-
-
-	<div class="container bowling-view-container pb-1">
+	<div class="container bowling-view-container py-4">
 		<div class="row border-bottom">
 			<div class="col"></div>
 			<div class="col"><p>Baan 1</p></div>
@@ -45,11 +28,11 @@
 				<div class="col">
 					<p>{{ $row->startTime . ' t/m '. $row->endTime}} </p>
 				</div>
-				@foreach($row->lanes as $reservation)
+				@foreach($row->lanes as $lane => $reservation)
 					@if($reservation == false)
-						<div class="col"></div>
+						<div class="col empty-slot" id="{{ $lane.'-'.$row->startTime}}"></div>
 					@else
-						<div class="col">
+						<div class="col full-slot">
 							<a href="{{ route('bowling.edit',$reservation->id) }}" > {{ $reservation->name }}</a>
 						</div>
 					@endif

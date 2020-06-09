@@ -1,7 +1,7 @@
 
 
 {{-- //////////////////////////////////   Start Menu   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ --}}
-<nav class="bg-light navbar navbar-expand-md border-bottom">
+<nav class="bg-light navbar navbar-expand-md">
     <div class="container" id="nav-container">
 
         {{-- eventueel menu toggler --}}
@@ -17,8 +17,8 @@
                     <x-icon icon="plusje" height='34px' width="34px"  class="test"/>
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown" id='nav-dropdown'>
-                    <a class="dropdown-item" href="{{ route('groups.create') }}">Groep</a>                            
-                    <a class="dropdown-item" href="{{ route('reservations.create') }}">Restaurant</a>
+                    <a class="dropdown-item" href="#" @click="toggleGrp">Groep</a>                            
+                    <a class="dropdown-item" href="#"  @click="toggleRes">Restaurant</a>
                     <a class="dropdown-item" href="{{ route('bowling.index', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">Bowlingbaan</a>
                   </div>
                 </li>

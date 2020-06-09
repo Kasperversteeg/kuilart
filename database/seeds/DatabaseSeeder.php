@@ -25,5 +25,24 @@ class DatabaseSeeder extends Seeder
         factory(App\Bowling::class, 3)->create(['startTime' => '17:00', 'endTime' => '18:00']);
         factory(App\Bowling::class, 2)->create(['startTime' => '19:00', 'endTime' => '20:00']);
         factory(App\Bowling::class, 4)->create(['startTime' => '21:00', 'endTime' => '22:00']);
+
+
+
+        // factory(App\Bowling::class, 3)->create([
+        //     'startTime' => '17:00', 
+        //     'endTime' => '18:00',
+        //     'date' => '2020-06-03'
+        // ]);
+        // factory(App\Bowling::class, 3)->create([
+        //     'startTime' => '19:00', 
+        //     'endTime' => '20:00',
+        //     'date' => '2020-06-03'
+        // ]);
+
+        // factory(App\Bowling::class, 4)->create([
+        //     'startTime' => '18:00', 
+        //     'endTime' => '19:00',
+        //     'date' => '2020-06-03'
+        // ]);
     }
 }

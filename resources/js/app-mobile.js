@@ -1,11 +1,9 @@
 require('./bootstrap');
 
-import Modal from './components/Modal';
 import FormLine from './components/FormLine';
 
 window.Vue = require('vue');
 
-Vue.component('modal', Modal);
 Vue.component('formline', FormLine);
 
 new Vue({

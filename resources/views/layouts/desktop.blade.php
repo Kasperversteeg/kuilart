@@ -19,24 +19,27 @@
 <body>
     <div id="app">
         @include('desktop.components.nav')
-        {{-- //////////////////////////////////  Start Content   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ --}}
+
         <main class="content">
-            <div class="container pt-2">
+            <div class="container-fluid container-submenu">
                 {{-- submenu for overview --}}
                 @yield('submenu')
+                <div class="container">
+                    @yield('title')
+                </div>
+            </div>
+            <div class="container-fluid bg-white container-main">
                 {{-- any content for desktop --}}
                 @yield('content')
             </div>
         </main>
 
-        @component('desktop.reservations.modalCreate')
-        @endcomponent
-
-        {{-- //////////////////////////////////  End Content   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ --}}
+        <res v-show="resModalShowing" @close="toggleRes" ></res>
+        <grp v-show="grpModalShowing" @close="toggleGrp"></grp>
+        <flash-message class="flash-box" transition-name="slide"></flash-message>
         
-        {{-- //////////////////////////////////  Scripts   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ --}}
+
         @stack('scripts')
     </div>
-
 </body>
 </html>

@@ -19,27 +19,13 @@
 				break;
 		}
 	@endphp
-
-	<h1 class="pt-4 display-4">{{ $title }}reserveringen</h1>
-	<h3 class="pt-4">{{ ucfirst(__($day->day)) . ' ' . __(date('d-m-y', strtotime($day->date))) }}</h3>
 	
+	@section('title')
+	<h1>{{ $title }}reserveringen</h1>
+	<h3 class="pb-4">{{ ucfirst(__($day->day)) . ' ' . __(date('d-m-y', strtotime($day->date))) }}</h3>
+	@endsection
 		
-	@if(session()->get('success'))
-	    <div class="alert alert-success">
-	      {{ session()->get('success') }}  
-	    </div>
-	@endif
-
-	@if ($errors->any())
-      	<div class="alert alert-danger">
-	        <ul>
-	            @foreach ($errors->all() as $error)
-	              <li>{{ $error }}</li>
-	            @endforeach
-	        </ul>
-	      </div><br />
-    @endif
-
+	<div class="container day-container py-4" id="reservations">
 
 		@forelse($day->reservations as $reservation)
 			@if($reservation->type === 'GRP')
@@ -57,6 +43,7 @@
 			<p>Geen reserveringen voor vandaag</p>
 		@endforelse
 
-	
+	<edit-res v-show="editResShowing" :id="editId" @close="closeReservation"></edit-res>
+	<edit-grp v-show="editGrpShowing" :id="editId" @close="closeGroup"></edit-grp>
 	</div>
 @endsection

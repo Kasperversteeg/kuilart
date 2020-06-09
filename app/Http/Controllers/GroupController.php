@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 use App\Reservation;
+use App\Activity;
 use Carbon\Carbon;
 use App\Classes\ReservationsObj;
 
@@ -30,18 +31,18 @@ class GroupController extends Controller
        // all
         if(Arr::exists($query, 's')){
 
-	        $reservations = Reservation::where('type', $type)->get();     
+	        $reservations = Reservation::where('type', $this->grp)->get();     
 	        $sortedReservations = $this->sortReservationsByDate($reservations); 
 
 	        if(isMobile()){
                 return view('mobile.reservations.all', [
                     'reservations' => $sortedReservations,
-                    'isGroup' => $isGroup
+                    'isGroup' => $this->grp
                 ]);
             }
             return view('desktop.reservations.all', [
                 'reservations' => $sortedReservations,
-                'isGroup' => $isGroup
+                'isGroup' => $this->grp
             ]); 
     
         } else {
@@ -62,9 +63,47 @@ class GroupController extends Controller
         // if no query key exists, show 404
         abort(404);
 
+    }    
+
+    public function sortReservationsByDate($reservations)
+    {
+        if($reservations){
+        // get all unique dates from the collection
+            $grouped = $reservations->pluck('date')->unique();
+            // make new collection
+            $collection = new Collection();;
+            // loop through plucked collection and get reservations for date
+            foreach($grouped as $date) {
+               $r = $reservations->where('date', $date);
+               $obj = $this->createDateObj($date, $r);
+               $collection->put($date, $obj);
+            }
+            $sortedReservations = $collection->sortKeys();
+            return $sortedReservations;
+        }
+        abort(404);
     }
+
+    // date class
+    public function createDateObj($date, $reservations){
+        // create the object in laravel
+        $app = app();
+        $dateObj = $app->make('stdClass');
+        
+        $dateObj->date = formatDate($date);
+       
+        $date = new Carbon($date);
+        $dateObj->dayName = $date->dayName;
+
+        $dateObj->reservations = $reservations; 
+        $dateObj->groups = $reservations->where('type', $this->grp);
+        $dateObj->res = $reservations->where('type', $this->res);
+
+        return $dateObj;
+
+    } 
     
-	public function createGroup()
+	public function create()
     {   
         $date = Carbon::now()->isoFormat('Y-MM-DD');
         if(isMobile()){
@@ -78,7 +117,7 @@ class GroupController extends Controller
     }
 
 	
-    public function storeGroup(Request $request)
+    public function store(Request $request)
     {
         //Validate input
         $request = $this->validateGroup($request);
@@ -103,17 +142,25 @@ class GroupController extends Controller
         ]); 
         $activity->save();
 
-    return redirect()->route('showGroups', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
+    return redirect()->route('groups.index', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
     }
 
+ public function edit($id)
+    {
+       
+        $reservation = Reservation::find($id);
+        return response()->json([
+            'reservation' => $reservation,
+            'activities' => $reservation->activities
+        ]);
+    }
 
-    public function updateGroup(Request $request, $id)
+  
+    public function update(Request $request, $id)
     {
         $validateRequest = $this->validateGroup($request);
         $reservation = Reservation::find($id);
 
-
-        $reservation->type = $request->get('type');
         $reservation->name = $request->get('name');
         $reservation->size = $request->get('size');
         $reservation->date = dateForDB($request->get('date'));
@@ -121,7 +168,7 @@ class GroupController extends Controller
         $reservation->notes = $request->get('notes');
         $reservation->save();
 
-        return redirect()->route($route, ['s' => 'all'])->with('success', 'Reservering gewijzigd');
+        return redirect()->route('groups.index', ['s' => 'all'])->with('success', 'Reservering gewijzigd');
     }
 
    public function validateActivity($request)

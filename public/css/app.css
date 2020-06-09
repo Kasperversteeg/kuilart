@@ -1,5 +1,137 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.modal {
+  margin-top: 5%;
+  background: #FFFFFF;
+}
+
+.btn-close {
+  border: 1px solid #ced4da;
+  font-size: 30px;
+  padding: 0 10px;
+  cursor: pointer;
+  font-weight: bold;
+  background: transparent;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+
+/*
+you set the css property before transition starts
+*/
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/*
+you set the css property it will be when transition ends
+*/
+
+.fade-enter-to,
+.fade-leave {
+  opacity: 1;
+}
+
+.vue__time-picker .dropdown ul li[disabled] {
+  display: none;
+}
+
+.vue__time-picker .dropdown ul li:not([disabled]).active {
+  background: #3490dc !important;
+}
+
+.flash-box {
+  z-index: 99999;
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, 0);
+  position: fixed;
+  top: 75px;
+  max-height: 400px;
+  width: 600px;
+}
+
+.flash__message {
+  box-sizing: border-box;
+  padding: 15px 30px 15px 15px;
+  margin-bottom: 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: #ccc;
+  position: relative;
+}
+
+.flash__message.success {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+
+.flash__message.error {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
+.flash__close-button {
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: inherit;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 10px;
+  margin: 0;
+  padding: 8px;
+}
+
+.flash__message {
+  box-sizing: border-box;
+  padding: 15px 30px 15px 15px;
+  margin-bottom: 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: #ccc;
+  position: relative;
+}
+
+.slide-enter,
+.slide-leave-to {
+  transform: translateY(-130px);
+}
+
+.slide-enter-to,
+.slide-leave {
+  transform: translateY(0px);
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 300ms ease-in-out;
+}
+
 .bowling-row {
   min-height: 60px;
 }
@@ -10,8 +142,8 @@
   margin-left: 2px;
 }
 
-.navbar-nav {
-  max-height: 50px;
+.navbar {
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2);
 }
 
 .navbar .logout {
@@ -79,6 +211,7 @@
 }
 
 #reservations-week-view {
+  padding: 3rem;
   min-height: 500px;
 }
 
@@ -127,6 +260,10 @@
   min-height: 100px;
 }
 
+#reservations-month {
+  padding: 3rem;
+}
+
 .form-control,
 .btn {
   border-radius: 0 !important;
@@ -144,30 +281,28 @@
   text-align: center;
 }
 
+.container-submenu {
+  background-color: #edf3f5;
+}
+
+.container-submenu h1,
+.container-submenu h2,
+.container-submenu h3,
+.container-submenu h4,
+.container-submenu h5 {
+  margin-bottom: 0px;
+}
+
+.container-main {
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+}
+
 .border-res {
   border: 1px solid #f6993f;
 }
 
 .border-grp {
   border: 1px solid #6574cd;
-}
-
-@media (min-width: 1200px) {
-  .custom-container {
-    width: 1000px;
-  }
-}
-
-@media (min-width: 992px) {
-  .custom-container {
-    width: 800px;
-  }
-}
-
-@media (min-width: 768px) {
-  .custom-container {
-    width: 650px;
-  }
 }
 
 .font-bigger {
@@ -244,9 +379,9 @@ body {
   font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.6;
-  color: #212529;
+  color: #263238;
   text-align: left;
-  background-color: #f8fafc;
+  background-color: #ffffff;
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -686,7 +821,7 @@ mark,
 
 .img-thumbnail {
   padding: 0.25rem;
-  background-color: #f8fafc;
+  background-color: #ffffff;
   border: 1px solid #dee2e6;
   border-radius: 0rem;
   max-width: 100%;
@@ -1977,7 +2112,7 @@ pre code {
 .table {
   width: 100%;
   margin-bottom: 1rem;
-  color: #212529;
+  color: #263238;
 }
 
 .table th,
@@ -2027,7 +2162,7 @@ pre code {
 }
 
 .table-hover tbody tr:hover {
-  color: #212529;
+  color: #263238;
   background-color: rgba(33, 37, 41, 0.075);
 }
 
@@ -2432,7 +2567,7 @@ select.form-control:focus::-ms-value {
   margin-bottom: 0;
   font-size: 0.9rem;
   line-height: 1.6;
-  color: #212529;
+  color: #263238;
   background-color: transparent;
   border: solid transparent;
   border-width: 1px 0;
@@ -2824,7 +2959,7 @@ textarea.form-control.is-invalid {
 .btn {
   display: inline-block;
   font-weight: 400;
-  color: #212529;
+  color: #263238;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
@@ -2848,7 +2983,7 @@ textarea.form-control.is-invalid {
 }
 
 .btn:hover {
-  color: #212529;
+  color: #263238;
   text-decoration: none;
 }
 
@@ -3606,7 +3741,7 @@ input[type=button].btn-block {
   padding: 0.5rem 0;
   margin: 0.125rem 0 0;
   font-size: 0.9rem;
-  color: #212529;
+  color: #263238;
   text-align: left;
   list-style: none;
   background-color: #ffffff;
@@ -4439,15 +4574,15 @@ input[type=button].btn-block {
 }
 
 .custom-range:focus::-webkit-slider-thumb {
-  box-shadow: 0 0 0 1px #f8fafc, 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
+  box-shadow: 0 0 0 1px #ffffff, 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
 }
 
 .custom-range:focus::-moz-range-thumb {
-  box-shadow: 0 0 0 1px #f8fafc, 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
+  box-shadow: 0 0 0 1px #ffffff, 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
 }
 
 .custom-range:focus::-ms-thumb {
-  box-shadow: 0 0 0 1px #f8fafc, 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
+  box-shadow: 0 0 0 1px #ffffff, 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
 }
 
 .custom-range::-moz-focus-outer {
@@ -4653,8 +4788,8 @@ input[type=button].btn-block {
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
   color: #495057;
-  background-color: #f8fafc;
-  border-color: #dee2e6 #dee2e6 #f8fafc;
+  background-color: #ffffff;
+  border-color: #dee2e6 #dee2e6 #ffffff;
 }
 
 .nav-tabs .dropdown-menu {
@@ -5912,7 +6047,7 @@ a.badge-dark.focus {
 }
 
 .list-group-item-action:active {
-  color: #212529;
+  color: #263238;
   background-color: #e9ecef;
 }
 
@@ -6403,24 +6538,6 @@ a.close.disabled {
   content: none;
 }
 
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1040;
-  width: 100vw;
-  height: 100vh;
-  background-color: #212529;
-}
-
-.modal-backdrop.fade {
-  opacity: 0;
-}
-
-.modal-backdrop.show {
-  opacity: 0.5;
-}
-
 .modal-header {
   display: flex;
   align-items: flex-start;
@@ -6809,7 +6926,7 @@ a.close.disabled {
 
 .popover-body {
   padding: 0.5rem 0.75rem;
-  color: #212529;
+  color: #263238;
 }
 
 .carousel {
@@ -10879,7 +10996,7 @@ a.text-dark:focus {
 }
 
 .text-body {
-  color: #212529 !important;
+  color: #263238 !important;
 }
 
 .text-muted {
