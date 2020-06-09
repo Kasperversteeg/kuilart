@@ -1,28 +1,22 @@
 @extends('layouts.desktop')
 
-@section('content')
-	<div class="row py-4">
-		<div class="col-12">
-			<h1 class="display-4">Bowling <small>{{date('d-m-Y', strtotime($current->date))}}</small></h1>
-		</div>
-		<div class="col-2">
-			<a class="btn btn-primary" href="{{ route('bowling.change', ['date'=> $current->date, 'go' => 'prev']) }}">vorige</a>
-		</div>
-		<div class="col-8"></div>
-		<div class="col-2 d-flex justify-content-end">
-			<a class="btn btn-primary" href="{{ route('bowling.change', ['date'=> $current->date, 'go' => 'next']) }}">volgende</a>
-		</div>
-		
-	</div>
+@php
+	$request = Request::query();
+	$select = array_key_first($request);
 	
-	@if(session()->get('success'))
-	    <div class="alert alert-success">
-	      {{ session()->get('success') }}  
-	    </div>
-	@endif
+	if(array_key_exists($select, $request)){
+		$date = $request[$select];
+	}
 
+@endphp
 
-	<div class="container bowling-view-container pb-1">
+@include('desktop.components.submenu-bowling')
+@section('title')
+	<h1 class="pb-4">Bowling <small>{{date('d-m-Y', strtotime($current->date)) }}</small></h1>
+@endsection
+
+@section('content')
+	<div class="container bowling-view-container py-4" id="bowling-container">
 		<div class="row border-bottom">
 			<div class="col"></div>
 			<div class="col"><p>Baan 1</p></div>
@@ -35,11 +29,11 @@
 				<div class="col">
 					<p>{{ $row->startTime . ' t/m '. $row->endTime}} </p>
 				</div>
-				@foreach($row->lanes as $reservation)
+				@foreach($row->lanes as $lane => $reservation)
 					@if($reservation == false)
-						<div class="col"></div>
+						<div class="col empty-slot" id="{{ $lane.'-'.$row->startTime}}"></div>
 					@else
-						<div class="col">
+						<div class="col full-slot">
 							<a href="{{ route('bowling.edit',$reservation->id) }}" > {{ $reservation->name }}</a>
 						</div>
 					@endif
@@ -78,7 +72,7 @@
 			          	<div class="col-md-6">
 				          <div class="form-group">    
 				              <label for="lane">Baan nummer</label>
-				              <select class="form-control" name="lane">
+				              <select class="form-control" name="lane" id="lane">
 				              	<option {{ $current->lane === 1 ? 'selected' : '' }}>1</option>
 				              	<option {{ $current->lane === 2  ? 'selected' : '' }}>2</option>
 				              	<option {{ $current->lane === 3  ? 'selected' : '' }}>3</option>
@@ -98,7 +92,7 @@
 			          	<div class="col-md-3">
 					        <div class="form-group">    
 				              <label for="startTime">Start tijd</label>
-				              <select class="form-control" name="startTime">
+				              <select class="form-control" name="startTime" id="startTime">
 				              	<option {{ old('startTime') === '17:00' || $current->startTime === '17:00:00' ? 'selected' : '' }}>17:00</option>
 				              	<option {{ old('startTime') === '18:00' || $current->startTime === '18:00:00' ? 'selected' : '' }}>18:00</option>
 				              	<option {{ old('startTime') === '19:00' || $current->startTime === '19:00:00' ? 'selected' : '' }}>19:00</option>
@@ -110,7 +104,7 @@
 			          	<div class="col-md-3">
 				          <div class="form-group">    
 				              <label for="endTime">Eind tijd</label>
-				              <select class="form-control" name="endTime">
+				              <select class="form-control" name="endTime" id="endTime">
 				              	<option {{ old('endTime') === '18:00' || $current->endTime === '18:00:00' ? 'selected' : '' }}>18:00</option>
 				              	<option {{ old('endTime') === '19:00' || $current->endTime === '19:00:00' ? 'selected' : '' }}>19:00</option>
 				              	<option {{ old('endTime') === '20:00' || $current->endTime === '20:00:00' ? 'selected' : '' }}>20:00</option>

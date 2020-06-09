@@ -12,9 +12,9 @@
 			<h5 class="font-weight-bold">Restaurant</h5>
 		</div>
 		
-		<div class="col-md-6 border-right p-2">				
+		<div class="col-md-6 border-right p-2">		
+		{{-- insert groups in left column  --}}		
 			<div class="container group-container">
-				{{-- insert groups in left column  --}}
 				@foreach($groups as $group)		
 					@php
 						if($grpBG === false){
@@ -28,7 +28,7 @@
 							<p>{{ date('H:i', strtotime($group->startTime)) }}</p>
 						</div>
 						<div class="col-6">
-							<a href="{{ route('reservations.edit',$group->id)}}">{{ $group->name }}</a>
+							<a href="#" @click="editGroup({{ $group->id }})">{{ $group->name }}</a>
 						</div>
 						<div class="col-3 d-flex justify-content-end pr-0">
 							<p >{{ $group->size }} Personen</p>
@@ -38,7 +38,8 @@
 				@endforeach
 			</div>
 		</div>
-		<div class="col-md-6 p-2 ">		
+		<div class="col-md-6 p-2 ">	
+		{{-- restaurant reservations in the right column	 --}}
 			<div class="container res-container">
 				@foreach($res as $res)
 					@php
@@ -53,7 +54,7 @@
 							<p>{{ date('H:i', strtotime($res->startTime)) }}</p>
 						</div>
 						<div class="col-7">
-							<a href="{{ route('reservations.edit',$res->id)}}">{{ $res->name }}</a>
+							<a href="#" @click="editReservation({{ $reservation->id }})">{{ $res->name }}</a>
 						</div>
 						<div class="col-2 d-flex justify-content-end pr-0">
 							<p>{{ $res->size }} Pers</p>

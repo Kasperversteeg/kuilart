@@ -4,7 +4,7 @@
 <div class="mb-2 res-week-wrapper p-2 border-grp container"> 
 	<div class="row reservation-name">
 		<div class="col-md-9">
-			<a href="{{ route('groups.edit',$reservation->id)}} ">{{$reservation->name}}</a>
+			<a href="#" @click="editGroup({{ $reservation->id }})">{{$reservation->name}}</a>
 		</div>
 		<div class="col-md-3 p-0 pr-1 week-grp-size">
 			<p>{{$reservation->size}}P</p>

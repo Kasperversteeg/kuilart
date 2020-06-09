@@ -67,6 +67,42 @@ window.onload = function() {
 	var nameOfClass = "show";
 
 
+
+
+	var freeBowlingSlots = document.getElementsByClassName('empty-slot');
+
+
+	var returnId = function(){
+		var id = this.getAttribute('id');
+		var split = id.split("-");
+		setInput(split[0], split[1]);
+	}
+
+	function setInput(nr, time){
+
+		let startTime = document.getElementById('startTime');
+		startTime.value = time;
+		let lane = document.getElementById('lane');
+		lane.value = nr;
+		setEndTime(time);
+	}
+
+	function setEndTime(time){
+		let spl = time.split(':');
+		let addHour = parseInt(spl[0]);
+		addHour++;
+		// console.log(addHour+':'+spl[1]);
+
+		let endTime = document.getElementById('endTime');
+		endTime.value = addHour+':'+spl[1];
+	}
+
+	for (var i = 0; freeBowlingSlots.length > i ; i++) {
+		freeBowlingSlots[i].addEventListener('click', returnId, false);
+	}
+
+	
+
 	// declare function for "onMouseOver" event:
 	button.onmouseover = function() {
 		// Some browsers do not support "classList". So, it's necessary to write a condition to see if the current browser supports it.

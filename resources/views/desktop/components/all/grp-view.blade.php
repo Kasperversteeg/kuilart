@@ -9,7 +9,7 @@
 		<div class="container group-day-list p-0">
 			<div class="row pt-2">
 				<div class="col-sm-8">
-					<h4><a href="{{ route('groups.edit',$reservation->id)}} ">{{ $reservation->name }}</a></h4>
+					<h4><a href="#" @click="editGroup({{ $reservation->id }})">{{ $reservation->name }}</a></h4>
 				</div>
 				<div class="col-sm-4 d-flex justify-content-end">
 					<p class="font-weight-bold">{{ $reservation->size }} P.</p>

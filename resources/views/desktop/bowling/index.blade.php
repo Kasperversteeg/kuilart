@@ -15,24 +15,24 @@
 	<h1 class="pb-4">Bowling <small>{{ $request ?  date('d-m-Y', strtotime($date)) : '' }}</small></h1>
 @endsection
 @section('content')
-	<div class="container bowling-view-container py-4">
+	<div class="container bowling-view-container py-4" id="bowling-container">
 		<div class="row border-bottom">
-			<div class="col"></div>
-			<div class="col"><p>Baan 1</p></div>
-			<div class="col"><p>Baan 2</p></div>
-			<div class="col"><p>Baan 3</p></div>
-			<div class="col"><p>Baan 4</p></div>
+			<div class="col d-flex justify-content-center"></div>
+			<div class="col d-flex justify-content-center"><p>Baan 1</p></div>
+			<div class="col d-flex justify-content-center"><p>Baan 2</p></div>
+			<div class="col d-flex justify-content-center"><p>Baan 3</p></div>
+			<div class="col d-flex justify-content-center"><p>Baan 4</p></div>
 		</div>
 		@foreach($rows as $row)
 			<div class="row border-bottom bowling-row">
-				<div class="col">
-					<p>{{ $row->startTime . ' t/m '. $row->endTime}} </p>
+				<div class="col d-flex justify-content-center align-items-center">
+					<p class=mb-0>{{ $row->startTime . ' t/m '. $row->endTime}} </p>
 				</div>
 				@foreach($row->lanes as $lane => $reservation)
 					@if($reservation == false)
-						<div class="col empty-slot" id="{{ $lane.'-'.$row->startTime}}"></div>
+						<div class="col empty-slot" id="{{ $lane.'-'.$row->startTime }}"></div>
 					@else
-						<div class="col full-slot">
+						<div class="col full-slot d-flex justify-content-center align-items-center">
 							<a href="{{ route('bowling.edit',$reservation->id) }}" > {{ $reservation->name }}</a>
 						</div>
 					@endif
@@ -70,12 +70,12 @@
 			          	<div class="col-md-6">
 				          <div class="form-group">    
 				              <label for="lane">Baan nummer</label>
-				              <select class="form-control" name="lane">
+				              <select class="form-control" name="lane" id="lane">
 				              	<option {{ old('lane') ? '' : 'selected' }} disabled>Baan nummer</option>
-				              	<option {{ old('lane') === '1' ? 'selected' : '' }}>1</option>
-				              	<option {{ old('lane') === '2' ? 'selected' : '' }}>2</option>
-				              	<option {{ old('lane') === '3' ? 'selected' : '' }}>3</option>
-				              	<option {{ old('lane') === '4' ? 'selected' : '' }}>4</option>
+				              	<option {{ old('lane') === '1' ? 'selected' : '' }} value="1">1</option>
+				              	<option {{ old('lane') === '2' ? 'selected' : '' }} value="2">2</option>
+				              	<option {{ old('lane') === '3' ? 'selected' : '' }} value="3">3</option>
+				              	<option {{ old('lane') === '4' ? 'selected' : '' }} value="4">4</option>
 				              </select>
 				          </div>
 					    </div>
@@ -91,20 +91,20 @@
 			          	<div class="col-md-3">
 					        <div class="form-group">    
 				              <label for="startTime">Start tijd</label>
-				              <select class="form-control" name="startTime">
+				              <select class="form-control" name="startTime" id="startTime">
 				              	<option {{ old('startTime') ? '' : 'selected' }} disabled>Start-tijd</option>
-				              	<option {{ old('startTime') === '17:00' ? 'selected' : '' }}>17:00</option>
-				              	<option {{ old('startTime') === '18:00' ? 'selected' : '' }}>18:00</option>
-				              	<option {{ old('startTime') === '19:00' ? 'selected' : '' }}>19:00</option>
-				              	<option {{ old('startTime') === '20:00' ? 'selected' : '' }}>20:00</option>
-				              	<option {{ old('startTime') === '21:00' ? 'selected' : '' }}>21:00</option>
+				              	<option {{ old('startTime') === '17:00' ? 'selected' : '' }} value="17:00">17:00</option>
+				              	<option {{ old('startTime') === '18:00' ? 'selected' : '' }} value="18:00">18:00</option>
+				              	<option {{ old('startTime') === '19:00' ? 'selected' : '' }} value="19:00">19:00</option>
+				              	<option {{ old('startTime') === '20:00' ? 'selected' : '' }} value="20:00">20:00</option>
+				              	<option {{ old('startTime') === '21:00' ? 'selected' : '' }} value="21:00">21:00</option>
 				              </select>
 					        </div>
 					    </div>
 			          	<div class="col-md-3">
 				          <div class="form-group">    
 				              <label for="endTime">Eind tijd</label>
-				              <select class="form-control" name="endTime">
+				              <select class="form-control" name="endTime" id="endTime">
 				              	<option {{ old('endTime') ? '' : 'selected' }} disabled>Eind-tijd</option>
 				              	<option {{ old('endTime') === '18:00' ? 'selected' : '' }}>18:00</option>
 				              	<option {{ old('endTime') === '19:00' ? 'selected' : '' }}>19:00</option>

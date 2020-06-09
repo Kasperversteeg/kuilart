@@ -142,6 +142,12 @@ you set the css property it will be when transition ends
   margin-left: 2px;
 }
 
+.empty-slot:hover {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  cursor: pointer;
+}
+
 .navbar {
   box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2);
 }

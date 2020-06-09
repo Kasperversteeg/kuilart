@@ -36,6 +36,7 @@
 
         <res v-show="resModalShowing" @close="toggleRes" ></res>
         <grp v-show="grpModalShowing" @close="toggleGrp"></grp>
+        
         <flash-message class="flash-box" transition-name="slide"></flash-message>
         
 
