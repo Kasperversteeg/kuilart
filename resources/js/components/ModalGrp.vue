@@ -19,6 +19,8 @@
     
       <div class="modal-content container py-4">  
         
+          <p>Voor die datum staan er al: <strong>{{ totalReservations }}</strong> reserveringen</p>
+          
          <form method="post" @submit="formSubmit">
             <input type="hidden" name="_token" :value="csrf">
             <div class="row">
@@ -42,7 +44,7 @@
                <div class="col-md-6">
                <div class="form-group">    
                    <label for="date">Datum</label>
-                   <input type="text" class="form-control" name="date"/>
+                   <input type="date" class="form-control" name="date" v-model="date" @change="getTotal()"/>
                      <span>{{ errors.get('date') }}</span>
                </div>
               </div>
@@ -157,6 +159,7 @@
          startTime: '',
          notes: '',
          errors: new Errors(),
+         totalReservations: 0,
          csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
       }     
     },
@@ -170,6 +173,17 @@
             name: id,
             id:'act-'+this.count++
          });
+      },
+      getTotal(){
+        console.log('date changed'+this.date);
+        axios.get('/reservations/total/'+this.date)
+        .then(response => {
+         console.log(response.data.total);
+          this.totalReservations = response.data.total;
+        })
+        .catch(error => {
+          this.flash('Er is iets misgegaan bij het ophalen van het totale aantal reserveringen', 'error', {timeout: 3000});
+        })
       },
       formSend(){
           this.close();         

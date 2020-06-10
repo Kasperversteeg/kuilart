@@ -2077,6 +2077,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 //
+//
+//
 
 
 var Errors = /*#__PURE__*/function () {
@@ -2132,6 +2134,7 @@ var Errors = /*#__PURE__*/function () {
       startTime: '',
       notes: '',
       errors: new Errors(),
+      totalReservations: 0,
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
@@ -2146,6 +2149,19 @@ var Errors = /*#__PURE__*/function () {
         id: 'act-' + this.count++
       });
     },
+    getTotal: function getTotal() {
+      var _this = this;
+
+      console.log('date changed' + this.date);
+      axios.get('/reservations/total/' + this.date).then(function (response) {
+        console.log(response.data.total);
+        _this.totalReservations = response.data.total;
+      })["catch"](function (error) {
+        _this.flash('Er is iets misgegaan bij het ophalen van het totale aantal reserveringen', 'error', {
+          timeout: 3000
+        });
+      });
+    },
     formSend: function formSend() {
       this.close();
       this.flash('Reservering geplaatst!', 'success', {
@@ -2158,7 +2174,7 @@ var Errors = /*#__PURE__*/function () {
       this.notes = '';
     },
     formSubmit: function formSubmit(e) {
-      var _this = this;
+      var _this2 = this;
 
       e.preventDefault();
       var currentObj = this;
@@ -2169,11 +2185,11 @@ var Errors = /*#__PURE__*/function () {
         startTime: this.startTime,
         notes: this.notes
       }).then(function (response) {
-        _this.formSend();
+        _this2.formSend();
       })["catch"](function (error) {
-        _this.errors.record(error.response.data);
+        _this2.errors.record(error.response.data);
 
-        _this.flash('Er zijn invoervelden niet goed ingevuld!', 'error', {
+        _this2.flash('Er zijn invoervelden niet goed ingevuld!', 'error', {
           timeout: 3000
         });
       });
@@ -2536,6 +2552,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 //
+//
+//
+//
 
 
 var Errors = /*#__PURE__*/function () {
@@ -2590,6 +2609,7 @@ var Errors = /*#__PURE__*/function () {
       startTime: '',
       notes: '',
       errors: new Errors(),
+      totalReservations: 0,
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
@@ -2597,6 +2617,19 @@ var Errors = /*#__PURE__*/function () {
     close: function close() {
       this.errors.reset();
       this.$emit('close');
+    },
+    getTotal: function getTotal() {
+      var _this = this;
+
+      console.log('date changed' + this.date);
+      axios.get('/reservations/total/' + this.date).then(function (response) {
+        console.log(response.data.total);
+        _this.totalReservations = response.data.total;
+      })["catch"](function (error) {
+        _this.flash('Er is iets misgegaan bij het ophalen van het totale aantal reserveringen', 'error', {
+          timeout: 3000
+        });
+      });
     },
     formSend: function formSend() {
       this.close();
@@ -2610,7 +2643,7 @@ var Errors = /*#__PURE__*/function () {
       this.notes = '';
     },
     formSubmit: function formSubmit(e) {
-      var _this = this;
+      var _this2 = this;
 
       e.preventDefault();
       var currentObj = this;
@@ -2621,11 +2654,11 @@ var Errors = /*#__PURE__*/function () {
         startTime: this.simpleStringValue,
         notes: this.notes
       }).then(function (response) {
-        _this.formSend();
+        _this2.formSend();
       })["catch"](function (error) {
-        _this.errors.record(error.response.data);
+        _this2.errors.record(error.response.data);
 
-        _this.flash('Er zijn invoervelden niet goed ingevuld!', 'error', {
+        _this2.flash('Er zijn invoervelden niet goed ingevuld!', 'error', {
           timeout: 3000
         });
       });
@@ -42270,6 +42303,12 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("div", { staticClass: "modal-content container py-4" }, [
+            _c("p", [
+              _vm._v("Voor die datum staan er al: "),
+              _c("strong", [_vm._v(_vm._s(_vm.totalReservations))]),
+              _vm._v(" reserveringen")
+            ]),
+            _vm._v(" "),
             _c(
               "form",
               { attrs: { method: "post" }, on: { submit: _vm.formSubmit } },
@@ -42317,8 +42356,28 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.date,
+                            expression: "date"
+                          }
+                        ],
                         staticClass: "form-control",
-                        attrs: { type: "text", name: "date" }
+                        attrs: { type: "date", name: "date" },
+                        domProps: { value: _vm.date },
+                        on: {
+                          change: function($event) {
+                            return _vm.getTotal()
+                          },
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.date = $event.target.value
+                          }
+                        }
                       }),
                       _vm._v(" "),
                       _c("span", [_vm._v(_vm._s(_vm.errors.get("date")))])
@@ -42870,6 +42929,12 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("div", { staticClass: "modal-content container py-4" }, [
+            _c("p", [
+              _vm._v("Voor die datum staan er al: "),
+              _c("strong", [_vm._v(_vm._s(_vm.totalReservations))]),
+              _vm._v(" reserveringen")
+            ]),
+            _vm._v(" "),
             _c(
               "form",
               { attrs: { method: "post" }, on: { submit: _vm.formSubmit } },
@@ -42963,6 +43028,9 @@ var render = function() {
                         attrs: { type: "date", name: "date" },
                         domProps: { value: _vm.date },
                         on: {
+                          change: function($event) {
+                            return _vm.getTotal()
+                          },
                           input: function($event) {
                             if ($event.target.composing) {
                               return

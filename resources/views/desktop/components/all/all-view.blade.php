@@ -54,7 +54,7 @@
 							<p>{{ date('H:i', strtotime($res->startTime)) }}</p>
 						</div>
 						<div class="col-7">
-							<a href="#" @click="editReservation({{ $reservation->id }})">{{ $res->name }}</a>
+							<a href="#" @click="editReservation({{ $res->id }})">{{ $res->name }}</a>
 						</div>
 						<div class="col-2 d-flex justify-content-end pr-0">
 							<p>{{ $res->size }} Pers</p>

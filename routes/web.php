@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
+Route::get('reservations/total/{date}', 'ReservationController@getTotalReservations')->middleware('auth');
 // Route::get('/edit/{id}', 'ReservationController@editModal')->middleware('auth');
 
 // home device check first

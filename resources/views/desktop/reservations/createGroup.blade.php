@@ -7,15 +7,7 @@
 			<div class="col-sm-12 p-2">
 				<h1 class="display-4">Voeg groep toe</h1>
 			  	<div>
-			    	@if ($errors->any())
-			      	<div class="alert alert-danger">
-				        <ul>
-				            @foreach ($errors->all() as $error)
-				              <li>{{ $error }}</li>
-				            @endforeach
-				        </ul>
-				      </div><br />
-			    	@endif
+			    	
 			      <form method="post" action="{{ route('groups.store') }}">
 			          @csrf
 			          

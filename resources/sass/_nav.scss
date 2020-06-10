@@ -19,14 +19,71 @@
 }
 
 .nav-link:hover .icon{
-	fill:$primary;
+	fill:$gray-color;
 }
 
 .active{
 	.icon{
-	fill:$primary;
+	fill:$gray-color;
 	}
 }
 .dropdown-item:hover, .dropdown-item:focus{
-	background-color: $primary!important;
+	background-color: $gray-color!important;
+	color: $white!important;
+}
+
+
+.submenu-period ul{
+	border-radius: 5px;
+	padding-left:0px;
+	-webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
+	box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
+
+	.btn-white {
+		text-transform: uppercase;
+		border:0px!important;
+		border-right:1px solid $gray-color!important;
+	}
+
+	li{
+		float:left;
+		display: inline-block;
+		background-color: transparent;
+	}
+	li:first-child{
+		.btn-white{			
+			border-top-left-radius: 5px!important;
+			border-bottom-left-radius: 5px!important;
+			// border-left: 1px solid $gray-color!important; 
+		}
+	}
+
+	li:last-child{
+		.btn-white{
+			border-top-right-radius: 5px!important;
+			border-bottom-right-radius: 5px!important;
+			border-right: 0px !important; 
+		}
+	}
+}
+
+.btn-white {
+	font-weight: bold;
+	background-color: $white!important;
+	border:1px solid $gray-color!important;
+	color: $darker-gray-color!important;
+}
+
+.btn-white:hover {
+	background-color: $gray-color!important;
+	border-color: $gray-color!important;
+	color: $white!important;
+	
+}
+.btn-white.active {
+	background-color: $gray-color!important;
+	border-color: $gray-color!important;
+	color: $white!important;
+	
 }

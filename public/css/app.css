@@ -146,6 +146,7 @@ you set the css property it will be when transition ends
   background-color: #dff0d8;
   border-color: #d6e9c6;
   cursor: pointer;
+  transition: all 0.1s ease-in-out;
 }
 
 .navbar {
@@ -167,16 +168,65 @@ you set the css property it will be when transition ends
 }
 
 .nav-link:hover .icon {
-  fill: #3490dc;
+  fill: #90a4ae;
 }
 
 .active .icon {
-  fill: #3490dc;
+  fill: #90a4ae;
 }
 
 .dropdown-item:hover,
 .dropdown-item:focus {
-  background-color: #3490dc !important;
+  background-color: #90a4ae !important;
+  color: #ffffff !important;
+}
+
+.submenu-period ul {
+  border-radius: 5px;
+  padding-left: 0px;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+.submenu-period ul .btn-white {
+  text-transform: uppercase;
+  border: 0px !important;
+  border-right: 1px solid #90a4ae !important;
+}
+
+.submenu-period ul li {
+  float: left;
+  display: inline-block;
+  background-color: transparent;
+}
+
+.submenu-period ul li:first-child .btn-white {
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
+}
+
+.submenu-period ul li:last-child .btn-white {
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+  border-right: 0px !important;
+}
+
+.btn-white {
+  font-weight: bold;
+  background-color: #ffffff !important;
+  border: 1px solid #90a4ae !important;
+  color: #78909c !important;
+}
+
+.btn-white:hover {
+  background-color: #90a4ae !important;
+  border-color: #90a4ae !important;
+  color: #ffffff !important;
+}
+
+.btn-white.active {
+  background-color: #90a4ae !important;
+  border-color: #90a4ae !important;
+  color: #ffffff !important;
 }
 
 .vh-minusMenu {

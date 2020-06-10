@@ -54,7 +54,7 @@ new Vue({
       },
       closeGroup(){
       	this.editGrpShowing = false;
-      },
+      }
     }
 });
 

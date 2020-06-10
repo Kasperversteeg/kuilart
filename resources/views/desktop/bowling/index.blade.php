@@ -15,7 +15,13 @@
 	<h1 class="pb-4">Bowling <small>{{ $request ?  date('d-m-Y', strtotime($date)) : '' }}</small></h1>
 @endsection
 @section('content')
+
 	<div class="container bowling-view-container py-4" id="bowling-container">
+		@if(session()->has('succes'))
+		    <div class="alert alert-success">
+		        {{ session()->get('succes') }}
+		    </div>
+		@endif
 		<div class="row border-bottom">
 			<div class="col d-flex justify-content-center"></div>
 			<div class="col d-flex justify-content-center"><p>Baan 1</p></div>
@@ -48,6 +54,7 @@
 			<div class="col-sm-12 p-2">
 				<h3>Voeg bowlingbaan toe</h3>
 			  	<div>
+
 			    	@if ($errors->any())
 			      	<div class="alert alert-danger">
 				        <ul>
@@ -57,6 +64,7 @@
 				        </ul>
 				      </div><br />
 			    	@endif
+
 			      <form method="post" action="{{ route('bowling.store') }}">
 			          @csrf			          
 			          {{-- name and size input --}}

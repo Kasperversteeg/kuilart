@@ -96,8 +96,16 @@ class ReservationController extends Controller
         //
     }
     
-   
-   public function showAll()
+    public function getTotalReservations($date){
+        $reservations = Reservation::where('date', $date)->get();
+        $total = $reservations->sum('size');
+
+        return response()->json([
+            'total' => $total
+        ]);
+    }
+
+    public function showAll()
     {  
         // get array with requests
         $query = request()->query();

@@ -45,7 +45,7 @@
              </ul>
 
             <div class="navbar-nav col-2 justify-content-center">
-                <a class="navbar-brand" href="{{ route('home') }}">
+                <a class="navbar-brand mr-0" href="{{ route('home') }}">
                     {{ config('app.name', 'Kuilart') }}
                 </a>                
             </div>

@@ -21,10 +21,12 @@ class Reservation extends Model
 	}
 
 
-    public function updateTableNr($tableNr){
-        
+    public function updateTableNr($tableNr)
+    {
         $this->tableNr = $tableNr;
         $this->save();
         return true;
     }
+
+   
 }
