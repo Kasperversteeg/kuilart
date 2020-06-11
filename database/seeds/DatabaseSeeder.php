@@ -1,5 +1,5 @@
 <?php
-
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,9 +22,19 @@ class DatabaseSeeder extends Seeder
 
         factory(App\Activity::class, 100)->create();
 
-        factory(App\Bowling::class, 3)->create(['startTime' => '17:00', 'endTime' => '18:00']);
-        factory(App\Bowling::class, 2)->create(['startTime' => '19:00', 'endTime' => '20:00']);
-        factory(App\Bowling::class, 4)->create(['startTime' => '21:00', 'endTime' => '22:00']);
+        $date = Carbon::now();
+        $today = $date->isoFormat('Y-MM-DD');
+
+        factory(App\Bowling::class, 3)->create(['date' => $today, 'startTime' => '17:00', 'endTime' => '18:00']);
+        factory(App\Bowling::class, 2)->create(['date' => $today, 'startTime' => '19:00', 'endTime' => '20:00']);
+        factory(App\Bowling::class, 4)->create(['date' => $today, 'startTime' => '21:00', 'endTime' => '22:00']);
+
+        $date->addDay();
+        $tomorrow = $date->isoFormat('Y-MM-DD');
+
+        factory(App\Bowling::class, 3)->create(['date' => $date, 'startTime' => '17:00', 'endTime' => '18:00']);
+        factory(App\Bowling::class, 2)->create(['date' => $date, 'startTime' => '19:00', 'endTime' => '20:00']);
+        factory(App\Bowling::class, 4)->create(['date' => $date, 'startTime' => '21:00', 'endTime' => '22:00']);
 
 
 

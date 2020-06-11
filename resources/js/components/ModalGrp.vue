@@ -104,7 +104,7 @@
                 </div>             
                 <div class="row justify-content-end">
                   <div class="col-sm-2">
-                  <button type="submit" class="btn btn-primary float-right">Add reservation</button>
+                  <button type="submit" class="btn btn-primary float-right">Voeg toe</button>
                 </div>
                 </div>
             </form>

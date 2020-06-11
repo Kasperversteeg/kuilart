@@ -1,7 +1,7 @@
 <template>
   <transition name="fade">
   <div class="modal-backdrop">
-  <div class="modal container" role="modal"
+  <div class="modal" role="modal"
    aria-labelledby="modalTitle"
    aria-describedby="modalDescription"
      >
@@ -64,6 +64,19 @@
                </div>
              </div>
          </form>
+        
+
+        <!--   <div class="row">
+                <div class="col-sm-2">
+                  <form method="post" @submit="destroyReservation">
+                <input type="hidden" name="_token" :value="csrf">
+                <button type="submit" class="btn btn-danger">Delete reservation</button>
+                </form>
+              </div>
+                <div class="col-sm-8 col-0"></div>
+                <div class="col-sm-2">
+              </div>
+            </div>   -->
 
       </div>
     </div>
@@ -162,6 +175,9 @@
             this.errors.record(error.response.data);
             this.flash('Er zijn invoervelden niet correct ingevuld!', 'error', {timeout: 3000});
         })
+      },
+      destroyReservation(e){
+
       },
    },
    watch:{
