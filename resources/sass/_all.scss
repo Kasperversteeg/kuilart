@@ -22,3 +22,15 @@
 .font-bigger{
   font-size: 1.2rem;
 }
+
+.btn-add{
+	svg{
+		padding-bottom: 1px;
+		fill: $gray-color;
+	}
+}
+.btn-add:hover{
+	svg{
+		fill: $white;
+	}
+}

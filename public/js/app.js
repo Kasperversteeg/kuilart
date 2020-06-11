@@ -2765,10 +2765,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 //
-//
-//
-//
-//
 var Errors = /*#__PURE__*/function () {
   function Errors() {
     _classCallCheck(this, Errors);
@@ -2882,7 +2878,24 @@ var Errors = /*#__PURE__*/function () {
         });
       });
     },
-    destroyReservation: function destroyReservation(e) {}
+    destroyReservation: function destroyReservation(e) {
+      var _this3 = this;
+
+      e.preventDefault();
+      axios.post('/reservations/' + this.reservation.id, {
+        _method: "delete"
+      }).then(function (response) {
+        _this3.close();
+
+        _this3.flash('Reservering verwijderd!', 'success', {
+          timeout: 3500
+        });
+      })["catch"](function (response) {
+        _this3.flash('De reservering kon niet verwijderd worden', 'error', {
+          timeout: 3000
+        });
+      });
+    }
   },
   watch: {
     id: function id() {
@@ -43023,7 +43036,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-md-6" }, [
+                  _c("div", { staticClass: "col-md-3" }, [
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "date" } }, [
                         _vm._v("Datum")
@@ -43058,7 +43071,7 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-6" }, [
+                  _c("div", { staticClass: "col-md-3" }, [
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "startTime" } }, [
                         _vm._v("Tijd")
@@ -43182,7 +43195,7 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "modal",
+          staticClass: "modal container",
           attrs: {
             role: "modal",
             "aria-labelledby": "modalTitle",
@@ -43206,7 +43219,7 @@ var render = function() {
                     attrs: { type: "button", "aria-label": "Close modal" },
                     on: { click: _vm.close }
                   },
-                  [_vm._v("\n           ×\n           ")]
+                  [_vm._v("\n\t\t\t  ×\n\t\t\t  ")]
                 )
               ])
             ]
@@ -43398,7 +43411,34 @@ var render = function() {
                   ])
                 ])
               ]
-            )
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-sm-2" }, [
+                _c(
+                  "form",
+                  {
+                    attrs: { method: "post" },
+                    on: { submit: _vm.destroyReservation }
+                  },
+                  [
+                    _c("input", {
+                      attrs: { type: "hidden", name: "_token" },
+                      domProps: { value: _vm.csrf }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger delete-bowling",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Verwijder")]
+                    )
+                  ]
+                )
+              ])
+            ])
           ])
         ]
       )
@@ -55675,8 +55715,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_ModalResEdit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/ModalResEdit */ "./resources/js/components/ModalResEdit.vue");
 /* harmony import */ var _components_ModalGrpEdit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/ModalGrpEdit */ "./resources/js/components/ModalGrpEdit.vue");
 /* harmony import */ var _components_FormLine__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/FormLine */ "./resources/js/components/FormLine.vue");
-/* harmony import */ var vue_flash_message__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-flash-message */ "./node_modules/vue-flash-message/dist/vue-flash-message.min.js");
-/* harmony import */ var vue_flash_message__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vue_flash_message__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var vue_flash_message__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-flash-message */ "./node_modules/vue-flash-message/dist/vue-flash-message.min.js");
+/* harmony import */ var vue_flash_message__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_flash_message__WEBPACK_IMPORTED_MODULE_5__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! vue-flash-message/dist/vue-flash-message.min.css */ "./node_modules/vue-flash-message/dist/vue-flash-message.min.css"); // going to be one main + 4 components
@@ -55694,7 +55734,7 @@ Vue.component('grp', _components_ModalGrp__WEBPACK_IMPORTED_MODULE_1__["default"
 Vue.component('formline', _components_FormLine__WEBPACK_IMPORTED_MODULE_4__["default"]);
 Vue.component('edit-res', _components_ModalResEdit__WEBPACK_IMPORTED_MODULE_2__["default"]);
 Vue.component('edit-grp', _components_ModalGrpEdit__WEBPACK_IMPORTED_MODULE_3__["default"]);
-Vue.use(vue_flash_message__WEBPACK_IMPORTED_MODULE_6___default.a);
+Vue.use(vue_flash_message__WEBPACK_IMPORTED_MODULE_5___default.a);
 new Vue({
   el: '#app',
   data: {
@@ -55708,9 +55748,11 @@ new Vue({
   },
   methods: {
     toggleRes: function toggleRes() {
+      console.log('toggling res');
       this.resModalShowing = !this.resModalShowing;
     },
     toggleGrp: function toggleGrp() {
+      console.log('toggling grp');
       this.grpModalShowing = !this.grpModalShowing;
     },
     editReservation: function editReservation(reservationId) {
@@ -55726,15 +55768,14 @@ new Vue({
     },
     closeGroup: function closeGroup() {
       this.editGrpShowing = false;
+    },
+    toggleModal: function toggleModal(type) {
+      console.log(type);
     }
   }
 });
 
 window.onload = function () {
-  var button = document.getElementById("nav-add");
-  var dropdown = document.getElementById("nav-dropdown");
-  var dropdownAria = document.getElementById("navbarDropdown");
-  var menuBalk = document.getElementById("nav-container");
   var overzicht = document.getElementById("overzicht");
   var nameOfClass = "show";
   var freeBowlingSlots = document.getElementsByClassName('empty-slot');
@@ -55764,34 +55805,6 @@ window.onload = function () {
 
   for (var i = 0; freeBowlingSlots.length > i; i++) {
     freeBowlingSlots[i].addEventListener('click', returnId, false);
-  } // declare function for "onMouseOver" event:
-
-
-  button.onmouseover = function () {
-    // Some browsers do not support "classList". So, it's necessary to write a condition to see if the current browser supports it.
-    if (button.classList) {
-      button.classList.add(nameOfClass);
-      dropdown.classList.add(nameOfClass);
-      dropdownAria.setAttribute("aria-expanded", "true");
-    }
-  }; // declare function for "onMouseOut" event:
-
-
-  dropdown.onmouseout = function () {
-    closeHover();
-  }; // declare function for "onMouseOut" event:
-
-
-  overzicht.onmouseout = function () {
-    closeHover();
-  };
-
-  function closeHover() {
-    if (button.classList) {
-      button.classList.remove(nameOfClass);
-      dropdown.classList.remove(nameOfClass);
-      dropdownAria.setAttribute("aria-expanded", "false");
-    }
   }
 };
 

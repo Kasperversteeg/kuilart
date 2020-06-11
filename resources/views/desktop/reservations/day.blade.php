@@ -3,7 +3,7 @@
 	@include('desktop.components.submenu')
 
 	@php
-
+		$var = 'toggleGrp';
 		switch($isGroup){
 			case('RES'):
 				$title = 'Restaurant ';
@@ -26,6 +26,28 @@
 	@endsection
 		
 	<div class="container day-container py-4" id="reservations">
+
+		<div class="row pb-4 px-3">
+			@if( $isGroup === 'RES')
+				<a class="btn btn-white btn-add" href="#" @click="toggleRes" >
+			        <x-icon icon="plusje" height='34px' width="34px"/>  Voeg een reservering toe
+			    </a>
+			@elseif($isGroup === 'GRP')
+				<a class="btn btn-white btn-add" href="#" @click="toggleGrp" >
+			        <x-icon icon="plusje" height='34px' width="34px"/>  Voeg een reservering toe
+			    </a>
+			@else
+			    <a class="dropdown has-dropdown btn btn-white btn-add" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			        <x-icon icon="plusje" height='34px' width="34px"/>  Voeg een reservering toe
+			    </a>
+
+		      	<div class="dropdown-menu" aria-labelledby="navbarDropdown" id='nav-dropdown'>
+			        <a class="dropdown-item" href="#" @click='toggleGrp'>Groep</a>                            
+			        <a class="dropdown-item" href="#"  @click="toggleRes">Restaurant</a>
+			        <a class="dropdown-item" href="{{ route('bowling.index', 'd='.\Carbon\Carbon::now()->isoFormat('Y-MM-DD')) }}">Bowlingbaan</a>
+			    </div>
+			@endif
+		</div>
 
 		@forelse($day->reservations as $reservation)
 			@if($reservation->type === 'GRP')

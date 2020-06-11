@@ -365,6 +365,15 @@ you set the css property it will be when transition ends
   font-size: 1.2rem;
 }
 
+.btn-add svg {
+  padding-bottom: 1px;
+  fill: #90a4ae;
+}
+
+.btn-add:hover svg {
+  fill: #ffffff;
+}
+
 /*!
  * Bootstrap v4.4.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors

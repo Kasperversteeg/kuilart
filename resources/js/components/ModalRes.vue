@@ -41,14 +41,14 @@
             </div>
 
             <div class="row">
-               <div class="col-md-6">
+               <div class="col-md-3">
                  <div class="form-group">    
                    <label for="date">Datum</label>
                    <input type="date" class="form-control" name="date"  v-model="date" @change="getTotal()"/>
                      <span>{{ errors.get('date') }}</span>
                  </div>
                </div>
-               <div class="col-md-6">
+               <div class="col-md-3">
                  <div class="form-group">    
                    <label for="startTime">Tijd</label>
                    <div class="form-control p-0">

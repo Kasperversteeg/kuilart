@@ -36,9 +36,11 @@ new Vue({
     },
     methods: {
       toggleRes() {
+        console.log('toggling res');
         this.resModalShowing = !this.resModalShowing;
       },
       toggleGrp(){
+        console.log('toggling grp');
       	this.grpModalShowing = !this.grpModalShowing;
       },
       editReservation(reservationId){
@@ -54,23 +56,18 @@ new Vue({
       },
       closeGroup(){
       	this.editGrpShowing = false;
+      },
+      toggleModal(type){
+        console.log(type);
       }
     }
 });
 
 window.onload = function() {
-	var button = document.getElementById("nav-add");
-	var dropdown = document.getElementById("nav-dropdown");
-	var dropdownAria = document.getElementById("navbarDropdown");
-	var menuBalk = document.getElementById("nav-container");
+
 	var overzicht = document.getElementById("overzicht");
 	var nameOfClass = "show";
-
-
-
-
 	var freeBowlingSlots = document.getElementsByClassName('empty-slot');
-
 
 	var returnId = function(){
 		var id = this.getAttribute('id');
@@ -79,7 +76,6 @@ window.onload = function() {
 	}
 
 	function setInput(nr, time){
-
 		let startTime = document.getElementById('startTime');
 		startTime.value = time;
 		let lane = document.getElementById('lane');
@@ -99,35 +95,6 @@ window.onload = function() {
 
 	for (var i = 0; freeBowlingSlots.length > i ; i++) {
 		freeBowlingSlots[i].addEventListener('click', returnId, false);
-	}
-
-	
-
-	// declare function for "onMouseOver" event:
-	button.onmouseover = function() {
-		// Some browsers do not support "classList". So, it's necessary to write a condition to see if the current browser supports it.
-		if (button.classList) {
-			button.classList.add(nameOfClass);
-			dropdown.classList.add(nameOfClass);
-			dropdownAria.setAttribute("aria-expanded", "true");
-		}
- 	}
- 
-	// declare function for "onMouseOut" event:
-	dropdown.onmouseout = function () {
-		closeHover();
-	}
-	// declare function for "onMouseOut" event:
-	overzicht.onmouseout = function () {
-		closeHover();
-	}
-
-	function closeHover(){
-		if (button.classList) {
-			button.classList.remove(nameOfClass);
-			dropdown.classList.remove(nameOfClass);
-			dropdownAria.setAttribute("aria-expanded", "false");
-		}
 	}
 }
 
