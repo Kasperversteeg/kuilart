@@ -4,12 +4,24 @@
 	border-radius: 0!important;
 }
 
-.form-input-invalid{
+.input-is-invalid{
  	border-color: #e3342f!important;
 }
-.form-input-valid{
+.input-is-invalid:focus{
+    border-color: #dc3545!important;
+    box-shadow: 0 0 0 0.2rem rgba(220,53,69,.25)!important;
+}
+
+.input-is-valid{
 	border-color: #38c172!important;
 }
 .input-text-align-center{
 	text-align: center;
+}
+
+.input-invalid-msg {
+	width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #e3342f;
 }

@@ -87,3 +87,48 @@
 	color: $white!important;
 	
 }
+
+.submenu {
+	position: fixed;
+	bottom:67px;
+	right:50px;
+	background-color: $white;
+	border:1px solid $darker-gray-color;
+	a{
+		display: block;
+		padding: 1rem 1.5rem;
+		color:$gray-color;
+	}
+	a:hover{
+		background-color: $gray-color;
+		color: $white;
+		text-decoration: none;
+	}
+	ul {
+		margin-bottom: 0px!important;
+		padding-left:0;
+		list-style: none;
+	}
+}
+
+.btn-add{
+	background-color: $primary;
+	border: 1px solid $gray-color!important;
+	img{
+		transition: ease 0.2s;
+		padding-bottom: 1px;
+		fill: $gray-color;
+	}
+}
+.btn-add:hover{
+	img{
+		height: 37px;
+		width: 37px;
+	}
+}
+
+.btn-add-fixed {
+	position: fixed;
+	bottom: 20px;
+	right: 50px;
+}

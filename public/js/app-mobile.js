@@ -1942,7 +1942,6 @@ module.exports = {
 //
 //
 //
-//
 
 /***/ }),
 
@@ -49981,7 +49980,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/kasperversteeg/code/kuilart/resources/js/app-mobile.js */"./resources/js/app-mobile.js");
+module.exports = __webpack_require__(/*! C:\Users\kaspe\OneDrive\Documenten\projects\kuilart\resources\js\app-mobile.js */"./resources/js/app-mobile.js");
 
 
 /***/ })

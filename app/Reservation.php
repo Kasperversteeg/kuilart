@@ -12,7 +12,9 @@ class Reservation extends Model
         'date',  
         'size', 
         'startTime', 
-        'type'
+        'type',
+        'mail',
+        'phoneNr'
     ];
 
 	public function activities()

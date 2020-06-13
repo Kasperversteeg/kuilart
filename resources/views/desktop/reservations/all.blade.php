@@ -64,8 +64,4 @@ switch($isGroup){
 			@endforeach
 		</div>
 	</div>
-
-	<edit-res v-show="editResShowing" :id="editId" @close="closeReservation"></edit-res>
-	<edit-grp v-show="editGrpShowing" :id="editId" @close="closeGroup"></edit-grp>
-
 @endsection

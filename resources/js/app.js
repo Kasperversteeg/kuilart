@@ -1,66 +1,57 @@
 require('./bootstrap');
-require('vue-flash-message/dist/vue-flash-message.min.css');
+// require('vue-flash-message/dist/vue-flash-message.min.css');
 
-// going to be one main + 4 components
-import ModalRes from './components/ModalRes';
-import ModalGrp from './components/ModalGrp';
-import ModalResEdit from './components/ModalResEdit';
-import ModalGrpEdit from './components/ModalGrpEdit';
-
-
+import Modal from './components/Modal';
+import AddButton from './components/AddButton';
+import AddSubMenu from './components/AddButton';
 import FormLine from './components/FormLine'; 
+
+// not mine  
 import VueFlashMessage from 'vue-flash-message'; 
+import Datepicker from 'vuejs-datepicker';
 
 window.Vue = require('vue');
-
-
-Vue.component('res', ModalRes);
-Vue.component('grp', ModalGrp);
-Vue.component('formline', FormLine);
-Vue.component('edit-res', ModalResEdit);
-Vue.component('edit-grp', ModalGrpEdit);
-
 Vue.use(VueFlashMessage);
 
+Vue.component('modal', Modal);
+Vue.component('add', AddButton);
+Vue.component('addsubmenu', AddSubMenu);
+Vue.component('formline', FormLine);
+Vue.component('vuejs-datepicker', Datepicker);
 
 new Vue({
 	el: '#app',
 	data: {
-        resModalShowing: false,
-        grpModalShowing: false,
-        editGrpShowing: false,
-        editResShowing: false,
-        count: 0,
-        fields: [],
-        editId: 0
-    },
-    methods: {
-      toggleRes() {
-        console.log('toggling res');
-        this.resModalShowing = !this.resModalShowing;
-      },
-      toggleGrp(){
-        console.log('toggling grp');
-      	this.grpModalShowing = !this.grpModalShowing;
-      },
-      editReservation(reservationId){
-      	this.editId = reservationId;
-      	this.editResShowing = true;
-      },
-      closeReservation(){
-      	this.editResShowing = false;
-      },
-      editGroup(reservationId){
-      	this.editId = reservationId;
-      	this.editGrpShowing = true;
-      },
-      closeGroup(){
-      	this.editGrpShowing = false;
-      },
-      toggleModal(type){
-        console.log(type);
-      }
-    }
+		modalShowing: false,
+		modalObj: {}
+	},
+	methods: {
+		showModal() {
+			this.modalShowing = true;
+		},
+		closeModal(){
+			this.$emit('clearReservation');
+			this.modalShowing = false;
+		},
+		editReservation(id){
+			console.log('editing RESTAURANT reservation with id ' + id);
+			this.modalObj.id = id;
+			this.modalObj.reservationType = 'RES';
+			this.modalObj.editing = true;
+			this.modalObj.title = 'Wijzig restaurant reservering';
+			this.$emit('setModal', this.modalObj);
+			this.modalShowing = true;
+		},
+		editGroup(id){
+			console.log('editing GROEP reservation with id ' + id);
+			this.modalObj.id = id;
+			this.modalObj.reservationType = 'GRP';
+			this.modalObj.editing = true;
+			this.modalObj.title = 'Wijzig groep reservering';
+			this.$emit('setModal', this.modalObj);
+			this.modalShowing = true;
+		},
+	}
 });
 
 window.onload = function() {
@@ -75,28 +66,26 @@ window.onload = function() {
 		setInput(split[0], split[1]);
 	}
 
-	function setInput(nr, time){
-		let startTime = document.getElementById('startTime');
-		startTime.value = time;
-		let lane = document.getElementById('lane');
-		lane.value = nr;
-		setEndTime(time);
-	}
-
-	function setEndTime(time){
-		let spl = time.split(':');
-		let addHour = parseInt(spl[0]);
-		addHour++;
-		// console.log(addHour+':'+spl[1]);
-
-		let endTime = document.getElementById('endTime');
-		endTime.value = addHour+':'+spl[1];
-	}
-
 	for (var i = 0; freeBowlingSlots.length > i ; i++) {
 		freeBowlingSlots[i].addEventListener('click', returnId, false);
 	}
 }
 
 
+function setInput(nr, time){
+	let startTime = document.getElementById('startTime');
+	startTime.value = time;
+	let lane = document.getElementById('lane');
+	lane.value = nr;
+	setEndTime(time);
+}
 
+function setEndTime(time){
+	let spl = time.split(':');
+	let addHour = parseInt(spl[0]);
+	addHour++;
+	// console.log(addHour+':'+spl[1]);
+
+	let endTime = document.getElementById('endTime');
+	endTime.value = addHour+':'+spl[1];
+}

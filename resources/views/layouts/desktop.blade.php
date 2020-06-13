@@ -34,12 +34,9 @@
             </div>
         </main>
 
-        <res v-show="resModalShowing" @close="toggleRes" ></res>
-        <grp v-show="grpModalShowing" @close="toggleGrp"></grp>
-        
+        <modal v-show='modalShowing' @close='closeModal'></modal>        
         <flash-message class="flash-box" transition-name="slide"></flash-message>
         
-
         @stack('scripts')
     </div>
 </body>

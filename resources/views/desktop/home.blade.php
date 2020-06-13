@@ -13,5 +13,18 @@
 		</div>
 	</div>
 
+	<button  @click="showModal" >test</button>
+	<button  @click="toggleModal('Group')" >test</button>
+
+	@php
+		$reservationType = 'GRP';
+		$title = 'Voeg groepsreservering toe';
+		$false = 'true';
+		$reservationId = 1;
+	@endphp
+
+	<add reservation-type="{{ $reservationType }}" title='{{ $title }}'  :editing="{{ $false }}"  :id="{{ $reservationId }}"  @open='showModal'></add>
+
+
 </div>
 @endsection

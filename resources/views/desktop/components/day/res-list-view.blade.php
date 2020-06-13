@@ -10,7 +10,7 @@
 			<div class="row">
 				<div class="col-12">
 					<h4 class='mb-0'>
-						<a href="#" @click="editReservation({{ $reservation->id }})">{{ $reservation->name }}</a>
+						<a href="#" @click="editReservation({{$reservation->id }})">{{ $reservation->name }}</a>
 
 						{{-- <a href="{{ route('reservations.edit', $reservation->id)}} ">{{ $reservation->name }}</a> --}}
 					</h4>

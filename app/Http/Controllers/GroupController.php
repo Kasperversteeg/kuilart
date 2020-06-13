@@ -118,31 +118,36 @@ class GroupController extends Controller
 
 	
     public function store(Request $request)
-    {
-        //Validate input
+    {        
+
+        //Validate group input
         $request = $this->validateGroup($request);
-        $request = $this->validateActivity($request);
+        // validate activities
+        // $request = $this->validateActivity($request);
+
         $reservation = new Reservation([
             'type' => $this->grp,
             'name' => $request->get('name'),
             'size' => $request->get('size'),  
             'date'  => dateForDB($request->get('date')),
             'startTime'  => $request->get('startTime'),
-            'notes' => $request->get('notes')
+            'notes' => $request->get('notes'),
+            'phoneNr' => $request->get('phoneNr'),
+            'mail'  => $request->get('mail')
         ]);
 
         $reservation->save();
 
-        $activity = new Activity([
-            'startTime' => $request->get('act-startTime'), 
-            'endTime' => $request->get('act-endTime'), 
-            'description' => $request->get('act-description'), 
-            'reservation_id' => $reservation->id, 
-            'size' => $request->get('act-size')
-        ]); 
-        $activity->save();
+        // $activity = new Activity([
+        //     'startTime' => $request->get('act-startTime'), 
+        //     'endTime' => $request->get('act-endTime'), 
+        //     'description' => $request->get('act-description'), 
+        //     'reservation_id' => $reservation->id, 
+        //     'size' => $request->get('act-size')
+        // ]); 
+        // $activity->save();
 
-    return redirect()->route('groups.index', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
+    // return redirect()->route('groups.index', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
     }
 
  public function edit($id)
@@ -190,7 +195,9 @@ class GroupController extends Controller
             'name' => 'required',
             'size' => ['required','int'],
             'date' => 'required',
-            'startTime' => 'required'
+            'startTime' => 'required',
+            'mail' => 'nullable|email',
+            'phoneNr' => 'nullable|regex:/(01)[0-9]{9}/'
         ]);
 
         return $request;

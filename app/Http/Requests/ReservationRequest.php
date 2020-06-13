@@ -7,11 +7,6 @@ use Illuminate\Contracts\Validation\Validator;
 
 class ReservationRequest extends FormRequest
 {
-    public function failedValidation(Validator $validator)
-    {
-        return redirect()->back()->with('error', 'error');
-    }
-
     public function authorize()
     {
         return true;
