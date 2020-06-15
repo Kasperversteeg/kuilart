@@ -1,6 +1,6 @@
 <template>
 	<transition name="fade">
-		<div>
+		<div class="position-relative">
 			<template v-if="!editing">
 				<p>Voor die datum staan er al: <strong>{{ totalReservations }}</strong> reserveringen</p>
 			</template>
@@ -25,8 +25,9 @@
 					<div class="col-md-3">
 						<div class="form-group">    
 							<label for="date">Datum</label>
-							<input type="date" :class="['form-control', {'input-is-invalid' : errors.has('date')}]" name="date" id="date" v-model="reservation.date" @change="getTotal()"/>
+							<vuejs-datepicker @change="getTotal()" id="date" v-model="reservation.date" :input-class="['form-control' ,{'input-is-invalid' : errors.has('date')}]" typeable></vuejs-datepicker>
 							<span class="input-invalid-msg">{{ errors.get('date') }}</span>
+							
 						</div>
 					</div>
 				</div>
@@ -215,7 +216,6 @@
 				e.preventDefault();
 				// when editing bool is false(new reservation) then post new axios request
 				if(!this.editing) {
-					console.log('posting fresh reservation');
 					axios.post('/groups/store/', {
 						name: this.reservation.name,
 						size: this.reservation.size,
@@ -226,7 +226,7 @@
 						mail: this.reservation.mail
 					})
 					.then(response => {
-						this.flash('Reservering toegevoegd', 'success', {timeout: 3000});
+						this.flash(response.data.msg, 'success', {timeout: 3000});
 						this.$parent.$emit('close');
 					})
 					.catch(error => {
@@ -250,7 +250,6 @@
 						mail: this.reservation.mail
 				})
 				.then(response => {
-					console.log(response.data.msg);
 					this.flash(response.data.msg, 'success', {timeout: 3000});
 					this.$parent.$emit('close');
 				})

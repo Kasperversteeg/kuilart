@@ -1,50 +1,45 @@
 .modal-backdrop {
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: 99999;
-  overflow-y: auto;
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
+	background-color: rgba(0, 0, 0, 0.3);
+	z-index: 99999;
+	overflow-y: auto;
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
 }
 
 .modal {
- margin-top: 5%;
- background: #FFFFFF;
+	margin-top: 5%;
+	background: #FFFFFF;
 }
 
 .btn-close {
-  border: 1px solid #ced4da;
-  font-size: 30px;
-  padding:0 10px;
-  cursor: pointer;
-  font-weight: bold;
-  background: transparent;
+	border: 1px solid #ced4da;
+	font-size: 30px;
+	padding:0 10px;
+	cursor: pointer;
+	font-weight: bold;
+	background: transparent;
 }
 
 .fade-enter-active, .fade-leave-active {
-transition: opacity .3s;
+	transition: opacity .3s;
 }
 
 /*
 you set the css property before transition starts
 */
 .fade-enter, .fade-leave-to {
-opacity: 0;
+	opacity: 0;
 }
 
 /*
 you set the css property it will be when transition ends
 */
 .fade-enter-to, .fade-leave {
-opacity: 1;
+	opacity: 1;
 }
-
-.vue__time-picker .dropdown ul li[disabled]{
-  display: none;
-}
-
-.vue__time-picker .dropdown ul li:not([disabled]).active{
-  background: $primary!important;
+.modal-open .modal{
+	overflow: visible!important;
 }

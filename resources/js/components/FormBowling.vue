@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="position-relative">
 	<form method="post" @submit="formSubmit">
 		<input type="hidden" name="_token" :value="csrf">
 		<div class="row">
@@ -28,7 +28,8 @@
 			<div class="col-md-6">
 				<div class="form-group">    
 					<label for="date">Datum</label>
-					<input type="text" :class="['form-control', {'input-is-invalid' : errors.has('date')}]" name="date" id="date" v-model="bowling.date"/>
+					<vuejs-datepicker id="date" v-model="bowling.date" :input-class="['form-control' ,{'input-is-invalid' : errors.has('date')}]" typeable></vuejs-datepicker>
+					<span class="input-invalid-msg">{{ errors.get('date') }}</span>
 				</div>
 			</div>
 			<div class="col-md-3">
@@ -66,17 +67,12 @@
 		</div>
 	</form>
 	<template v-if="this.editing">
-		<div class="row">
-			<div class="col-sm-2">
-				<form method="delete" @submit="destroy">
-					<input type="hidden" name="_token" :value="csrf">					
-					<button type="submit" class="btn btn-danger">Delete reservation</button>
-				</form>
-			</div>
-			<div class="col-sm-8 col-0"></div>
-			<div class="col-sm-2">
-			</div>
-		</div> 			
+		<div class="col-sm-2 btn-delete">
+			<form method="delete" @submit="destroy">
+				<input type="hidden" name="_token" :value="csrf">					
+				<button type="submit" class="btn btn-danger">Delete reservation</button>
+			</form>
+		</div>	
 	</template>
 </div>
 </template>

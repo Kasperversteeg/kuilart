@@ -147,7 +147,9 @@ class GroupController extends Controller
         // ]); 
         // $activity->save();
 
-    // return redirect()->route('groups.index', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
+        return response()->json([
+            'msg' => 'Groepsreservering toegevoegd'
+        ]);
     }
 
     public function edit($id)
@@ -175,7 +177,6 @@ class GroupController extends Controller
         $reservation->save();
 
         // activities later toevoegen
-
          return response()->json([
             'msg' =>'Reservering gewijzigd'
         ]);

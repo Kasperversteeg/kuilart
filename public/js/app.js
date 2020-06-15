@@ -4386,8 +4386,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 //
-//
-//
 var Modal = /*#__PURE__*/function () {
   function Modal() {
     _classCallCheck(this, Modal);
@@ -4473,10 +4471,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-//
-//
-//
-//
 //
 //
 //
@@ -4876,6 +4870,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 //
+//
 
 
 var Errors = /*#__PURE__*/function () {
@@ -4998,7 +4993,6 @@ var Reservation = /*#__PURE__*/function () {
       e.preventDefault(); // when editing bool is false(new reservation) then post new axios request
 
       if (!this.editing) {
-        console.log('posting fresh reservation');
         axios.post('/groups/store/', {
           name: this.reservation.name,
           size: this.reservation.size,
@@ -5008,7 +5002,7 @@ var Reservation = /*#__PURE__*/function () {
           phoneNr: this.reservation.phoneNr,
           mail: this.reservation.mail
         }).then(function (response) {
-          _this2.flash('Reservering toegevoegd', 'success', {
+          _this2.flash(response.data.msg, 'success', {
             timeout: 3000
           });
 
@@ -5037,8 +5031,6 @@ var Reservation = /*#__PURE__*/function () {
         phoneNr: this.reservation.phoneNr,
         mail: this.reservation.mail
       }).then(function (response) {
-        console.log(response.data.msg);
-
         _this3.flash(response.data.msg, 'success', {
           timeout: 3000
         });
@@ -5190,11 +5182,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-//
-//
-//
-//
-//
 //
 //
 //
@@ -5476,7 +5463,7 @@ var Reservation = /*#__PURE__*/function () {
       e.preventDefault();
       console.log('deleting reservation with id ' + this.reservation.id);
       axios["delete"]('/reservations/' + this.reservation.id).then(function (response) {
-        _this4.flash('Reservering verwijderd!', 'success', {
+        _this4.flash(response.data.msg, 'success', {
           timeout: 3500
         });
 
@@ -10205,7 +10192,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/*.add-enter { \n\ttransform: translateY(150px);\n}\n\n.add-enter-to {\n\ttransform: translateY(0px);\n} \n\n.add-enter-active {\n \ttransition: all 300ms ease; \n}*/\n", ""]);
+exports.push([module.i, "\n.add-enter { \n\ttransform: translateY(150px);\n}\n.add-enter-to {\n\ttransform: translateY(0px);\n}\n.add-enter-active {\n \ttransition: all 300ms ease;\n}\n", ""]);
 
 // exports
 
@@ -44951,76 +44938,74 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("transition", [
-    _c("div", { staticClass: "container fixed-bottom" }, [
-      _c("div", { staticClass: "row justify-content-end" }, [
-        _c(
-          "a",
-          {
-            staticClass: "btn-add btn-add-fixed",
-            attrs: { href: "#" },
-            on: { click: _vm.click }
-          },
-          [
-            _c(
-              "svg",
-              {
-                attrs: {
-                  version: "1.1",
-                  id: "Layer_1",
-                  xmlns: "http://www.w3.org/2000/svg",
-                  "xmlns:xlink": "http://www.w3.org/1999/xlink",
-                  x: "0px",
-                  y: "0px",
-                  viewBox: "0 0 210 210",
-                  "enable-background": "new 0 0 210 210",
-                  "xml:space": "preserve",
-                  width: "40px",
-                  height: "40px"
-                }
-              },
-              [
-                _c("path", {
-                  attrs: {
-                    d:
-                      "M210,100.23v9.54c0,7.9-6.41,14.32-14.32,14.32h-71.59v71.59c0,7.9-6.41,14.32-14.32,14.32h-9.54\n\t\t\t\t\tc-7.9,0-14.32-6.41-14.32-14.32v-71.59H14.32c-7.9,0-14.32-6.41-14.32-14.32v-9.54c0-7.9,6.41-14.32,14.32-14.32h71.59V14.32\n\t\t\t\t\tC85.91,6.41,92.32,0,100.23,0h9.54c7.9,0,14.32,6.41,14.32,14.32v71.59h71.59C203.59,85.91,210,92.32,210,100.23z"
-                  }
-                })
-              ]
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.toggleSubMenu,
-                expression: "toggleSubMenu"
+  return _c("div", { staticClass: "container fixed-bottom" }, [
+    _c("div", { staticClass: "row justify-content-end" }, [
+      _c(
+        "a",
+        {
+          staticClass: "btn-add btn-add-fixed",
+          attrs: { href: "#" },
+          on: { click: _vm.click }
+        },
+        [
+          _c(
+            "svg",
+            {
+              attrs: {
+                version: "1.1",
+                id: "Layer_1",
+                xmlns: "http://www.w3.org/2000/svg",
+                "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                x: "0px",
+                y: "0px",
+                viewBox: "0 0 210 210",
+                "enable-background": "new 0 0 210 210",
+                "xml:space": "preserve",
+                width: "40px",
+                height: "40px"
               }
-            ],
-            staticClass: "submenu"
-          },
-          [
-            _c("ul", [
-              _c("li", [
-                _c("a", { attrs: { href: "#" }, on: { click: _vm.addGroup } }, [
-                  _vm._v("Groepen")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("li", [
-                _c("a", { attrs: { href: "#" }, on: { click: _vm.addRes } }, [
-                  _vm._v("Restaurant")
-                ])
+            },
+            [
+              _c("path", {
+                attrs: {
+                  d:
+                    "M210,100.23v9.54c0,7.9-6.41,14.32-14.32,14.32h-71.59v71.59c0,7.9-6.41,14.32-14.32,14.32h-9.54\n\t\t\t\tc-7.9,0-14.32-6.41-14.32-14.32v-71.59H14.32c-7.9,0-14.32-6.41-14.32-14.32v-9.54c0-7.9,6.41-14.32,14.32-14.32h71.59V14.32\n\t\t\t\tC85.91,6.41,92.32,0,100.23,0h9.54c7.9,0,14.32,6.41,14.32,14.32v71.59h71.59C203.59,85.91,210,92.32,210,100.23z"
+                }
+              })
+            ]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.toggleSubMenu,
+              expression: "toggleSubMenu"
+            }
+          ],
+          staticClass: "submenu"
+        },
+        [
+          _c("ul", [
+            _c("li", [
+              _c("a", { attrs: { href: "#" }, on: { click: _vm.addGroup } }, [
+                _vm._v("Groepen")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("a", { attrs: { href: "#" }, on: { click: _vm.addRes } }, [
+                _vm._v("Restaurant")
               ])
             ])
-          ]
-        )
-      ])
+          ])
+        ]
+      )
     ])
   ])
 }
@@ -45048,6 +45033,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "position-relative" },
     [
       _c(
         "form",
@@ -45156,34 +45142,36 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-6" }, [
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "date" } }, [_vm._v("Datum")]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
+              _c(
+                "div",
+                { staticClass: "form-group" },
+                [
+                  _c("label", { attrs: { for: "date" } }, [_vm._v("Datum")]),
+                  _vm._v(" "),
+                  _c("vuejs-datepicker", {
+                    attrs: {
+                      id: "date",
+                      "input-class": [
+                        "form-control",
+                        { "input-is-invalid": _vm.errors.has("date") }
+                      ],
+                      typeable: ""
+                    },
+                    model: {
                       value: _vm.bowling.date,
+                      callback: function($$v) {
+                        _vm.$set(_vm.bowling, "date", $$v)
+                      },
                       expression: "bowling.date"
                     }
-                  ],
-                  class: [
-                    "form-control",
-                    { "input-is-invalid": _vm.errors.has("date") }
-                  ],
-                  attrs: { type: "text", name: "date", id: "date" },
-                  domProps: { value: _vm.bowling.date },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.bowling, "date", $event.target.value)
-                    }
-                  }
-                })
-              ])
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "input-invalid-msg" }, [
+                    _vm._v(_vm._s(_vm.errors.get("date")))
+                  ])
+                ],
+                1
+              )
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-md-3" }, [
@@ -45335,32 +45323,26 @@ var render = function() {
       _vm._v(" "),
       this.editing
         ? [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-sm-2" }, [
-                _c(
-                  "form",
-                  { attrs: { method: "delete" }, on: { submit: _vm.destroy } },
-                  [
-                    _c("input", {
-                      attrs: { type: "hidden", name: "_token" },
-                      domProps: { value: _vm.csrf }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-danger",
-                        attrs: { type: "submit" }
-                      },
-                      [_vm._v("Delete reservation")]
-                    )
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-8 col-0" }),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-2" })
+            _c("div", { staticClass: "col-sm-2 btn-delete" }, [
+              _c(
+                "form",
+                { attrs: { method: "delete" }, on: { submit: _vm.destroy } },
+                [
+                  _c("input", {
+                    attrs: { type: "hidden", name: "_token" },
+                    domProps: { value: _vm.csrf }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { type: "submit" }
+                    },
+                    [_vm._v("Delete reservation")]
+                  )
+                ]
+              )
             ])
           ]
         : _vm._e()
@@ -45411,6 +45393,7 @@ var render = function() {
   return _c("transition", { attrs: { name: "fade" } }, [
     _c(
       "div",
+      { staticClass: "position-relative" },
       [
         !_vm.editing
           ? [
@@ -45505,41 +45488,41 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-3" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "date" } }, [_vm._v("Datum")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c("label", { attrs: { for: "date" } }, [_vm._v("Datum")]),
+                    _vm._v(" "),
+                    _c("vuejs-datepicker", {
+                      attrs: {
+                        id: "date",
+                        "input-class": [
+                          "form-control",
+                          { "input-is-invalid": _vm.errors.has("date") }
+                        ],
+                        typeable: ""
+                      },
+                      on: {
+                        change: function($event) {
+                          return _vm.getTotal()
+                        }
+                      },
+                      model: {
                         value: _vm.reservation.date,
+                        callback: function($$v) {
+                          _vm.$set(_vm.reservation, "date", $$v)
+                        },
                         expression: "reservation.date"
                       }
-                    ],
-                    class: [
-                      "form-control",
-                      { "input-is-invalid": _vm.errors.has("date") }
-                    ],
-                    attrs: { type: "date", name: "date", id: "date" },
-                    domProps: { value: _vm.reservation.date },
-                    on: {
-                      change: function($event) {
-                        return _vm.getTotal()
-                      },
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.reservation, "date", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "input-invalid-msg" }, [
-                    _vm._v(_vm._s(_vm.errors.get("date")))
-                  ])
-                ])
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "input-invalid-msg" }, [
+                      _vm._v(_vm._s(_vm.errors.get("date")))
+                    ])
+                  ],
+                  1
+                )
               ])
             ]),
             _vm._v(" "),
@@ -45932,6 +45915,7 @@ var render = function() {
   return _c("transition", { attrs: { name: "fade" } }, [
     _c(
       "div",
+      { staticClass: "position-relative" },
       [
         _c("p", [
           _vm._v("Voor die datum staan er al: "),
@@ -46036,7 +46020,7 @@ var render = function() {
                         attrs: {
                           id: "startTime",
                           "minute-interval": 15,
-                          "hour-range": [[11, 23]],
+                          "hour-range": [[11, 21]],
                           "manual-input": "",
                           "close-on-complete": ""
                         },
@@ -46144,35 +46128,26 @@ var render = function() {
         _vm._v(" "),
         this.editing
           ? [
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-sm-2" }, [
-                  _c(
-                    "form",
-                    {
-                      attrs: { method: "delete" },
-                      on: { submit: _vm.destroy }
-                    },
-                    [
-                      _c("input", {
-                        attrs: { type: "hidden", name: "_token" },
-                        domProps: { value: _vm.csrf }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-danger",
-                          attrs: { type: "submit" }
-                        },
-                        [_vm._v("Delete reservation")]
-                      )
-                    ]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-sm-8 col-0" }),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-sm-2" })
+              _c("div", { staticClass: "col-md-2 btn-delete" }, [
+                _c(
+                  "form",
+                  { attrs: { method: "delete" }, on: { submit: _vm.destroy } },
+                  [
+                    _c("input", {
+                      attrs: { type: "hidden", name: "_token" },
+                      domProps: { value: _vm.csrf }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Delete reservation")]
+                    )
+                  ]
+                )
               ])
             ]
           : _vm._e()
@@ -58557,9 +58532,11 @@ new Vue({
   },
   methods: {
     showModal: function showModal() {
+      document.querySelector('body').classList.toggle('modal-open');
       this.modalShowing = true;
     },
     closeModal: function closeModal() {
+      document.querySelector('body').classList.toggle('modal-open');
       this.$emit('clearReservation');
       this.modalShowing = false;
     },
@@ -58570,7 +58547,7 @@ new Vue({
       this.modalObj.editing = true;
       this.modalObj.title = 'Wijzig restaurant reservering';
       this.$emit('setModal', this.modalObj);
-      this.modalShowing = true;
+      this.showModal();
     },
     editGroup: function editGroup(id) {
       console.log('editing GROEP reservation with id ' + id);
@@ -58579,7 +58556,7 @@ new Vue({
       this.modalObj.editing = true;
       this.modalObj.title = 'Wijzig groep reservering';
       this.$emit('setModal', this.modalObj);
-      this.modalShowing = true;
+      this.showModal();
     },
     editBowling: function editBowling(id) {
       console.log('editing Bowling reservation with id ' + id);
@@ -58588,7 +58565,14 @@ new Vue({
       this.modalObj.editing = true;
       this.modalObj.title = 'Wijzig bowling reservering';
       this.$emit('setModal', this.modalObj);
-      this.modalShowing = true;
+      this.showModal();
+    }
+  },
+  watch: {
+    modalShowing: function modalShowing() {
+      if (this.modalshowing) {
+        document.querySelector('body').classList('modal-open');
+      }
     }
   }
 });
@@ -58765,15 +58749,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!*************************************************!*\
   !*** ./resources/js/components/FormBowling.vue ***!
   \*************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _FormBowling_vue_vue_type_template_id_b47ce77e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormBowling.vue?vue&type=template&id=b47ce77e& */ "./resources/js/components/FormBowling.vue?vue&type=template&id=b47ce77e&");
 /* harmony import */ var _FormBowling_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormBowling.vue?vue&type=script&lang=js& */ "./resources/js/components/FormBowling.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _FormBowling_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _FormBowling_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -58803,7 +58786,7 @@ component.options.__file = "resources/js/components/FormBowling.vue"
 /*!**************************************************************************!*\
   !*** ./resources/js/components/FormBowling.vue?vue&type=script&lang=js& ***!
   \**************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

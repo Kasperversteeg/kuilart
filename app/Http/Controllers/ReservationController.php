@@ -36,17 +36,15 @@ class ReservationController extends Controller
             }
         }
 
-        if(isset($sortedReservations)){
-            if(isMobile()){
-                return view('mobile.reservations.all', [
+        $compontents = [
                     'reservations' => $sortedReservations,
                     'isGroup' => $isGroup
-                ]);
+                ];
+        if(isset($sortedReservations)){
+            if(isMobile()){
+                return view('mobile.reservations.all', $compontents);
             }
-            return view('desktop.reservations.all', [
-                'reservations' => $sortedReservations,
-                'isGroup' => $isGroup
-            ]);
+            return view('desktop.reservations.all', $compontents);
         }
 
         abort(404);
@@ -119,10 +117,12 @@ class ReservationController extends Controller
 
             if (isset($resObj)) {
                 if(isMobile()){
-                    $resObj->array['isGroup'] =  $this->all;  
+                    $resObj->array['isGroup'] =  $this->all;
+                    $resObj->array['today'] = Carbon::now()->format('Y-m-d');  
                     return view('mobile.reservations.'.$resObj->url, $resObj->array);
                 }
                 $resObj->array['isGroup'] =  $this->all;
+                $resObj->array['today'] = Carbon::now()->format('Y-m-d');
                 return view('desktop.reservations.'.$resObj->url, $resObj->array);
             }
         }
@@ -146,6 +146,7 @@ class ReservationController extends Controller
             if (isset($resObj)) {
                 if(isMobile()){
                     $resObj->array['isGroup'] =  $this->res;
+                    $resObj->array['today'] = Carbon::now()->format('Y-m-d');
                     return view('mobile.reservations.'.$resObj->url, $resObj->array);
                 }
                 $resObj->array['isGroup'] =  $this->res;

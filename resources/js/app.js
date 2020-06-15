@@ -25,9 +25,11 @@ new Vue({
 	},
 	methods: {
 		showModal() {
+			document.querySelector('body').classList.toggle('modal-open');
 			this.modalShowing = true;
 		},
 		closeModal(){
+			document.querySelector('body').classList.toggle('modal-open');
 			this.$emit('clearReservation');
 			this.modalShowing = false;
 		},
@@ -38,7 +40,7 @@ new Vue({
 			this.modalObj.editing = true;
 			this.modalObj.title = 'Wijzig restaurant reservering';
 			this.$emit('setModal', this.modalObj);
-			this.modalShowing = true;
+			this.showModal();
 		},
 		editGroup(id){
 			console.log('editing GROEP reservation with id ' + id);
@@ -47,7 +49,7 @@ new Vue({
 			this.modalObj.editing = true;
 			this.modalObj.title = 'Wijzig groep reservering';
 			this.$emit('setModal', this.modalObj);
-			this.modalShowing = true;
+			this.showModal();
 		},
 		editBowling(id){
 			console.log('editing Bowling reservation with id ' + id);
@@ -56,7 +58,15 @@ new Vue({
 			this.modalObj.editing = true;
 			this.modalObj.title = 'Wijzig bowling reservering';
 			this.$emit('setModal', this.modalObj);
-			this.modalShowing = true;
+			this.showModal();
+		}
+	},
+	watch: {
+		modalShowing: function(){
+			if(this.modalshowing){
+				document.querySelector('body').classList('modal-open');
+			}
+
 		}
 	}
 });

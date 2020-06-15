@@ -1,6 +1,6 @@
 <template>
 	<transition name="fade">
-		<div>     
+		<div class="position-relative">     
 			<p>Voor die datum staan er al: <strong>{{ totalReservations }}</strong> reserveringen</p>
 
 			<form method="post" @submit="formSubmit">
@@ -20,7 +20,6 @@
 						<div class="form-group">    
 							<label for="date">Datum</label>
 							<vuejs-datepicker id="date" v-model="reservation.date" :input-class="['form-control' ,{'input-is-invalid' : errors.has('date')}]" typeable></vuejs-datepicker>
-							<!-- <input type="date" :class="{'input-is-invalid' : errors.has('date')}" class="form-control" name="date"  v-model="date" @change="getTotal()"/> -->
 							<span class="input-invalid-msg">{{ errors.get('date') }}</span>
 						</div>
 					</div>
@@ -32,7 +31,7 @@
 								id = "startTime"
 								v-model="reservation.startTime" 
 								:minute-interval="15" 
-								:hour-range="[[11,23]]"
+								:hour-range="[[11,21]]"
 								manual-input 
 								close-on-complete  
 								>
@@ -63,17 +62,13 @@
 			</div>
 		</form>
 		<template v-if="this.editing">
-			<div class="row">
-				<div class="col-sm-2">
-					<form method="delete" @submit="destroy">
-						<input type="hidden" name="_token" :value="csrf">					
-						<button type="submit" class="btn btn-danger">Delete reservation</button>
-					</form>
-				</div>
-				<div class="col-sm-8 col-0"></div>
-				<div class="col-sm-2">
-				</div>
-			</div> 			
+				
+			<div class="col-md-2 btn-delete">
+				<form method="delete" @submit="destroy">
+					<input type="hidden" name="_token" :value="csrf">					
+					<button type="submit" class="btn btn-danger">Delete reservation</button>
+				</form>
+			</div>		
 		</template>
 
 	</div>
@@ -243,7 +238,7 @@
 				console.log('deleting reservation with id ' + this.reservation.id);
 				axios.delete('/reservations/'+this.reservation.id)
 				.then(response => {
-					this.flash('Reservering verwijderd!', 'success', {timeout: 3500});
+					this.flash(response.data.msg, 'success', {timeout: 3500});
 					this.$parent.$emit('close');
 				})
 				.catch(error => {

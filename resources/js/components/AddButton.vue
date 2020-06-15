@@ -1,5 +1,4 @@
 <template>
-	<transition>
 	<div class="container fixed-bottom">
 		<div class="row justify-content-end">
 			<a class="btn-add btn-add-fixed" href="#" @click='click'>
@@ -19,7 +18,6 @@
 		</div>
 		
 	</div>
-</transition>
 </template>
 
 <script>
@@ -77,7 +75,7 @@
 </script>
 
 <style>
-	/*.add-enter { 
+	.add-enter { 
 		transform: translateY(150px);
 	}
 
@@ -87,5 +85,5 @@
 
 	.add-enter-active {
 	 	transition: all 300ms ease; 
-	}*/
+	}
 </style>

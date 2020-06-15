@@ -57,7 +57,7 @@ class BowlingController extends Controller
                             ->get();
 
         // get id's from reservations where starttime >=  startime  
-       $lanes = new Collection;
+        $lanes = new Collection;
 
         for ($i=1; $i <= 4; $i++) { 
             $res = $reservations->where('lane', $i)->first();
@@ -67,7 +67,6 @@ class BowlingController extends Controller
                 $lanes->put($i,false);
             }
         }
-
         $rowObj->lanes = $lanes;
         return $rowObj;
     }

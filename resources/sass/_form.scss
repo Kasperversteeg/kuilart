@@ -25,3 +25,39 @@
     font-size: 80%;
     color: #e3342f;
 }
+.vue__time-picker .dropdown ul li[disabled]{
+	display: none;
+}
+
+.vue__time-picker .dropdown ul li:not([disabled]).active{
+	background: $primary!important;
+}
+
+.vue__time-picker #startTime{
+	font-family: $font-family-sans-serif!important;
+}
+.vue__time-picker input.display-time:focus{
+	color: #495057;
+	background-color: #ffffff;
+	border-color: #a1cbef;
+	outline: 0;
+	box-shadow: 0 0 0 0.25rem rgba(52, 144, 220, 0.25);
+}
+
+.btn-delete {
+	position:absolute!important;
+	bottom:0;
+	left:-15px;
+}
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover{
+	border: 1px solid $primary!important;
+}
+.vdp-datepicker__calendar{
+	width:250px!important;
+	height:200px!important;
+	.cell{
+		height: 20%!important;
+		line-height: 25px!important;
+	}
+
+}
