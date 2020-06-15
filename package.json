@@ -28,6 +28,7 @@
         "vee-validate": "^3.3.2",
         "vue": "^2.6.11",
         "vue-flash-message": "^0.7.2",
-        "vue2-timepicker": "^1.1.2"
+        "vue2-timepicker": "^1.1.2",
+        "vuejs-datepicker": "^1.6.2"
     }
 }

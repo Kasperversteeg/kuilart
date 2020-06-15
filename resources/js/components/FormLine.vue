@@ -1,6 +1,5 @@
 <template>
   <div class="row activity-row">
-  	<!-- {{-- start- and endTime--}} -->
 	<div class="col-12"></div>
   	<div class="col-md-6">
         <div class="form-group">    
