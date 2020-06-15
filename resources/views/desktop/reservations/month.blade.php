@@ -7,11 +7,13 @@
 	switch($isGroup){
 		case('GRP'):
 			$route = 'desktop.components.month.grp-view';
+			$modalTitle = "Voeg een groepsreservering toe";
 			$link = 'groups.index';
 			$title = 'Groeps';
 			break;
 		default:
 			$route = 'desktop.components.month.all-view';
+			$modalTitle = "";
 			$link = 'all.index';
 			$title = 'Alle ';
 			break;
@@ -43,7 +45,7 @@
 					<div class="col border-bottom border-left px-1">
 						<div class="container">
 							<div class="row justify-content-end month-daynumber">
-								<a href="{{ route($link, 'd='.$day->date)}}">{{date('d', strtotime($day->date))}}</a>
+								<a href="{{ route($link, 'd='.$day->date)}}" class="{{ $day->date === $today ? 'is-today' : ''  }}">{{date('d', strtotime($day->date))}}</a>
 							</div>
 
 							@forelse( $day->reservations as $reservation)
@@ -70,4 +72,7 @@
 
 		@endforeach
 	</div>
+
+	<add reservation-type="{{ $isGroup }}" title='{{ $modalTitle }}' @open='showModal'></add>
+
 @endsection

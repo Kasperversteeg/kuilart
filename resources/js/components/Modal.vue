@@ -22,7 +22,7 @@
 					</template>
 
 					<template v-else>
-						<component :is="component"></component>
+						<component :is="component" :editing="editing"></component>
 					</template>
 
 				</div>
@@ -33,10 +33,12 @@
 <script>
 	import FormRes from './FormRes';
 	import FormGrp from './FormGrp';
+	import FormBowling from './FormBowling';
 	export default {
 		components:{
 			FormRes,
-			FormGrp
+			FormGrp,
+			FormBowling
 		},
 		data: function(){
 			return{
@@ -49,35 +51,54 @@
 		},
 		methods: {
 			close() {
-				console.log('closing modal');
+				console.log('closing modal '+this.editing);
 				this.$emit('close');
+				this.editing = false;
+				
 			},
 			set(object){
 				this.title = object.title;
-				if(object.editing){					
+				if(object.editing){	
 					this.getReservation(object.id, object);
 				} else {
 					this.component = this.getType(object.reservationType);
 				}
 			},
 			getReservation(id, object){
-				axios.get('/reservations/'+id+'/edit')
-				.then(response => {
-					this.reservation = response.data.reservation;
-					this.updateComponent(object);
-				})
-				.catch(error =>{
-					this.flash('Kon geen reservering met die ID ophalen', 'error', {timeout: 3000});
-				})
+				if (object.reservationType === 'BWL'){
+					console.log('type = bowling');
+					axios.get('/bowling/'+id+'/edit')
+					.then(response => {
+						this.reservation = response.data.bowling;
+						this.updateComponent(object);
+						console.log(object.reservationType);
+					})
+					.catch(error =>{
+						this.flash('Kon geen reservering met die ID ophalen', 'error', {timeout: 3000});
+					})
+				} else {
+					axios.get('/reservations/'+id+'/edit')
+					.then(response => {
+						this.reservation = response.data.reservation;
+						console.log(this.reservation);
+						this.updateComponent(object);
+					})
+					.catch(error =>{
+						this.flash('Kon geen reservering met die ID ophalen', 'error', {timeout: 3000});
+					})
+				}
 			},
 			getType(type){
 				console.log('setting compontenttype for: '+ type);
 				if(type === 'GRP'){
 					return 'FormGrp';
+				} else if(type === 'BWL') {
+					return 'FormBowling';
 				}
 				return 'FormRes';
 			},
 			updateComponent(object){
+				console.log()
 				this.component = this.getType(object.reservationType);
 				this.editing = object.editing;
 				this.id = object.id;

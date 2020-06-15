@@ -149,15 +149,14 @@ class ReservationController extends Controller
                     return view('mobile.reservations.'.$resObj->url, $resObj->array);
                 }
                 $resObj->array['isGroup'] =  $this->res;
+                $resObj->array['today'] = Carbon::now()->format('Y-m-d');
                 return view('desktop.reservations.'.$resObj->url, $resObj->array);
-        }
+            }
         }
 
         // if no query key exists, show 404
         abort(404);
     }
-
-
 
      /**
      * Show the form for creating a new resource.
@@ -226,10 +225,10 @@ class ReservationController extends Controller
 
     public function update(Request $request, $id)
     {
+
         $validateRequest = self::validateRes($request);
         $reservation = Reservation::find($id);
 
-        $reservation->type = $request->get('type');
         $reservation->name = $request->get('name');
         $reservation->size = $request->get('size');
         $reservation->date = dateForDB($request->get('date'));
@@ -237,7 +236,9 @@ class ReservationController extends Controller
         $reservation->notes = $request->get('notes');
         $reservation->save();
 
-        return redirect()->route('restaurants.index', ['s' => 'all'])->with('success', 'Reservering gewijzigd');
+        return response()->json([
+            'msg' => 'Reservering gewijzigd'
+        ]);
     }
 
     public function updateTableNr(Request $request, $id){
@@ -258,19 +259,11 @@ class ReservationController extends Controller
     public function destroy($id)
     {  
         $reservation = Reservation::find($id);
-        $isGroup = $reservation->type;
         $reservation->delete();
-    
-        if($isGroup === $this->grp){
-            $succesMsg = 'Groep verwijderd';
-            $route = 'groups.index';
-        } else {
-            $succesMsg = 'Reservering verwijderd';
-            $route = 'restaurants.index';
-        }
 
-        return redirect()->route($route, ['s' => 'all'])->with('success', $succesMsg);
-
+        return response()->json([
+            'msg' => 'Reservering verwijderd'
+        ]);
     }
 
 

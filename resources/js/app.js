@@ -3,7 +3,6 @@ require('./bootstrap');
 
 import Modal from './components/Modal';
 import AddButton from './components/AddButton';
-import AddSubMenu from './components/AddButton';
 import FormLine from './components/FormLine'; 
 
 // not mine  
@@ -14,8 +13,7 @@ window.Vue = require('vue');
 Vue.use(VueFlashMessage);
 
 Vue.component('modal', Modal);
-Vue.component('add', AddButton);
-Vue.component('addsubmenu', AddSubMenu);
+Vue.component('add', AddButton); 
 Vue.component('formline', FormLine);
 Vue.component('vuejs-datepicker', Datepicker);
 
@@ -51,11 +49,19 @@ new Vue({
 			this.$emit('setModal', this.modalObj);
 			this.modalShowing = true;
 		},
+		editBowling(id){
+			console.log('editing Bowling reservation with id ' + id);
+			this.modalObj.id = id;
+			this.modalObj.reservationType = 'BWL';
+			this.modalObj.editing = true;
+			this.modalObj.title = 'Wijzig bowling reservering';
+			this.$emit('setModal', this.modalObj);
+			this.modalShowing = true;
+		}
 	}
 });
 
 window.onload = function() {
-
 	var overzicht = document.getElementById("overzicht");
 	var nameOfClass = "show";
 	var freeBowlingSlots = document.getElementsByClassName('empty-slot');

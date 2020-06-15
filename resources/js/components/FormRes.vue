@@ -27,11 +27,12 @@
 					<div class="col-md-4">
 						<div class="form-group">    
 							<label for="startTime">Tijd</label>
-							<div :class="{'input-is-invalid' : errors.has('startTime')}" class="form-control p-0" id="startTime">
+							<div :class="{'input-is-invalid' : errors.has('startTime')}" class="form-control p-0">
 								<vue-timepicker 
+								id = "startTime"
 								v-model="reservation.startTime" 
 								:minute-interval="15" 
-								:hour-range="[11,12,13,14,15,16,17,18,19,20,21,22,23]"
+								:hour-range="[[11,23]]"
 								manual-input 
 								close-on-complete  
 								>
@@ -61,6 +62,20 @@
 				</div>
 			</div>
 		</form>
+		<template v-if="this.editing">
+			<div class="row">
+				<div class="col-sm-2">
+					<form method="delete" @submit="destroy">
+						<input type="hidden" name="_token" :value="csrf">					
+						<button type="submit" class="btn btn-danger">Delete reservation</button>
+					</form>
+				</div>
+				<div class="col-sm-8 col-0"></div>
+				<div class="col-sm-2">
+				</div>
+			</div> 			
+		</template>
+
 	</div>
 
 
@@ -96,6 +111,9 @@
 
 	}
 	class Reservation{
+		constructor(){
+			this.startTime = '12:00';
+		}
 		reset(){
 			console.log('clearing reservation');
 			var i = 0;
@@ -153,20 +171,42 @@
 			},
 			formSubmit(e){
 				e.preventDefault();
-				let currentObj = this;
-				axios.post('/reservations', {
-					name: this.reservation.name,
-					size: this.reservation.size,
-					date: this.reservation.date,
-					startTime: this.reservation.startTime,
-					notes: this.reservation.notes
+				if(!this.editing){
+					axios.post('/reservations', {
+						name: this.reservation.name,
+						size: this.reservation.size,
+						date: this.reservation.date,
+						startTime: this.reservation.startTime,
+						notes: this.reservation.notes
+					})
+					.then(response => {
+						this.formSend();
+					})
+					.catch(error => {
+						this.errors.record(error.response.data);
+						this.flash('Er zijn invoervelden niet goed ingevuld!', 'error', {timeout: 3000});
+					})
+				} else {
+					console.log('updating existing reservation');
+					this.updateReservation();
+				}
+			},
+			updateReservation(){
+				axios.patch('/reservations/'+this.reservation.id, {				
+						name: this.reservation.name,
+						size: this.reservation.size,
+						date: this.reservation.date,
+						startTime: this.reservation.startTime,
+						notes: this.reservation.notes
 				})
 				.then(response => {
-					this.formSend();
+					console.log(response.data.msg);
+					this.flash(response.data.msg, 'success', {timeout: 3000});
+					this.$parent.$emit('close');
 				})
 				.catch(error => {
 					this.errors.record(error.response.data);
-					this.flash('Er zijn invoervelden niet goed ingevuld!', 'error', {timeout: 3000});
+					this.flash('Er zijn invoervelden niet correct ingevuld!', 'error', {timeout: 3000});
 				})
 			},
 			updateFields(){
@@ -177,7 +217,8 @@
 					while (i < keys.length){			
 						let el = document.getElementById(keys[i]);
 						if(el && this.reservation[keys[i]] != null){
-							console.log('updating ' + this.reservation[keys[i]])
+
+						console.log(el);
 							el.value = this.reservation[keys[i]];
 						}
 						i++;
@@ -192,15 +233,26 @@
 				while (i < keys.length){			
 					let el = document.getElementById(keys[i]);
 					if(el){
-						console.log('updating ' + this.reservation[keys[i]])
 						el.value = this.reservation[keys[i]];
 					}
 					i++;
 				}
 			},
+			destroy(e){
+				e.preventDefault();
+				console.log('deleting reservation with id ' + this.reservation.id);
+				axios.delete('/reservations/'+this.reservation.id)
+				.then(response => {
+					this.flash('Reservering verwijderd!', 'success', {timeout: 3500});
+					this.$parent.$emit('close');
+				})
+				.catch(error => {
+					this.errors.record(error.response.data);
+					this.flash('Kon de reservering niet verwijderen!', 'error', {timeout: 3000});
+				})
+			},
 			reset(){
 				this.reservation.reset();
-				console.log(this.reservation);
 				this.clearFields();
 			}
 		},
@@ -212,7 +264,9 @@
 		},
 		watch: {
 			data: function(){
-				this.updateFields();
+				if(this.data){
+					this.updateFields();
+				}
 			}
 		}
 	};

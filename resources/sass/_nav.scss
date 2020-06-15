@@ -89,18 +89,18 @@
 }
 
 .submenu {
-	position: fixed;
-	bottom:67px;
-	right:50px;
+	position: absolute;
+	bottom:94px;
+	margin-left: 20px;
 	background-color: $white;
-	border:1px solid $darker-gray-color;
+	border:1px solid $primary;
 	a{
 		display: block;
 		padding: 1rem 1.5rem;
-		color:$gray-color;
+		color:$primary;
 	}
 	a:hover{
-		background-color: $gray-color;
+		background-color: $primary;
 		color: $white;
 		text-decoration: none;
 	}
@@ -112,23 +112,27 @@
 }
 
 .btn-add{
-	background-color: $primary;
-	border: 1px solid $gray-color!important;
-	img{
+	padding: 1rem;
+	border-radius: 50%!important;
+	background-color: $primary!important;
+	border: 1px solid transparent;
+	transition: ease 0.2s;
+	svg{
+		fill: $white;
 		transition: ease 0.2s;
 		padding-bottom: 1px;
-		fill: $gray-color;
 	}
 }
-.btn-add:hover{
-	img{
-		height: 37px;
-		width: 37px;
+.btn-add:hover{	
+	border: 1px solid $primary!important;
+	background-color: $white!important;
+	svg{
+		fill: $primary;
 	}
 }
 
 .btn-add-fixed {
-	position: fixed;
+	position: absolute;
 	bottom: 20px;
-	right: 50px;
+	// right: 400px;
 }

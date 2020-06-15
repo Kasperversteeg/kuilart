@@ -32,3 +32,10 @@
 		margin-bottom: 0px;
 	}
 }
+
+.is-today{
+	a{
+		color:$red!important;
+		text-decoration: underline;
+	}
+}

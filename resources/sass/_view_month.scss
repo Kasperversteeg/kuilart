@@ -24,3 +24,10 @@
 #reservations-month{
 	padding:3rem;
 }
+
+a.is-today{
+	background-color: $red;
+	border-radius: 50%;
+	padding: 0.1rem 0.2rem;
+	color: $white!important;
+}

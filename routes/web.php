@@ -31,6 +31,7 @@ Route::get('/groups/create', 'GroupController@create')->middleware('auth')->name
 Route::post('/groups/store', 'GroupController@store')->middleware('auth')->name('groups.store');
 Route::get('/groups/{group}/edit', 'GroupController@edit')->middleware('auth')->name('groups.edit');
 Route::patch('/groups/{group}', 'GroupController@update')->middleware('auth')->name('groups.update');
+Route::delete('/groups/{group}', 'GroupController@destroy')->middleware('auth')->name('groups.destroy');
 
 // overview pages
 Route::get('/reservations/all', 'ReservationController@showAll')->name('all.index')->middleware('auth');

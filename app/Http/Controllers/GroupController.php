@@ -24,17 +24,16 @@ class GroupController extends Controller
 
 	public function index()
     {
-
  		 // get array with requests
         $query = request()->query();
 
        // all
         if(Arr::exists($query, 's')){
 
-	        $reservations = Reservation::where('type', $this->grp)->get();     
-	        $sortedReservations = $this->sortReservationsByDate($reservations); 
+           $reservations = Reservation::where('type', $this->grp)->get();     
+           $sortedReservations = $this->sortReservationsByDate($reservations); 
 
-	        if(isMobile()){
+           if(isMobile()){
                 return view('mobile.reservations.all', [
                     'reservations' => $sortedReservations,
                     'isGroup' => $this->grp
@@ -44,12 +43,12 @@ class GroupController extends Controller
                 'reservations' => $sortedReservations,
                 'isGroup' => $this->grp
             ]); 
-    
+
         } else {
             $reservations = new ReservationsObj();
             $resObj = $reservations->getReservationsForType($query, $this->grp);
 
-            // $groupObj = $this->getReservationsForType($query, $this->grp);
+                // $groupObj = $this->getReservationsForType($query, $this->grp);
 
             if (isset($reservations)) {
                 if(isMobile()){
@@ -57,10 +56,11 @@ class GroupController extends Controller
                     return view('mobile.reservations.'.$resObj->url, $resObj->array);
                 }
                 $resObj->array['isGroup'] =  $this->grp;
+                $resObj->array['today'] = Carbon::now()->format('Y-m-d');
                 return view('desktop.reservations.'.$resObj->url, $resObj->array);
             }
         }
-        // if no query key exists, show 404
+            // if no query key exists, show 404
         abort(404);
 
     }    
@@ -150,9 +150,8 @@ class GroupController extends Controller
     // return redirect()->route('groups.index', ['s' => 'all'])->with('success', 'Reservering toegevoegd');
     }
 
- public function edit($id)
-    {
-       
+    public function edit($id)
+    {  
         $reservation = Reservation::find($id);
         return response()->json([
             'reservation' => $reservation,
@@ -169,14 +168,29 @@ class GroupController extends Controller
         $reservation->name = $request->get('name');
         $reservation->size = $request->get('size');
         $reservation->date = dateForDB($request->get('date'));
+        $reservation->mail = $request->get('mail');
+        $reservation->phoneNr = $request->get('phoneNr');
         $reservation->startTime = $request->get('startTime');
         $reservation->notes = $request->get('notes');
         $reservation->save();
 
-        return redirect()->route('groups.index', ['s' => 'all'])->with('success', 'Reservering gewijzigd');
+        // activities later toevoegen
+
+         return response()->json([
+            'msg' =>'Reservering gewijzigd'
+        ]);
     }
 
-   public function validateActivity($request)
+    public function destroy($id)
+    {
+        $reservation = Reservation::find($id);
+        $reservation->delete();
+        return response()->json([
+            'msg' => 'Groepsreservering verwijderd'
+        ]);
+    }
+
+    public function validateActivity($request)
     {
         // check activity input
          $request->validate([

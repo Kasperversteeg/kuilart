@@ -5,14 +5,17 @@ switch($isGroup){
 	case('RES'):
 		$route = 'desktop.components.all.res-view';
 		$title = 'Restaurant ';
+		$modalTitle = "Voeg een restaurant reservering toe";
 		break;
 	case('GRP'):
 		$route = 'desktop.components.all.grp-view';
 		$title = 'Groeps';
+		$modalTitle = "Voeg een groepsreservering toe";
 		break;
 	default:
 		$route = 'desktop.components.all.all-view';
 		$title = 'Alle ';
+		$modalTitle = "";
 		break;
 }
 @endphp
@@ -63,5 +66,7 @@ switch($isGroup){
 				@endif
 			@endforeach
 		</div>
+	<add reservation-type="{{ $isGroup }}" title='{{ $modalTitle }}' @open='showModal'></add>
 	</div>
+
 @endsection

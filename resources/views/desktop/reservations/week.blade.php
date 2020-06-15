@@ -6,17 +6,20 @@
 		switch($isGroup){
 			case('RES'):
 				$link = 'restaurants.index';
-				$route = 'desktop.components.week.res-view';
+				$route = 'desktop.components.week.res-view';				
+				$modalTitle = "Voeg een restaurant reservering toe";
 				$title = 'Restaurant ';
 				break;
 			case('GRP'):
 				$link = 'groups.index';
 				$route = 'desktop.components.week.grp-view';
+				$modalTitle = "Voeg een groepsreservering toe";
 				$title = 'Groeps';
 				break;
 			default:
 				$link = 'all.index';
 				$route = 'desktop.components.week.all-view';
+				$modalTitle = "";
 				$title = 'Alle ';
 				break;
 		}
@@ -36,7 +39,7 @@
 		@foreach($week->days as $date)
 		<div class="col-lg col-12 border weekview-day-column p-1">
 			<div class="row border-bottom p-2 weekview-day-column-header mb-4">
-				<div class="col-12 justify-content-center d-flex">
+				<div class="col-12 justify-content-center d-flex {{ $date->date === $today ? 'is-today' : ''}}">
 					<h4><a href="{{ route($link, ['d'=> $date->date]) }}">{{ ucfirst($date->day) }}</a></h4> 
 				</div>
 				<div class="col-12 justify-content-center d-flex">
@@ -66,4 +69,7 @@
 		</div>
 		@endforeach		
 	</div>
+
+	<add reservation-type="{{ $isGroup }}" title='{{ $modalTitle }}' @open='showModal'></add>
+
 @endsection

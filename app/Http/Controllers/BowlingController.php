@@ -104,7 +104,9 @@ class BowlingController extends Controller
             ]);
 
         $bowling->save();
-        return redirect()->route('bowling.index', 'd='.$bowling->date)->with('succes', 'Reservering toegevoegd');
+        return response()->json([
+            'msg' => 'Bowlingbaan reservering opgeslagen'
+        ]);
 
     }
 
@@ -165,23 +167,10 @@ class BowlingController extends Controller
      */
     public function edit(Bowling $bowling)
     {    
-        $url = url()->previous();
-
-         if($url){
-            $s = explode('=', $url);
-            $rows = [
-                $this->createRow($s['1'], '17:00', '18:00'),
-                $this->createRow($s['1'], '18:00', '19:00'),
-                $this->createRow($s['1'], '19:00', '20:00'),
-                $this->createRow($s['1'], '20:00', '21:00'),
-                $this->createRow($s['1'], '21:00', '22:00'),
-            ];
-            // dd($bowling);
-            return view('desktop.bowling.edit',[
-            'rows' => $rows,
-            'current' => $bowling
-            ]);
-        }
+        return response()->json([
+            'bowling' => $bowling
+        ]);
+        
         
     }
 
@@ -204,7 +193,10 @@ class BowlingController extends Controller
 
         $bowling->save();    
 
-        return redirect()->route('bowling.index', 'd='.$bowling->date)->with('succes', 'Reservering gewijzigd');
+
+        return response()->json([
+            'msg' => 'Bowlingbaan reservering gewijzigd'
+        ]);    
     }
 
     /**
@@ -213,12 +205,14 @@ class BowlingController extends Controller
      * @param  \App\Bowling  $bowling
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Bowling $bowling)
+    public function destroy($id)
     {
-        
+        $bowling = Bowling::find($id);
         $bowling->delete();   
         
-        return redirect()->route('bowling.index', 'd='.$bowling->date)->with('succes', 'Reservering verwijderd'); 
 
+        return response()->json([
+            'msg' => 'Bowlingbaan reservering opgeslagen'
+        ]);
     }
 }

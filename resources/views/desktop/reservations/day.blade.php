@@ -41,12 +41,11 @@
 				
 				@endcomponent
 			@endif
-
 		@empty
 			<p>Geen reserveringen voor vandaag</p>
 		@endforelse
-		
-		<add reservation-type="{{ $isGroup }}" title='{{ $modalTitle }}' @open='showModal'></add>
-
 	</div>
+
+	<add reservation-type="{{ $isGroup }}" title='{{ $modalTitle }}' @open='showModal'></add>
+
 @endsection

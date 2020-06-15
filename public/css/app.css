@@ -2,6 +2,7 @@
 
 .modal-backdrop {
   background-color: rgba(0, 0, 0, 0.3);
+  z-index: 99999;
   overflow-y: auto;
   width: 100vw;
   height: 100vh;
@@ -230,21 +231,21 @@ you set the css property it will be when transition ends
 }
 
 .submenu {
-  position: fixed;
-  bottom: 67px;
-  right: 50px;
+  position: absolute;
+  bottom: 94px;
+  margin-left: 20px;
   background-color: #ffffff;
-  border: 1px solid #78909c;
+  border: 1px solid #3490dc;
 }
 
 .submenu a {
   display: block;
   padding: 1rem 1.5rem;
-  color: #90a4ae;
+  color: #3490dc;
 }
 
 .submenu a:hover {
-  background-color: #90a4ae;
+  background-color: #3490dc;
   color: #ffffff;
   text-decoration: none;
 }
@@ -256,25 +257,31 @@ you set the css property it will be when transition ends
 }
 
 .btn-add {
-  background-color: #3490dc;
-  border: 1px solid #90a4ae !important;
+  padding: 1rem;
+  border-radius: 50% !important;
+  background-color: #3490dc !important;
+  border: 1px solid transparent;
+  transition: ease 0.2s;
 }
 
-.btn-add img {
+.btn-add svg {
+  fill: #ffffff;
   transition: ease 0.2s;
   padding-bottom: 1px;
-  fill: #90a4ae;
 }
 
-.btn-add:hover img {
-  height: 37px;
-  width: 37px;
+.btn-add:hover {
+  border: 1px solid #3490dc !important;
+  background-color: #ffffff !important;
+}
+
+.btn-add:hover svg {
+  fill: #3490dc;
 }
 
 .btn-add-fixed {
-  position: fixed;
+  position: absolute;
   bottom: 20px;
-  right: 50px;
 }
 
 .vh-minusMenu {
@@ -344,6 +351,11 @@ you set the css property it will be when transition ends
   margin-bottom: 0px;
 }
 
+.is-today a {
+  color: #e3342f !important;
+  text-decoration: underline;
+}
+
 .month-daynumber a {
   color: #212529;
 }
@@ -366,6 +378,13 @@ you set the css property it will be when transition ends
 
 #reservations-month {
   padding: 3rem;
+}
+
+a.is-today {
+  background-color: #e3342f;
+  border-radius: 50%;
+  padding: 0.1rem 0.2rem;
+  color: #ffffff !important;
 }
 
 .form-control,
