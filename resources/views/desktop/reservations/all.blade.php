@@ -23,11 +23,12 @@ switch($isGroup){
 
 @section('content')
 
-	@include('desktop.components.submenu')	
-	@section('title')
-		<h1 class="pb-4">{{ $title }}reserveringen</h1>		
-	@endsection
-
+@include('desktop.components.submenu', [
+	'showing' => '', 
+	'period' => '', 
+	'isGroup' =>  $isGroup,
+	'title' => $title
+	])
 
 	<div class="container bg-white">
 		{{-- show reservations --}}

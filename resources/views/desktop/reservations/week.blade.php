@@ -1,7 +1,5 @@
 @extends('layouts.desktop')
 @section('content')
-	@include('desktop.components.submenu')
-
 	@php
 		switch($isGroup){
 			case('RES'):
@@ -24,18 +22,17 @@
 				break;
 		}
 	@endphp
-	@section('title')
-		<div class="row mb-0">
-			<h1>{{ $title }}reserveringen <small>Week:{{__($week->weekNumber) }}</small></h1>
-		</div>
-		<div class="row">
-			<h4 class="pb-4">{{ __($week->start) }} t/m {{ $week->end }}</h4>
-		</div>
-	@endsection
 	
+	@include('desktop.components.submenu', [
+		'showing' => 'Week '.__($week->weekNumber), 
+		'period' => __($week->start) .' / '.__($week->end), 
+		'isGroup' =>  $isGroup,
+		'title' => $title
+		])
+
 
 	{{-- show reservations --}}
-	<div id="reservations-week-view" class="reservations-container row">
+	<div id="reservations-week-view" class="reservations-container d-flex">
 		@foreach($week->days as $date)
 		<div class="col-lg col-12 border weekview-day-column p-1">
 			<div class="row border-bottom p-2 weekview-day-column-header mb-4">
@@ -47,22 +44,18 @@
 				</div>
 			</div>
 
-			@forelse($date->reservations as $reservation)
+			@foreach($date->reservations as $reservation)
 				@if($reservation->type === 'GRP')
 					@component('desktop.components.week.grp-view', ['reservation' => $reservation])
 					
 					@endcomponent
 				@endif
-
 				@if($reservation->type === 'RES')
 					@component('desktop.components.week.res-view', ['reservation' => $reservation])
 					
 					@endcomponent
 				@endif
-
-				@empty
-					<p>Nieks</p>
-			@endforelse
+			@endforeach
 
 
 

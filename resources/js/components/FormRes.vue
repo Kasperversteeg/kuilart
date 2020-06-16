@@ -66,7 +66,7 @@
 			<div class="col-md-2 btn-delete">
 				<form method="delete" @submit="destroy">
 					<input type="hidden" name="_token" :value="csrf">					
-					<button type="submit" class="btn btn-danger">Delete reservation</button>
+					<button type="submit" class="btn btn-danger">Verwijder</button>
 				</form>
 			</div>		
 		</template>

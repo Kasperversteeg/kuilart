@@ -1,25 +1,30 @@
-.container-submenu{
-	background-color: $container-color;
-	h1, h2, h3, h4, h5 {
-		margin-bottom: 0px;
-	}
-}
-.container-main{
-  	-webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.2);
-  	-moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.2);
-  	box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.2);
+.container-submenu {
+    background-color: $container-color;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        margin-bottom: 0px;
+    }
+    h3,
+    h1 {
+        font-weight: 600!important;
+    }
 }
 
-.border-res{
-	border: 1px solid $res-color;
+.container-main {
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
 }
 
-.border-grp{
-	border: 1px solid $grp-color;
-} 
+.font-bigger {
+    font-size: 1.2rem;
+}
 
-.font-bigger{
-  font-size: 1.2rem;
+body {
+    color: $font-color!important;
 }
 
 body.modal-open {

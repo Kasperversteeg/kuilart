@@ -1,7 +1,5 @@
 @extends('layouts.desktop')
 @section('content')	
-	@include('desktop.components.submenu')
-
 	@php
 		$var = 'toggleGrp';
 		switch($isGroup){
@@ -21,25 +19,16 @@
 				$title = 'Alle ';
 				break;
 		}
-	
 	@endphp
-	
-	@section('title')
-		<div class="row">
-			<div class="col-md-8">
-				<h1>{{ $title }}reserveringen</h1>
-				<h3 class="pb-4">{{ ucfirst(__($day->day)) . ' ' . $day->formattedDate }}</h3>
-			</div>
-			@if($isGroup === 'GRP')
-				<div class="col-md-4 d-flex justify-content-end align-items-end">
-					<a href="{{route('groups.index', ['d' => $day->date , 'bar' => false])}}" class="btn btn-white">Lijst</a>
-					<a href="{{route('groups.index', ['d' => $day->date , 'bar' => true])}}" class="btn btn-white">Balk</a>
-				</div>
-			@endif
-		</div>
-	@endsection
-		
-	<div class="container day-container py-4" id="reservations">
+
+	@include('desktop.components.submenu', [
+		'showing' => ucfirst(__($day->day)), 
+		'period' => $day->formattedDate, 
+		'isGroup' => $isGroup, 
+		'title' => $title
+		])
+
+		<div class="container py-4" id="reservations-day-view">
 		@if($bar)
 			@component('desktop.components.day.grp-bar-view', ['reservations' => $day->reservations, 'times' => $times])
 			@endcomponent

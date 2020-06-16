@@ -1,138 +1,192 @@
 // This file contains all the navigation custom css
-.navbar{
-	-webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
-	-moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
-	box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
+.navbar {
+    -webkit-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2);
 }
 
-.navbar .logout {
-	color: $red;
-}
-
-#nav-spacer {
-	padding: 0 .7rem;
-}
 .icon {
-	height: 34px;
-	width: 34px;
-	transition: ease 0.2s;
+    height: 34px;
+    width: 34px;
+    transition: ease 0.2s;
+    fill: $darkest-gray-color;
 }
 
-.nav-link:hover .icon{
-	fill:$gray-color;
+.active:after {
+    height: 5px!important;
 }
 
-.active{
-	.icon{
-	fill:$gray-color;
-	}
-}
-.dropdown-item:hover, .dropdown-item:focus{
-	background-color: $gray-color!important;
-	color: $white!important;
+.navbar-brand {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: $darker-gray-color!important;
+    letter-spacing: 0.2rem!important;
+    font-size: 1.4rem!important;
 }
 
+.nav-link {
+    position: relative;
+    display: block;
+    padding: 1rem!important;
+    transition: ease 0.2s;
+}
 
-.submenu-period ul{
-	border-radius: 5px;
-	padding-left:0px;
-	-webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
-	-moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
-	box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
+.nav-link:after {
+    content: '';
+    display: block;
+    background-color: $darkest-gray-color;
+    width: 100%;
+    height: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    -webkit-transition: 0.2s ease;
+    transition: 0.2s ease;
+}
 
-	.btn-white {
-		text-transform: uppercase;
-		border:0px!important;
-		border-right:1px solid $gray-color!important;
-	}
+.nav-link:hover:after {
+    height: 5px;
+}
 
-	li{
-		float:left;
-		display: inline-block;
-		background-color: transparent;
-	}
-	li:first-child{
-		.btn-white{			
-			border-top-left-radius: 5px!important;
-			border-bottom-left-radius: 5px!important;
-			// border-left: 1px solid $gray-color!important; 
-		}
-	}
+.logout.nav-link:hover:after {
+    height: 0px;
+}
 
-	li:last-child{
-		.btn-white{
-			border-top-right-radius: 5px!important;
-			border-bottom-right-radius: 5px!important;
-			border-right: 0px !important; 
-		}
-	}
+.logout svg {
+    fill: $darker-gray-color;
+}
+
+.nav-name {
+    font-size: 1.2rem;
+    color: $darkest-gray-color;
+    font-weight: bold;
+    padding: 0.375rem;
+}
+
+.submenu-period ul {
+    display: flex;
+    list-style: none;
+    flex-direction: row;
+    border-radius: 5px;
+    padding-left: 0px;
+    -webkit-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2);
+    .btn {
+        border-radius: 0px!important;
+    }
+    .btn-white {
+        padding: 0.75rem 1.75rem!important;
+        font-size: 0.8rem!important;
+        text-transform: uppercase;
+        font-weight: bold!important;
+        border: 0px!important;
+        border-right: 1px solid $darker-gray-color!important;
+    }
+    .btn-white:focus {
+        box-shadow: none;
+    }
+    li {
+        background-color: transparent;
+    }
+    li:first-child {
+        .btn-white {
+            border-top-left-radius: 5px!important;
+            border-bottom-left-radius: 5px!important;
+        }
+    }
+    li:last-child {
+        .btn-white {
+            border-top-right-radius: 5px!important;
+            border-bottom-right-radius: 5px!important;
+            border-right: 0px !important;
+        }
+    }
+}
+
+.submenu-showing {
+    h5 {
+        color: $darkest-gray-color!important;
+    }
+    .submenu-smaller-period {
+        font-size: 0.8rem!important;
+    }
+}
+
+.btn-img:focus {
+    box-shadow: none!important;
+}
+
+.submenu-period {
+    h3 {
+        font-weight: bold;
+    }
 }
 
 .btn-white {
-	font-weight: bold;
-	background-color: $white!important;
-	border:1px solid $gray-color!important;
-	color: $darker-gray-color!important;
+    background-color: $white!important;
+    border: 1px solid $gray-color!important;
+    // color: $darker-gray-color!important;
 }
 
 .btn-white:hover {
-	background-color: $gray-color!important;
-	border-color: $gray-color!important;
-	color: $white!important;
-	
+    background-color: $darker-gray-color!important;
+    border-color: $darkest-gray-color!important;
+    color: $white!important;
 }
+
 .btn-white.active {
-	background-color: $gray-color!important;
-	border-color: $gray-color!important;
-	color: $white!important;
-	
+    background-color: $darker-gray-color!important;
+    border-color: $darker-gray-color!important;
+    color: $white!important;
 }
 
-.submenu {
-	position: absolute;
-	bottom:94px;
-	margin-left: 20px;
-	background-color: $white;
-	border:1px solid $primary;
-	a{
-		display: block;
-		padding: 1rem 1.5rem;
-		color:$primary;
-	}
-	a:hover{
-		background-color: $primary;
-		color: $white;
-		text-decoration: none;
-	}
-	ul {
-		margin-bottom: 0px!important;
-		padding-left:0;
-		list-style: none;
-	}
+.btn-add {
+    padding: 1rem;
+    border-radius: 50%!important;
+    background-color: $primary!important;
+    border: 1px solid darken($primary, 25%)!important;
+    transition: ease 0.2s;
+    svg {
+        fill: $white;
+        transition: ease 0.2s;
+        padding-bottom: 1px;
+    }
 }
 
-.btn-add{
-	padding: 1rem;
-	border-radius: 50%!important;
-	background-color: $primary!important;
-	border: 1px solid transparent;
-	transition: ease 0.2s;
-	svg{
-		fill: $white;
-		transition: ease 0.2s;
-		padding-bottom: 1px;
-	}
-}
-.btn-add:hover{	
-	border: 1px solid $primary!important;
-	background-color: $white!important;
-	svg{
-		fill: $primary;
-	}
+.btn-add:hover {
+    border: 1px solid $primary!important;
+    background-color: $white!important;
+    svg {
+        fill: $primary;
+    }
 }
 
 .btn-add-fixed {
-	position: absolute;
-	bottom: 1.5rem;
-	right: 1rem;
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1rem;
+}
+
+.submenu {
+    position: absolute;
+    bottom: 94px;
+    margin-left: 20px;
+    background-color: $white;
+    border: 1px solid $primary;
+    a {
+        display: block;
+        padding: 1rem 1.5rem;
+        color: $primary;
+    }
+    a:hover {
+        background-color: $primary;
+        color: $white;
+        text-decoration: none;
+    }
+    ul {
+        margin-bottom: 0px!important;
+        padding-left: 0;
+        list-style: none;
+    }
 }

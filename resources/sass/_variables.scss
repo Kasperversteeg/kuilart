@@ -1,8 +1,8 @@
 // Typography
-$font-family-sans-serif: 'Nunito', sans-serif;
+$font-family-sans-serif: 'Raleway',
+sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
-
 // Colors
 $primary: #3490dc;
 $white: #ffffff;
@@ -18,13 +18,17 @@ $teal: #4dc0b5;
 $cyan: #6cb2eb;
 $gray: #6c757d;
 $black: #212529;
-
-
 // custom
-$res-color: $orange;  // #97a7fe
-$grp-color: $indigo; 
-
+$font-color: #26323a;
+$res-color: $orange; // #97a7fe
+$res-bg-color: #7189fc;
+$res-border-color: #3f5ffa;
+$grp-color: $indigo;
+$grp-bg-color: #72e0af;
+$grp-border-color: #22d492;
+$menu-logout-color: #cfd8dc;
 // primary colors
-$container-color: #edf3f5;
-$gray-color: #90a4ae;
-$darker-gray-color: #78909c;
+$container-color: #eceff1;
+$gray-color: #eceff1;
+$darker-gray-color: #b0bec5;
+$darkest-gray-color:#79909b;

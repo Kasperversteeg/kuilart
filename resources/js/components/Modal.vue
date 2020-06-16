@@ -1,11 +1,11 @@
 <template>
 	<transition name="fade">
-		<div class="modal-backdrop">
-			<div class="modal container" role="modal"
+		<div class="my-modal-backdrop">
+			<div class="my-modal container" role="modal"
 			aria-labelledby="modalTitle"
 			aria-describedby="modalDescription"
 			>
-				<div class="modal-header row" id="modalTitle">			
+				<div class="my-modal-header row" id="modalTitle">			
 					<div class="col-11">
 						<h1>{{ title }}</h1>
 					</div>			
@@ -16,7 +16,7 @@
 					</div>        
 				</div>
 
-				<div class="modal-content container py-4"> 
+				<div class="my-modal-content container py-4"> 
 					<template v-if="editing">
 						<component :is="component" :data="reservation" :editing="editing"></component>
 					</template>

@@ -1,5 +1,4 @@
-
-<nav class="bg-light navbar navbar-expand-md">
+<nav class="bg-light navbar navbar-expand-md py-0">
     <div class="container" id="nav-container">
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -26,15 +25,15 @@
                     </a>
                 </li>
             </ul>
-
-            <div class="navbar-nav col-2 justify-content-center">
+            <!-- App title -->
+            <div class="navbar-nav col-2 justify-content-center px-0">
                 <a class="navbar-brand mr-0" href="{{ route('home') }}">
                     {{ config('app.name', 'Kuilart') }}
                 </a>                
             </div>
 
             <!-- Right Side Of Navbar -->
-            <ul class="navbar-nav col-5 justify-content-end">
+            <ul class="navbar-nav col-5 justify-content-end pr-0">
                 <!-- Authentication Links -->
                 @guest
                 <li class="nav-item">
@@ -42,14 +41,13 @@
                 </li>
                 
                 @else
-                <li>{{ Auth::user()->name }}</li>
-                <li id="nav-spacer">/</li>
-                <li>
-                    <a class="logout" href="{{ route('logout') }}"
+                <li class="nav-name d-flex align-items-center">{{ Auth::user()->name }}</li>
+                <li class="nav-item">
+                    <a class="logout nav-link pr-0" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
-                    <span>{{ __('Logout') }}</span>
-                </a>
+                        <x-icon icon="logout" height='34px' width="34px" />
+                    </a>
             </li>
 
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

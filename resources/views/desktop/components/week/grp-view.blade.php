@@ -1,7 +1,7 @@
 @php
 	$bool = false;
 @endphp
-<div class="mb-2 res-week-wrapper p-2 border-grp container"> 
+<div class="mb-2 res-week-wrapper p-2 grp-reservation container"> 
 	<div class="row reservation-name">
 		<div class="col-md-9">
 			<a href="#" @click="editGroup({{ $reservation->id }})">{{$reservation->name}}</a>

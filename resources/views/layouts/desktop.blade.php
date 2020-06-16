@@ -12,9 +12,11 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     {{-- for tests --}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+    
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;700;800&display=swap" rel="stylesheet">
+    
 </head>
 <body>
     <div id="app">
@@ -24,9 +26,6 @@
             <div class="container-fluid container-submenu">
                 {{-- submenu for overview --}}
                 @yield('submenu')
-                <div class="container">
-                    @yield('title')
-                </div>
             </div>
             <div class="container-fluid bg-white container-main">
                 {{-- any content for desktop --}}

@@ -116,14 +116,15 @@ class ReservationController extends Controller
             $reservations = new ReservationsObj();
             $resObj = $reservations->getReservationsForType($query, $this->all);
 
+            
+            $resObj->array['isGroup'] =  $this->all;
+            $resObj->array['today'] = Carbon::now()->format('Y-m-d');  
+            $resObj->array['bar'] = false;
+
             if (isset($resObj)) {
                 if(isMobile()){
-                    $resObj->array['isGroup'] =  $this->all;
-                    $resObj->array['today'] = Carbon::now()->format('Y-m-d');  
                     return view('mobile.reservations.'.$resObj->url, $resObj->array);
                 }
-                $resObj->array['isGroup'] =  $this->all;
-                $resObj->array['today'] = Carbon::now()->format('Y-m-d');
                 return view('desktop.reservations.'.$resObj->url, $resObj->array);
             }
         }

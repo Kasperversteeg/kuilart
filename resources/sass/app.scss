@@ -1,41 +1,28 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-
+// @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;700;800&display=swap'); 
 // Variables
 @import 'variables';
-
+// modal
 @import 'modal';
-
 // Variables
 @import 'flash';
-
 // Bowling css
 @import 'bowling';
-
 // navbar custom css
 @import 'nav';
 // login css
 @import 'login';
-
+// overview restaurant component css
+@import 'res';
+// overview group component css
+@import 'grp';
 // overview (group/restaurant) css
-@import 'view_all';
-
-// overview (group/restaurant) css
-@import 'view_day';
-
-// overview (group/restaurant) css
-@import 'view_week';
-
-// overview (group/restaurant) css
-@import 'view_month';
-
+@import 'overview';
 // form custom css
 @import 'form';
-
+// the rest of the css for now
 @import 'all';
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
-
 // Mobile
 @import 'mobile';

@@ -1,5 +1,5 @@
-.modal-backdrop {
-    background-color: rgba(0, 0, 0, 0.3);
+.my-modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.3)!important;
     z-index: 99999;
     overflow-y: auto;
     width: 100vw;
@@ -9,7 +9,9 @@
     left: 0;
 }
 
-.modal {
+.my-modal {
+    position: relative!important;
+    display: block!important;
     margin-top: 5%;
     background: #FFFFFF;
 }
@@ -38,6 +40,6 @@
     opacity: 1;
 }
 
-.modal-open .modal {
+.modal-open .my-modal {
     overflow: visible!important;
 }
