@@ -24,7 +24,6 @@
 	}
 
 	$year = $now->year;
-
 	if (array_key_exists('y', $request)){
 		$year = $request['y'];
 	}
@@ -54,13 +53,13 @@
 	       </ul>
        </div>
        @if ($select != 's')
-
-       <div class="col-1">
-   			<a href="{{ route('change', ['group' => $isGroup, 'select' => $select, 'int'=> $int, 'go' => 'next', 'y' => $year]) }}" class="btn btn-white float-left">Volgende</a>
-       </div>
+			<div class="col-1">
+				<a href="{{ route('change', ['group' => $isGroup, 'select' => $select, 'int'=> $int, 'go' => 'next', 'y' => $year]) }}" class="btn btn-white float-left">Volgende</a>
+			</div>
        @endif
 
-    </div>
+	</div>
+	
 </div>
 
 

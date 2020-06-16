@@ -96,23 +96,18 @@
 				</div>             
 				<div class="row justify-content-end">
 					<div class="col-sm-2">
-						<button type="submit" class="btn btn-primary float-right">Voeg toe</button>
+						<button type="submit" class="btn btn-primary float-right"  v-text="this.editing ? 'Wijzig' : 'Voeg toe' "></button>
 					</div>
 				</div>
 			</form>
 
 			<template v-if="this.editing">
-				<div class="row">
-					<div class="col-sm-2">
+					<div class="col-sm-2 btn-delete">
 						<form method="delete" @submit="destroy">
 							<input type="hidden" name="_token" :value="csrf">					
-							<button type="submit" class="btn btn-danger">Delete reservation</button>
+							<button type="submit" class="btn btn-danger">Verwijder</button>
 						</form>
-					</div>
-					<div class="col-sm-8 col-0"></div>
-					<div class="col-sm-2">
-					</div>
-				</div> 			
+					</div>		
 			</template>
 
 		</div>
@@ -173,8 +168,6 @@
 			}
 		}
 	}
-	
-
 	export default {
 		name: 'modalgroup',
 		components: {

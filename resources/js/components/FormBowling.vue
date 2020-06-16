@@ -37,12 +37,13 @@
 					<label for="startTime">Start tijd</label>
 					<select :class="['form-control', {'input-is-invalid' : errors.has('startTime')}]" name="startTime" id="startTime" v-model="bowling.startTime">
 						<option disabled>Start-tijd</option>
-						<option value="17:00:00">17:00</option>
-						<option value="18:00:00">18:00</option>
-						<option value="19:00:00">19:00</option>
-						<option value="20:00:00">20:00</option>
-						<option value="21:00:00">21:00</option>
+						<option value="17:00">17:00</option>
+						<option value="18:00">18:00</option>
+						<option value="19:00">19:00</option>
+						<option value="20:00">20:00</option>
+						<option value="21:00">21:00</option>
 					</select>
+					<span class="input-invalid-msg">{{ errors.get('startTime') }}</span>
 				</div>
 			</div>
 			<div class="col-md-3">
@@ -50,19 +51,20 @@
 					<label for="endTime">Eind tijd</label>
 					<select :class="['form-control', {'input-is-invalid' : errors.has('endTime')}]" name="endTime" id="endTime" v-model="bowling.endTime">
 						<option disabled>Eind-tijd</option>
-						<option value="18:00:00">18:00</option>
-						<option value="19:00:00">19:00</option>
-						<option value="20:00:00">20:00</option>
-						<option value="21:00:00">21:00</option>
-						<option value="22:00:00">22:00</option>
+						<option value="18:00">18:00</option>
+						<option value="19:00">19:00</option>
+						<option value="20:00">20:00</option>
+						<option value="21:00">21:00</option>
+						<option value="22:00">22:00</option>
 					</select>
+					<span class="input-invalid-msg">{{ errors.get('endTime') }}</span>
 				</div>
 			</div>
 		</div>				
 
 		<div class="row justify-content-end">
 			<div class="col-sm-2">
-				<button type="submit" class="btn btn-primary float-right">Voeg toe</button>
+				<button type="submit" class="btn btn-primary float-right" v-text="this.editing ? 'Wijzig' : 'Voeg toe' "></button>
 			</div>
 		</div>
 	</form>
@@ -70,7 +72,7 @@
 		<div class="col-sm-2 btn-delete">
 			<form method="delete" @submit="destroy">
 				<input type="hidden" name="_token" :value="csrf">					
-				<button type="submit" class="btn btn-danger">Delete reservation</button>
+				<button type="submit" class="btn btn-danger">Verwijder</button>
 			</form>
 		</div>	
 	</template>

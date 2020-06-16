@@ -24,12 +24,11 @@ class GroupController extends Controller
 
 	public function index()
     {
- 		 // get array with requests
+ 		// get array with requests
         $query = request()->query();
 
-       // all
+        // all
         if(Arr::exists($query, 's')){
-
            $reservations = Reservation::where('type', $this->grp)->get();     
            $sortedReservations = $this->sortReservationsByDate($reservations); 
 
@@ -47,23 +46,30 @@ class GroupController extends Controller
         } else {
             $reservations = new ReservationsObj();
             $resObj = $reservations->getReservationsForType($query, $this->grp);
-
-                // $groupObj = $this->getReservationsForType($query, $this->grp);
-
+            $resObj->array['isGroup'] =  $this->grp;
+            $resObj->array['today'] = Carbon::now()->format('Y-m-d');
+            if(Arr::exists($query, 'bar')){
+                $resObj->array['bar'] = $query['bar'];
+                $resObj->array['times'] = $this->createTimes();
+            } else {
+                $resObj->array['bar'] = false;
+            }
+            // dd($resObj->array);
             if (isset($reservations)) {
                 if(isMobile()){
-                    $resObj->array['isGroup'] =  $this->grp;
                     return view('mobile.reservations.'.$resObj->url, $resObj->array);
                 }
-                $resObj->array['isGroup'] =  $this->grp;
-                $resObj->array['today'] = Carbon::now()->format('Y-m-d');
                 return view('desktop.reservations.'.$resObj->url, $resObj->array);
             }
         }
-            // if no query key exists, show 404
+        // if no query key exists, show 404
         abort(404);
-
     }    
+    public function createTimes()
+    {   
+        $times = ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'];
+        return $times;
+    }
 
     public function sortReservationsByDate($reservations)
     {

@@ -38,7 +38,8 @@ class ReservationController extends Controller
 
         $compontents = [
                     'reservations' => $sortedReservations,
-                    'isGroup' => $isGroup
+                    'isGroup' => $isGroup,
+                    'bar' => false
                 ];
         if(isset($sortedReservations)){
             if(isMobile()){
@@ -143,14 +144,14 @@ class ReservationController extends Controller
             $reservations = new ReservationsObj();
             $resObj = $reservations->getReservationsForType($query, $this->res);
 
+            $resObj->array['isGroup'] =  $this->res;
+            $resObj->array['today'] = Carbon::now()->format('Y-m-d');
+            $resObj->array['bar'] = false;
+
             if (isset($resObj)) {
                 if(isMobile()){
-                    $resObj->array['isGroup'] =  $this->res;
-                    $resObj->array['today'] = Carbon::now()->format('Y-m-d');
                     return view('mobile.reservations.'.$resObj->url, $resObj->array);
                 }
-                $resObj->array['isGroup'] =  $this->res;
-                $resObj->array['today'] = Carbon::now()->format('Y-m-d');
                 return view('desktop.reservations.'.$resObj->url, $resObj->array);
             }
         }
