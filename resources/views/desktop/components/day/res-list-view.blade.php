@@ -14,7 +14,7 @@
 					</h4>
 				</div>
 				<div class="col-12"> 
-					<p class="res-notes">Omschrijving</p>
+					<p class="res-notes">{{$reservation->notes}}</p>
 				</div>
 			</div>
 		</div>

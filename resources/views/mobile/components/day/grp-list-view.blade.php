@@ -2,11 +2,11 @@
 @php
 	$bool = false;
 @endphp
-<div class="container mb-2 p-2 border-grp group-day-list">
+<div class="container mb-2 p-2 grp-reservation group-day-list">
 	{{-- title left and persons right --}}
 			<div class="row pt-2">
 				<div class="col-10">
-					<h4><a href="{{ route('groups.edit', $reservation->id)}} ">{{ $reservation->name }}</a></h4>
+					<h4><a class="grp-link" href="{{ route('groups.edit', $reservation->id)}} ">{{ $reservation->name }}</a></h4>
 				</div>
 				<div class="col-2 pl-0 pr-3 d-flex justify-content-end">
 					<p class="font-weight-bold font-bigger">{{ $reservation->size }}<small> P.</small></p>

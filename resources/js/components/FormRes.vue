@@ -1,9 +1,7 @@
 <template>
 	<transition name="fade">
 		<div class="position-relative">     
-			<p>Voor die datum staan er al: <strong>{{ totalReservations }}</strong> reserveringen</p>
-
-			<form method="post" @submit="formSubmit">
+				<form method="post" @submit="formSubmit">
 				<input type="hidden" name="_token" :value="csrf">
 				<div class="row">
 					<div class="col-md-12">
@@ -55,14 +53,16 @@
 				<span class="input-invalid-msg">{{ errors.get('notes') }}</span>
 			</div> 
 
-			<div class="row justify-content-end">
+			<div class="row justify-content-end">			
+				<div class="col-sm-4 text-right d-flex align-items-center">
+					<p class="mb-0">Voor die datum staan er al: <strong>{{ totalReservations }}</strong> reserveringen</p>
+				</div>
 				<div class="col-sm-2">
 					<button type="submit" class="btn btn-primary float-right"  v-text="this.editing ? 'Wijzig' : 'Voeg toe'" ></button>
 				</div>
 			</div>
 		</form>
-		<template v-if="this.editing">
-				
+		<template v-if="this.editing">	
 			<div class="col-md-2 btn-delete">
 				<form method="delete" @submit="destroy">
 					<input type="hidden" name="_token" :value="csrf">					

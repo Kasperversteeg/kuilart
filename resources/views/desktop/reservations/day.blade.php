@@ -28,7 +28,7 @@
 		'title' => $title
 		])
 
-		<div class="container py-4" id="reservations-day-view">
+		<div class="container" id="reservations-day-view">
 		@if($bar)
 			@component('desktop.components.day.grp-bar-view', ['reservations' => $day->reservations, 'times' => $times])
 			@endcomponent

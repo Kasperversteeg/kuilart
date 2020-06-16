@@ -1,16 +1,53 @@
 // This file contains all the navigation custom css
+.bowling-row {
+    min-height: 60px;
+}
 
-.bowling-row{
-	min-height: 60px;
+.bwl-header {
+    display: flex;
+    justify-content: center;
+    text-transform: uppercase;
+    font-weight: 700;
 }
-.delete-bowling{
-	position: absolute;
-	bottom: 15px;
-	margin-left: 2px;
+
+.delete-bowling {
+    position: absolute;
+    bottom: 15px;
+    margin-left: 2px;
 }
-.empty-slot:hover{
-	background-color: #dff0d8;
-    border-color: #d6e9c6;
+
+.empty-slot {
     cursor: pointer;
-	transition: all .1s ease-in-out;
+    background-color: #f5faf0;
+    height: 100%;
+    border-radius: 5px;
+    border: 1px solid #a6d5a9;
+    transition: 0.2s ease;
+    svg {
+        fill: #a6d5a9;
+    }
+}
+
+.empty-slot:hover {
+    background-color: darken(#f5faf0, 10%);
+    svg {
+        fill: darken( #a6d5a9, 10%);
+    }
+}
+
+.full-slot {
+    background-color: #eb9e9f;
+    height: 100%;
+    border-radius: 5px;
+    border: 1px solid #e47579;
+    transition: 0.2s ease;
+}
+
+.full-slot:hover {
+    background-color: darken(#eb9e9f, 10%);
+}
+
+a.bwl-link {
+    color: $white!important;
+    font-weight: 500!important;
 }

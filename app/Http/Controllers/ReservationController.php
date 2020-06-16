@@ -220,9 +220,9 @@ class ReservationController extends Controller
         // redirect to update view
         $reservation = Reservation::find($id);
 
-       return response()->json([
+        return response()->json([
             'reservation' => $reservation
-       ]);
+        ]);
         
     }
 

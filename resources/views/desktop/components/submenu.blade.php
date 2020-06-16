@@ -34,7 +34,7 @@
 	$monthUrl = route($route, ['m'=>$now->month,'y'=>$now->year]);
 	$allUrl = route($route, 's='.'all');
 @endphp
-<div class="container py-4">
+<div class="container py-3">
    <div class="row nav-sub-menu justify-content-center"> 
 	   {{-- period submenu --}}
    		<div class="col-12 d-flex justify-content-center submenu-period">
@@ -56,7 +56,6 @@
 
 		{{-- date, previous and next buttons --}}
 	<div class="row justify-content-md-center">
-			
 		@if ($select != 's')
 			<div class="col-1">
 				<a href="{{ route('change', ['group' => $isGroup, 'select' => $select, 'int'=> $int, 'go' => 'prev', 'y' => $year]) }}" class="btn btn-img">
@@ -79,7 +78,7 @@
 		@endif
 	</div>
 	@if($isGroup === 'GRP' && $select === 'd')
-		<div class="col-md-4 d-flex justify-content-end align-items-end">
+		<div class="col-md-12 d-flex justify-content-end align-items-end">
 			<a href="{{route('groups.index', ['d' => $day->date , 'bar' => false])}}" class="btn btn-white">Lijst</a>
 			<a href="{{route('groups.index', ['d' => $day->date , 'bar' => true])}}" class="btn btn-white">Balk</a>
 		</div>

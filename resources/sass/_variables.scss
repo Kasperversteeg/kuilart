@@ -20,12 +20,12 @@ $gray: #6c757d;
 $black: #212529;
 // custom
 $font-color: #26323a;
-$res-color: $orange; // #97a7fe
 $res-bg-color: #7189fc;
 $res-border-color: #3f5ffa;
-$grp-color: $indigo;
 $grp-bg-color: #72e0af;
 $grp-border-color: #22d492;
+$bwl-bg-color: #e0f2f1;
+$bwl-border-color: darken($bwl-bg-color, 25%);
 $menu-logout-color: #cfd8dc;
 // primary colors
 $container-color: #eceff1;

@@ -1,16 +1,18 @@
 @extends('layouts.mobile')
 @section('content')	
-@include('mobile.components.submenu')
 
 	@php
 		switch($isGroup){
 			case('RES'):
+				$modalTitle = 'test';
 				$title = 'Restaurant ';
 				break;
 			case('GRP'):
+				$modalTitle = 'test';
 				$title = 'Groeps';
 				break;
 			default:
+				$modalTitle = 'test';
 				$title = 'Alle ';
 				break;
 		}
@@ -19,22 +21,6 @@
 	<h1 class="pt-4">{{ $title }}reserveringen</h1>
 	<h3 class="pt-4">{{ ucfirst(__($day->day)) . ' ' . __(date('d-m-y', strtotime($day->date))) }}</h3>
 	
-		
-	@if(session()->get('success'))
-	    <div class="alert alert-success">
-	      {{ session()->get('success') }}  
-	    </div>
-	@endif
-
-	@if ($errors->any())
-      	<div class="alert alert-danger">
-	        <ul>
-	            @foreach ($errors->all() as $error)
-	              <li>{{ $error }}</li>
-	            @endforeach
-	        </ul>
-	      </div><br />
-    @endif
 
 		@forelse($day->reservations as $reservation)
 			@if($reservation->type === 'GRP')
@@ -52,6 +38,7 @@
 			<p>Geen reserveringen voor vandaag</p>
 		@endforelse
 
-	
+		<add reservation-type="{{ $isGroup }}" title='{{ $modalTitle }}' @open='showModal'></add>
+
 	</div>
 @endsection

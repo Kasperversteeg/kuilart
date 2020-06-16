@@ -1,37 +1,25 @@
 {{-- show reservations for grp component--}}
-@php
-	$bool = false;
-@endphp
-<div class="row mb-2">
-	
+<div class="row mb-2 p-2 grp-reservation">
 	{{-- title left and persons right --}}
 	<div class="col-sm-8">
-		<div class="container group-day-list p-0">
-			<div class="row pt-2">
-				<div class="col-sm-8">
-					<h4><a href="#" @click="editGroup({{ $reservation->id }})">{{ $reservation->name }}</a></h4>
+		<div class="container grp-border-right">
+			<div class="row pb-1">
+				<div class="col-sm-8 grp-border-bottom">
+					<h4 class="mb-0"><a class="grp-link" href="#"  @click="editGroup({{ $reservation->id }})">{{ $reservation->name }}</a></h4>
 				</div>
 				<div class="col-sm-4 d-flex justify-content-end">
-					<p class="font-weight-bold">{{ $reservation->size }} P.</p>
+					<p class="grp-day-size mb-0">{{ $reservation->size }} P.</p>
 				</div>
 			</div>
 			{{-- activities --}}
-			<div class="container">
+			<div class="container grp-day-activity">
 				@foreach($reservation->activities as $activity)
-				@php
-					if($bool){
-						$bool = false;
-					} else {
-						$bool = true;
-					}
-
-				@endphp
-					<div class="row {{ $bool ? '' : 'bg-gray' }}">
-						<div class="col-md-3">
+					<div class="row pt-1">
+						<div class="col-md-3 d-flex align-items-center grp-border-right">
 							<p>{{ date('H:i', strtotime($activity->startTime)) }} - {{ date('H:i', strtotime($activity->endTime)) }}</p>
 						</div>
 						<div class="col-md-7">
-							{{ $activity->description }}
+							<p>{{ $activity->description }}</p>
 						</div>
 						<div class="col-md-2 d-flex justify-content-end">
 							{{ $activity->size }}
@@ -42,7 +30,16 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-4 bg-gray p-2">
-		{{ $reservation->notes }}
+	<div class="col-sm-4">
+		<div class="container">
+			<div class="row grp-border-bottom">
+				<h5 class="mb-0">Opmerkingen</h5>
+			</div>
+			<div class="row">
+				<p>{{ $reservation->notes }}</p>
+			</div>
+		</div>
 	</div>
+	
+
 </div>

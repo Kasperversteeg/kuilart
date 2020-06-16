@@ -10,19 +10,20 @@
 }
 
 .my-modal {
+    border-radius: 5px;
+    padding: 1rem;
     position: relative!important;
     display: block!important;
     margin-top: 5%;
     background: #FFFFFF;
-}
-
-.btn-close {
-    border: 1px solid #ced4da;
-    font-size: 30px;
-    padding: 0 10px;
-    cursor: pointer;
-    font-weight: bold;
-    background: transparent;
+    .my-modal-header {
+        h2 {
+            font-weight: 600!important;
+        }
+    }
+    h5.my-modal-h5 {
+        font-weight: 600!important;
+    }
 }
 
 .fade-enter-active,
@@ -42,4 +43,11 @@
 
 .modal-open .my-modal {
     overflow: visible!important;
+}
+
+.my-modal-close {
+    cursor: pointer;
+    svg {
+        fill: $darkest-gray-color;
+    }
 }

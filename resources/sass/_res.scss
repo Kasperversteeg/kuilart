@@ -10,7 +10,6 @@
     }
     .res-time {
         font-size: 1rem;
-        padding-bottom: 0.2rem;
         margin-bottom: 0px;
     }
     .res-time-day {
@@ -36,5 +35,26 @@
         label {
             margin-bottom: 0px;
         }
+    }
+    .res-day-table {
+        p {
+            line-height: 1.2!important;
+        }
+    }
+}
+
+.all-res-container {
+    .res-time-day {
+        font-size: 1rem;
+    }
+    .res-link {
+        margin-top: -2px;
+        font-size: 1rem!important;
+    }
+    .res-size {
+        font-size: 0.7rem;
+    }
+    h4 {
+        margin-top: -3px!important;
     }
 }

@@ -1,5 +1,50 @@
 .grp-reservation {
+    color: $white!important;
     background-color: $grp-bg-color;
     border: 1px solid $grp-border-color;
     border-radius: 5px;
+    .grp-link {
+        font-size: 1.5rem;
+        color: $white!important;
+        font-weight: bold;
+    }
+    .grp-border-right {
+        border-right: 1px solid $grp-border-color;
+    }
+    .grp-border-bottom {
+        border-bottom: 1px solid $grp-border-color;
+    }
+    .grp-day-activity {
+        p {
+            margin-bottom: 0px!important;
+        }
+    }
+    .grp-day-size {
+        font-weight: 800;
+        font-size: 1.2rem;
+    }
+    .grp-time {
+        font-size: 1rem;
+        margin-bottom: 0px;
+    }
+    .grp-size {
+        font-size: 0.7rem;
+        margin-bottom: 0px;
+    }
+}
+
+.all-grp-container {
+    .grp-time-day {
+        font-size: 1rem;
+    }
+    .grp-link {
+        margin-top: -2px;
+        font-size: 1rem!important;
+    }
+    .grp-size {
+        font-size: 0.7rem;
+    }
+    h4 {
+        margin-top: -3px!important;
+    }
 }

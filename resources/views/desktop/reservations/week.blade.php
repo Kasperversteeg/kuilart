@@ -25,7 +25,7 @@
 	
 	@include('desktop.components.submenu', [
 		'showing' => 'Week '.__($week->weekNumber), 
-		'period' => __($week->start) .' / '.__($week->end), 
+		'period' =>  __(date('d-m-Y', strtotime($week->start))) .' / '.__(date('d-m-Y', strtotime($week->end))), 
 		'isGroup' =>  $isGroup,
 		'title' => $title
 		])
@@ -34,10 +34,10 @@
 	{{-- show reservations --}}
 	<div id="reservations-week-view" class="reservations-container d-flex">
 		@foreach($week->days as $date)
-		<div class="col-lg col-12 border weekview-day-column p-1">
-			<div class="row border-bottom p-2 weekview-day-column-header mb-4">
+		<div class="col-lg col-12 weekview-day-column p-1">
+			<div class="row weekview-day-column-header week-header mb-2">
 				<div class="col-12 justify-content-center d-flex {{ $date->date === $today ? 'is-today' : ''}}">
-					<h4><a href="{{ route($link, ['d'=> $date->date]) }}">{{ ucfirst($date->day) }}</a></h4> 
+					<h4><a class="week-link" href="{{ route($link, ['d'=> $date->date]) }}">{{ ucfirst($date->day) }}</a></h4> 
 				</div>
 				<div class="col-12 justify-content-center d-flex">
 					<p>{{ date('d-m-y', strtotime($date->date)) }}</p>

@@ -141,6 +141,10 @@
     color: $white!important;
 }
 
+.btn-white:focus {
+    box-shadow: none!important;
+}
+
 .btn-add {
     padding: 1rem;
     border-radius: 50%!important;
@@ -163,9 +167,17 @@
 }
 
 .btn-add-fixed {
-    position: absolute;
+    position: fixed;
     bottom: 1.5rem;
-    right: 1rem;
+    right: 25%;
+}
+
+@media only screen and (max-device-width: 640px) {
+    .btn-add-fixed {
+        bottom: auto;
+        top: 1rem;
+        right: 1rem;
+    }
 }
 
 .submenu {
@@ -189,4 +201,8 @@
         padding-left: 0;
         list-style: none;
     }
+}
+
+.btn {
+    font-weight: 600!important;
 }

@@ -25,6 +25,7 @@
 
 body {
     color: $font-color!important;
+    min-height: 100vh!important;
 }
 
 body.modal-open {

@@ -9,12 +9,14 @@
     <title>{{ config('app.name', 'Kuilart') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app-mobile.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
     {{-- for tests --}}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
+    
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
 </head>
 <body>
     <div id="app">
@@ -27,10 +29,15 @@
                 @yield('content')
             </div>
         </main>
-        <div class="clear-nav"></div>
+       
+
+
+        <modal v-show='modalShowing' @close='closeModal'></modal>        
+        <flash-message class="flash-box" transition-name="slide"></flash-message>
+
         {{-- fixed bottom nav for mobile users --}}
         @include('mobile.components.nav')
-
+        
         @stack('scripts')
     </div>
 

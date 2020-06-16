@@ -1,34 +1,31 @@
-@php
-	$bool = false;
-@endphp
-<div class="mb-2 res-week-wrapper p-2 grp-reservation container"> 
-	<div class="row reservation-name">
-		<div class="col-md-9">
-			<a href="#" @click="editGroup({{ $reservation->id }})">{{$reservation->name}}</a>
+<div class="mb-2 grp-week-wrapper p-2 grp-reservation container"> 
+	<div class="row">
+		<div class="col">
+			<p class="grp-time">{{ date('H:i', strtotime($reservation->startTime)) }}</p>
 		</div>
-		<div class="col-md-3 p-0 pr-1 week-grp-size">
-			<p>{{$reservation->size}}P</p>
+	</div>		
+	<div class="row reservation-name">
+		<div class="col">
+			<a class="grp-link" href="#" @click="editGroup({{ $reservation->id }})">{{$reservation->name}}</a>
 		</div>
 	</div>
-
-	<div class="container reservation-attributes">
+	<div class="row">
+		<div class="col">
+			<p class="grp-size">{{$reservation->size}} personen</p>
+		</div>
+	</div>
+	{{-- activities --}}
+	<div class="container grp-day-activity">
 		@foreach($reservation->activities as $activity)
-			@php
-				if($bool){
-					$bool = false;
-				} else {
-					$bool = true;
-				}
-			@endphp
-
-			<div class="row {{ $bool ? '' : 'bg-gray' }} activity-row">
-				<div class="col-md-4 border-right p-0 activity-time d-flex align-items-center">
+			<div class="row pt-1">
+				<div class="col-md-3 d-flex align-items-center grp-border-right">
 					<p>{{ date('H:i', strtotime($activity->startTime)) }}</p>
 				</div>
-				<div class="col-md-8 p-0 pl-1">
-					{{ $activity->description }}
+				<div class="col-md-9">
+					<p>{{ $activity->description }}</p>
 				</div>
 			</div>
+
 		@endforeach
 	</div>
 </div>

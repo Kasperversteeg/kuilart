@@ -51,7 +51,7 @@
 
 				<hr />
 
-				<h5>Activiteiten</h5>
+				<h5 class="my-modal-h5">Activiteiten</h5>
 				<div class="row activity-row">
 					<div class="col-md-6">
 						<div class="form-group">    

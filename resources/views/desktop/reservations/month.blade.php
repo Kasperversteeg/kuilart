@@ -15,7 +15,6 @@
 			$title = 'Alle ';
 			break;
 	}
-	var_dump($today)
 	@endphp
 
 	@include('desktop.components.submenu', [
@@ -27,7 +26,7 @@
 
 	{{-- show reservations --}}
 	<div id="reservations-month-view" class="reservations-container">
-		<div class="row month-view-headers">
+		<div class="row month-view-headers week-header">
 			<div class="col week-number-cell"></div>
 			<div class="col day-cell"><h4>Maandag</h4></div>
 			<div class="col day-cell"><h4>Dinsdag</h4></div>
@@ -46,7 +45,7 @@
 				@foreach($week->days as $day)
 					<div class="col border-bottom border-left px-1">
 						<div class="container px-0">
-							<div class="row justify-content-end month-daynumber px-3">
+							<div class="row justify-content-end month-daynumber px-3 py-1">
 								<a class="month-view-date-link {{  $day->date === $today ? 'is-today' : ''  }}" href="{{ route($link, 'd='.$day->date)}}" >{{date('d', strtotime($day->date))}}</a>
 							</div>
 							@foreach( $day->reservations as $reservation)
@@ -60,7 +59,7 @@
 		@endforeach
 		
 		</div>
-	</div>
+	
 
 	<add reservation-type="{{ $isGroup }}" title='{{ $modalTitle }}' @open='showModal'></add>
 
