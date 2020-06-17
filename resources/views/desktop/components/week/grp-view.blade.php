@@ -18,7 +18,7 @@
 	<div class="container grp-day-activity">
 		@foreach($reservation->activities as $activity)
 			<div class="row pt-1">
-				<div class="col-md-3 d-flex align-items-center grp-border-right">
+				<div class="col-md-3 p-0 d-flex align-items-center grp-border-right">
 					<p>{{ date('H:i', strtotime($activity->startTime)) }}</p>
 				</div>
 				<div class="col-md-9">
